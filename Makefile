@@ -1,11 +1,6 @@
 NAME = minishell
-SRC = src/main.c \
-		src/builtins/env_setup.c \
-		src/builtins/env_utils.c \
-		src/lexer/lexer.c \
-		src/lexer/lexer_utils.c \
-		src/proves.c
-
+SRC = main.c \
+		env_setup.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
