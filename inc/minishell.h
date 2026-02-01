@@ -66,17 +66,12 @@ typedef struct s_redir
 	struct s_redir  *next;
 }	t_redir;
 
-typedef struct s_cmd
+typedef struct s_cmds
 {
-	char		**argv;
-	t_redir     *redirs;
-}	t_cmd;
-
-typedef struct s_pipeline
-{
-	int		cmd_count;
-	t_cmd   **cmds;
-}	t_pipeline;
+	char			**args;
+	t_redir			*redirs;
+	struct s_cmds	*next;
+}	t_cmds;
 
 /*============= GLOBAL ================*/
 
@@ -91,10 +86,10 @@ typedef struct s_env
 
 typedef struct s_mini
 {
-	t_env       *env;
-	int         exit_status;
-	t_token     *tokens;
-	t_pipeline  *pipeline;
+	t_env   *env;
+	int		exit_status;
+	t_token *tokens;
+	t_cmds  *cmds;
 }	t_mini;
 
 /*-----------------------------------------------------------------*/
