@@ -48,6 +48,7 @@ void my_cmd_parser(t_mini  *mini, char **cmds)
 			next->next = cmd; 
 		}
 	}
+	mini->cmds = cmd_list;
 }
 
 int main(int ac, char **av, char **env)
@@ -79,7 +80,8 @@ int main(int ac, char **av, char **env)
             add_history(line);
 			cmds = ft_split(line, '|');
             print_array(cmds);
-			me_cmd_parser(&mini, cmds);
+			my_cmd_parser(&mini, cmds);
+			cmd_handler(mini);
 			free(line);
         }
     }

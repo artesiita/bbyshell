@@ -107,4 +107,7 @@ void    add_token(t_token **head, char *content, t_token_type type, t_quote_ctx 
 void	free_token_list(t_token *head);
 t_token *lexer(char *input);
 
+/*============ EXECUTOR ==============*/
+void	cmd_handler(t_mini *mini);
+
 #endif
