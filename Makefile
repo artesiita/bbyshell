@@ -1,6 +1,7 @@
 NAME = minishell
-SRC = main.c \
-		env_setup.c
+SRC = src/main/main.c \
+		src/main/env_setup.c \
+		src/executor/cmd_handler.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
