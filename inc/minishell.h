@@ -88,7 +88,7 @@ typedef struct s_executor
 	t_cmds	*cmds;
 	pid_t	*childs;
 	int		fds[2][2];
-}	t_executor
+}	t_executor;
 
 /*============= GLOBAL ================*/
 

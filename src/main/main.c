@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 10:23:31 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/07 15:31:41 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/07 19:42:05 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int main(int ac, char **av, char **env)
         {
             add_history(line);
 			cmds = ft_split(line, '|');
-            print_array(cmds);
+            //print_array(cmds);
 			my_cmd_parser(&mini, cmds);
 			cmd_handler(&mini);
 			free(line);
