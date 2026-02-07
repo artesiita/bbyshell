@@ -1,7 +1,10 @@
 NAME = minishell
 SRC = src/main/main.c \
 		src/main/env_setup.c \
-		src/executor/cmd_handler.c
+		src/executor/cmd_handler.c \
+		src/executor/pipex_utils_bonus.c \
+		src/executor/pipex_utils_2_bonus.c \
+		src/executor/pipex_utils_3_bonus.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

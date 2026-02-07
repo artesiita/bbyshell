@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_strjoins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 02:48:49 by bizcru            #+#    #+#             */
-/*   Updated: 2024/07/08 02:53:34 by bizcru           ###   ########.fr       */
+/*   Created: 2024/07/04 18:49:18 by bcanals-          #+#    #+#             */
+/*   Updated: 2024/12/11 23:55:17 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+char	*ft_strjoins(char *s1, char *s2, char *s3)
 {
-	t_list	*last;
+	char	*temp;
+	char	*rtrn;
 
-	last = lst;
-	while (lst)
-	{
-		last = lst;
-		lst = lst->next;
-	}
-	return (last);
+	temp = ft_strjoin(s1, s2);
+	rtrn = ft_strjoin(temp, s3);
+	free(temp);
+	return (rtrn);
 }

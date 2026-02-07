@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_free_array.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 02:48:49 by bizcru            #+#    #+#             */
-/*   Updated: 2024/07/08 02:53:34 by bizcru           ###   ########.fr       */
+/*   Created: 2024/12/10 14:42:25 by bcanals-          #+#    #+#             */
+/*   Updated: 2025/12/04 20:35:47 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_free_array(char **s)
 {
-	t_list	*last;
+	unsigned int	i;
 
-	last = lst;
-	while (lst)
+	i = 0;
+	while (s[i])
 	{
-		last = lst;
-		lst = lst->next;
+		free(s[i]);
+		s[i] = 0;
+		i++;
 	}
-	return (last);
+	free(s);
+	s = 0;
 }
