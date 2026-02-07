@@ -22,7 +22,7 @@ void    parse_redirection(t_cmds *node, t_token *cur)
     }
 }
 
-void    fill_args(t_cmds *node, t_token *cur)
+int    fill_args(t_cmds *node, t_token *cur)
 {
     int i;
 
@@ -37,12 +37,18 @@ void    fill_args(t_cmds *node, t_token *cur)
         }
         else
         {
+            if (!cur->next || cur->next->type != T_WORD)
+            {
+                ft_printf("Bbyshell: syntax error\n");
+                return (0);
+            }
             parse_redirection(node, cur);
             cur = cur->next;
             if (cur)
                 cur = cur->next;
         }
     }
+    return (1);
 }
 
 t_cmds  *parsing(t_mini *mini)
@@ -55,24 +61,32 @@ t_cmds  *parsing(t_mini *mini)
     head = NULL;
     if (cur && cur->type == T_PIPE)
     {
-        /*SYNTAX ERROR: a pipe can't be the first command
-            need to think how to handle this*/
+        ft_printf("Bbyshell: syntax error\n" );
+        mini->exit_status = 2;
+        return (NULL);
     }
     while(cur)
     {
         new_node = ft_calloc(1, sizeof(t_cmds));
         if (!new_node)
         /*MALLOC ERROR: need to think how to handle*/
-        new_node->args = ft_calloc(commands_counter(cur), sizeof(char *));
-        fill_args(new_node, cur);
+        new_node->args = ft_calloc(commands_counter(cur) + 1, sizeof(char *));
+        if (!fill_args(new_node, cur))
+        {
+            mini->exit_status = 2;
+            return (NULL);
+        }
         add_command_node(&head, new_node);
         while(cur && cur->type != T_PIPE)
             cur = cur->next;
         if (cur && cur->type == T_PIPE)
         {
             if (!cur->next || cur->next == T_PIPE)
-                /*SYNTAX ERROR: pipe at the end of the command line
-                or consecutive pipes. Need to think how to handle*/
+            {
+                ft_printf("Bbyshell: syntax error\n");
+                mini->exit_status = 2;
+                return (NULL);
+            }
             cur = cur->next;
         }
     }
