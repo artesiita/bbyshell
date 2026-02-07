@@ -28,10 +28,10 @@ typedef enum e_token_type
 {
 	T_WORD,
 	T_PIPE,
-	T_REDIR_IN,      /* <  */
-	T_REDIR_OUT,     /* >  */
-	T_REDIR_HEREDOC, /* << */
-	T_REDIR_APPEND   /* >> */
+	T_REDIR_IN = 10,      /* <  */
+	T_REDIR_OUT = 11,     /* >  */
+	T_REDIR_HEREDOC = 12, /* << */
+	T_REDIR_APPEND = 13   /* >> */
 }	t_token_type;
 
 typedef enum e_quote_ctx
@@ -53,10 +53,10 @@ typedef struct s_token
 
 typedef enum e_redir_type
 {
-	R_IN,       /* <  */
-	R_OUT,      /* >  */
-	R_APPEND,   /* >> */
-	R_HEREDOC   /* << */
+	R_IN = 10,       /* <  */
+	R_OUT = 11,      /* >  */
+	R_APPEND = 12,   /* >> */
+	R_HEREDOC = 13   /* << */
 }	t_redir_type;
 
 typedef struct s_redir
