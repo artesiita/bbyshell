@@ -1,5 +1,5 @@
 
-#include "inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	free_env_list(t_env *head)
 {

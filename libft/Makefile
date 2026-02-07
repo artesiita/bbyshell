@@ -6,7 +6,7 @@
 #    By: bizcru <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/28 15:47:58 by bizcru            #+#    #+#              #
-#    Updated: 2024/07/19 21:01:36 by bcanals-         ###   ########.fr        #
+#    Updated: 2026/02/07 15:12:41 by becanals         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS = ft_islower.c \
 		ft_strndup.c \
 		ft_strnstr.c \
 		ft_strjoin.c \
+		ft_strjoins.c \
 		ft_strmapi.c \
 		ft_strchr.c \
 		ft_strrchr.c \
@@ -57,7 +58,9 @@ SRCS = ft_islower.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
 		ft_putnbr_fd.c \
-		ft_split.c
+		ft_split.c \
+		ft_free_array.c \
+		ft_print_array.c
 
 BONUS_SRCS = ft_lstnew_bonus.c \
 			 ft_lstadd_front_bonus.c \

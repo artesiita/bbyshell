@@ -6,7 +6,7 @@
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 17:41:12 by bizcru            #+#    #+#             */
-/*   Updated: 2024/07/19 12:42:04 by bcanals-         ###   ########.fr       */
+/*   Updated: 2026/02/07 13:30:36 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static unsigned int	count_splits(char const *s, char c)
 	return (split_num);
 }
 
-void	clean(char **s)
+static void	clean(char **s)
 {
 	unsigned int	i;
 

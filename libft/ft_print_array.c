@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_print_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 02:48:49 by bizcru            #+#    #+#             */
-/*   Updated: 2024/07/08 02:53:34 by bizcru           ###   ########.fr       */
+/*   Created: 2024/12/11 18:52:01 by bcanals-          #+#    #+#             */
+/*   Updated: 2024/12/11 18:57:07 by bcanals-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_print_array(char **array)
 {
-	t_list	*last;
-
-	last = lst;
-	while (lst)
+	if (!array)
+		return ;
+	while (*array)
 	{
-		last = lst;
-		lst = lst->next;
+		ft_putstr_fd(*array++, 1);
+		ft_putchar_fd('\n', 1);
 	}
-	return (last);
 }

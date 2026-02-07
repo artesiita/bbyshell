@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/07 10:23:31 by becanals          #+#    #+#             */
+/*   Updated: 2026/02/07 15:31:41 by becanals         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "inc/minishell.h"
+
+#include "../../inc/minishell.h"
 
 void	print_env(t_env *env)
 {
@@ -81,7 +93,7 @@ int main(int ac, char **av, char **env)
 			cmds = ft_split(line, '|');
             print_array(cmds);
 			my_cmd_parser(&mini, cmds);
-			cmd_handler(mini);
+			cmd_handler(&mini);
 			free(line);
         }
     }
