@@ -43,10 +43,10 @@ typedef enum e_quote_ctx
 
 typedef struct s_token
 {
+	struct s_token  *next;
 	char            *content;
 	t_token_type    type;
 	t_quote_ctx     quote;
-	struct s_token  *next;
 }	t_token;
 
 /*============= PARSER ================*/
@@ -61,17 +61,34 @@ typedef enum e_redir_type
 
 typedef struct s_redir
 {
+	struct s_redir  *next;
 	t_redir_type    type;
 	char            *target;
-	struct s_redir  *next;
 }	t_redir;
 
 typedef struct s_cmds
 {
+	struct s_cmds	*next;
 	char			**args;
 	t_redir			*redirs;
-	struct s_cmds	*next;
 }	t_cmds;
+
+/*============= EXECUTOR ===============*/
+typedef struct s_cmd_ex
+{
+	char	*path;
+	char	**args;
+	int		fd_in;
+	int		fd_out;
+}	t_cmd_ex;
+
+typedef struct s_executor
+{
+	char	**env;
+	t_cmds	*cmds;
+	pid_t	*childs;
+	int		fds[2][2];
+}	t_executor
 
 /*============= GLOBAL ================*/
 
@@ -79,9 +96,9 @@ extern volatile sig_atomic_t	g_signal;
 
 typedef struct s_env
 {
+	struct s_env    *next;
 	char		    *key;
 	char		    *value;
-	struct s_env    *next;
 }	t_env;
 
 typedef struct s_mini
@@ -109,5 +126,15 @@ t_token *lexer(char *input);
 
 /*============ EXECUTOR ==============*/
 void	cmd_handler(t_mini *mini);
+t_cmd_ex	*load_data(char **cmd, char **env, int fd_in, int fd_out);
+void	open_files(char *file_in, char *file_out, int *filefds);
+void	my_close(int fd1, int fd2, char *msg);
+void	clean(t_cmd_ex *data);
+void	clean_exit(t_cmd_ex *data, int my_errno, char *msg);
+void	handle_err(int my_errno, char *msg);
+void	redirect(t_cmd_ex *data);
+void	close_exit(int *fds, int my_errno, char *msg);
+void	free_close_exit(int *fds1, int *fds2, pid_t *childs, char *msg);
+void	wait_childs(pid_t *childs);
 
 #endif
