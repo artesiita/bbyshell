@@ -18,6 +18,10 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
+#define PINK_B  "\001\x1b[1;35m\002"
+#define RESET   "\001\x1b[0m\002"
+#define PROMPT  PINK_B "bbyshell> " RESET
+
 /*-----------------------------------------------------------------*/
 /*                             STRUCTS                             */
 /*-----------------------------------------------------------------*/

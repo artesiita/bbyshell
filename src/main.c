@@ -15,7 +15,7 @@ int main(int ac, char **av, char **env)
 
     while(1)
     {
-        line = readline("bbyshell> ");
+        line = readline(PROMPT);
         if (!line)
         {
             printf("exit\n");
