@@ -19,4 +19,22 @@ int     commands_counter(t_token *head)
                 head = head->next;
         }
     }
+    return (count);
+}
+
+void	add_command_node(t_cmds **head, t_cmds *new_node)
+{
+	t_cmds	*tmp;
+
+	if (!new_node)
+		return ;
+	if (!*head)
+	{
+		*head = new_node;
+		return ;
+	}
+	tmp = *head;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_node;
 }

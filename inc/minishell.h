@@ -88,7 +88,7 @@ typedef struct s_executor
 	t_cmds	*cmds;
 	pid_t	*childs;
 	int		fds[2][2];
-}	t_executor
+}	t_executor;
 
 /*============= GLOBAL ================*/
 
@@ -121,8 +121,12 @@ void	free_env_list(t_env *head);
 int		is_redirection(char c);
 int		is_space(char c);
 void    add_token(t_token **head, char *content, t_token_type type, t_quote_ctx quote);
-void	free_token_list(t_token *head);
 t_token *lexer(char *input);
+
+/*============= PARSER ================*/
+t_cmds  *parsing(t_mini *mini);
+int     commands_counter(t_token *head);
+void	add_command_node(t_cmds **head, t_cmds *new_node);
 
 /*============ EXECUTOR ==============*/
 void	cmd_handler(t_mini *mini);
@@ -136,5 +140,20 @@ void	redirect(t_cmd_ex *data);
 void	close_exit(int *fds, int my_errno, char *msg);
 void	free_close_exit(int *fds1, int *fds2, pid_t *childs, char *msg);
 void	wait_childs(pid_t *childs);
+
+/*============= CLEANUP ================*/
+void    fatal_error(t_mini *mini, char *msg, int status);
+void    free_everything(t_mini *mini);
+void	free_tokens(t_token **head);
+void    free_env(t_env **env);
+void    free_commands(t_cmds **cmds);
+void    free_redirs(t_redir **redirs);
+void    free_str_array(char **array);
+
+/*============= PROVES ================*/
+void	print_cmds(t_cmds *cmds);
+void	print_tokens(t_token *tokens);
+void	print_env(t_env *env);
+
 
 #endif

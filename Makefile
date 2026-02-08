@@ -1,10 +1,14 @@
 NAME = minishell
-SRC = src/main/main.c \
-		src/main/env_setup.c \
-		src/executor/cmd_handler.c \
-		src/executor/pipex_utils_bonus.c \
-		src/executor/pipex_utils_2_bonus.c \
-		src/executor/pipex_utils_3_bonus.c
+SRC = src/main.c \
+		src/builtins/env_setup.c \
+		src/builtins/env_utils.c \
+		src/cleanup/cleanup.c \
+		src/cleanup/free.c \
+		src/lexer/lexer_utils.c \
+		src/lexer/lexer.c \
+		src/parser/parser_utils.c \
+		src/parser/parser.c \
+		src/proves.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

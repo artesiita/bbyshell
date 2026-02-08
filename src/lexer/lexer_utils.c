@@ -14,20 +14,6 @@ int is_redirection(char c)
     return (0);
 }
 
-void free_token_list(t_token *head)
-{
-    t_token *temp;
-
-    while (head)
-    {
-        temp = head;
-        head = head->next;
-        if (temp->content)
-            free(temp->content);
-        free(temp);
-    }
-}
-
 void    add_token(t_token **head, char *content, t_token_type type, t_quote_ctx quote)
 {
     t_token *new;

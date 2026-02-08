@@ -1,13 +1,13 @@
 #include "../../inc/minishell.h"
 
-void    parse_redirection(t_cmds *node, t_token *cur)
+void    parse_redirection(t_cmds *node, t_token *cur, t_mini *mini)
 {
     t_redir *redir;
     t_redir *tmp;
 
     redir = ft_calloc(1, sizeof(t_redir));
     if (!redir)
-        /*MALLOC ERROR: need to think how to handle*/
+        fatal_error(mini, "minishell: malloc: cannot allocate memory", 1);
     redir->type = (t_redir_type)cur->type;
     redir->target = ft_strdup(cur->next->content);
     redir->next = NULL;
@@ -22,7 +22,7 @@ void    parse_redirection(t_cmds *node, t_token *cur)
     }
 }
 
-int    fill_args(t_cmds *node, t_token *cur)
+int    fill_args(t_cmds *node, t_token *cur, t_mini *mini)
 {
     int i;
 
@@ -39,10 +39,10 @@ int    fill_args(t_cmds *node, t_token *cur)
         {
             if (!cur->next || cur->next->type != T_WORD)
             {
-                ft_printf("Bbyshell: syntax error\n");
+                printf("Bbyshell: syntax error\n");
                 return (0);
             }
-            parse_redirection(node, cur);
+            parse_redirection(node, cur, mini);
             cur = cur->next;
             if (cur)
                 cur = cur->next;
@@ -61,7 +61,7 @@ t_cmds  *parsing(t_mini *mini)
     head = NULL;
     if (cur && cur->type == T_PIPE)
     {
-        ft_printf("Bbyshell: syntax error\n" );
+        printf("Bbyshell: syntax error\n" );
         mini->exit_status = 2;
         return (NULL);
     }
@@ -69,9 +69,9 @@ t_cmds  *parsing(t_mini *mini)
     {
         new_node = ft_calloc(1, sizeof(t_cmds));
         if (!new_node)
-        /*MALLOC ERROR: need to think how to handle*/
+            fatal_error(mini, "minishell: malloc: cannot allocate memory", 1);
         new_node->args = ft_calloc(commands_counter(cur) + 1, sizeof(char *));
-        if (!fill_args(new_node, cur))
+        if (!fill_args(new_node, cur, mini))
         {
             mini->exit_status = 2;
             return (NULL);
@@ -81,9 +81,9 @@ t_cmds  *parsing(t_mini *mini)
             cur = cur->next;
         if (cur && cur->type == T_PIPE)
         {
-            if (!cur->next || cur->next == T_PIPE)
+            if (!cur->next || cur->next->type == T_PIPE)
             {
-                ft_printf("Bbyshell: syntax error\n");
+                printf("Bbyshell: syntax error\n");
                 mini->exit_status = 2;
                 return (NULL);
             }
