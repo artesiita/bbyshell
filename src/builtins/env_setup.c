@@ -41,17 +41,17 @@ static int	append_env_node(t_env **head, t_env **cur, char *content)
 	return (1);
 }
 
-t_env   *env_setup(char **env)
+t_env	*env_setup(char **env)
 {
-    t_env   *head;
-    t_env   *cur;
-    int     i;
+	t_env	*head;
+	t_env	*cur;
+	int		i;
 
-    if (!env || !*env)
-        return (NULL);
-    head = NULL;
-    cur = NULL;
-    i = 0;
+	if (!env || !*env)
+		return (NULL);
+	head = NULL;
+	cur = NULL;
+	i = 0;
 	if (env && *env)
 	{
 		while (env[i])
@@ -61,11 +61,10 @@ t_env   *env_setup(char **env)
 			i++;
 		}
 	}
-    else
+	else
 	{
 		if (!append_env_node(&head, &cur, ""))
 			return (free_env_list(head), NULL);
 	}
 	return (head);
 }
-
