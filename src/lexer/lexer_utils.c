@@ -1,38 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/13 17:31:23 by lartes-s          #+#    #+#             */
+/*   Updated: 2026/02/13 17:32:06 by lartes-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
-int is_space(char c)
+int	is_space(char c)
 {
-    if (c == ' ')
-        return (1);
-    return (0);
+	if (c == ' ')
+		return (1);
+	return (0);
 }
 
-int is_redirection(char c)
+int	is_redirection(char c)
 {
-    if (c == '<' || c == '>' || c == '|')
-        return (1);
-    return (0);
+	if (c == '<' || c == '>' || c == '|')
+		return (1);
+	return (0);
 }
 
-void    add_token(t_token **head, char *content, t_token_type type, t_quote_ctx quote)
+void	add_token(t_token **head, char *content, t_token_type type,
+		t_quote_ctx quote)
 {
-    t_token *new;
-    t_token *last;
+	t_token	*new;
+	t_token	*last;
 
-    new = malloc(sizeof(t_token));
-    if (!new)
-        return;
-    new->content = content;
-    new->type = type;
-    new->quote = quote;
-    new->next = NULL;
-    if (*head == NULL)
-        *head = new;
-    else
-    {
-        last = *head;
-        while (last->next != NULL)
-            last = last->next;
-        last->next = new;
-    }
+	new = malloc(sizeof(t_token));
+	if (!new)
+		return ;
+	new->content = content;
+	new->type = type;
+	new->quote = quote;
+	new->next = NULL;
+	if (*head == NULL)
+		*head = new;
+	else
+	{
+		last = *head;
+		while (last->next != NULL)
+			last = last->next;
+		last->next = new;
+	}
 }

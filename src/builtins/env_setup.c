@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_setup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/13 17:33:14 by lartes-s          #+#    #+#             */
+/*   Updated: 2026/02/13 17:33:22 by lartes-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -41,17 +52,17 @@ static int	append_env_node(t_env **head, t_env **cur, char *content)
 	return (1);
 }
 
-t_env   *env_setup(char **env)
+t_env	*env_setup(char **env)
 {
-    t_env   *head;
-    t_env   *cur;
-    int     i;
+	t_env	*head;
+	t_env	*cur;
+	int		i;
 
-    if (!env || !*env)
-        return (NULL);
-    head = NULL;
-    cur = NULL;
-    i = 0;
+	if (!env || !*env)
+		return (NULL);
+	head = NULL;
+	cur = NULL;
+	i = 0;
 	if (env && *env)
 	{
 		while (env[i])
@@ -61,11 +72,10 @@ t_env   *env_setup(char **env)
 			i++;
 		}
 	}
-    else
+	else
 	{
 		if (!append_env_node(&head, &cur, ""))
 			return (free_env_list(head), NULL);
 	}
 	return (head);
 }
-
