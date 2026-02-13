@@ -42,6 +42,6 @@ int main(int ac, char **av, char **env)
         free(line);
     }
     clear_history();
-    // free_env(mini.env);
+    free_env(mini.env);
     return (0);
 }
