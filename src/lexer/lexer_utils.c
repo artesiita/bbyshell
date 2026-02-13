@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/13 17:31:23 by lartes-s          #+#    #+#             */
+/*   Updated: 2026/02/13 17:32:06 by lartes-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	is_space(char c)
@@ -17,8 +29,8 @@ int	is_redirection(char c)
 void	add_token(t_token **head, char *content, t_token_type type,
 		t_quote_ctx quote)
 {
-	t_token *new;
-	t_token *last;
+	t_token	*new;
+	t_token	*last;
 
 	new = malloc(sizeof(t_token));
 	if (!new)

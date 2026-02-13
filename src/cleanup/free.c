@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
+/*   Updated: 2026/02/13 17:29:41 by lartes-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	free_str_array(char **array)
@@ -65,7 +77,7 @@ void	free_env(t_env **env)
 
 void	free_tokens(t_token **head)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	if (!head || !*head)
 		return ;
