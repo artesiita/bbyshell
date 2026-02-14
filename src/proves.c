@@ -1,21 +1,6 @@
 
 #include "../inc/minishell.h"
 
-void	print_env(t_env *env)
-{
-	t_env	*current;
-
-	current = env;
-	while (current)
-	{
-		if (current->value)
-		{
-			printf("%s=%s\n", current->key, current->value);
-		}
-		current = current->next;
-	}
-}
-
 void print_tokens(t_token *tokens)
 {
     t_token *tmp = tokens;

@@ -114,52 +114,45 @@ typedef struct s_mini
 /*-----------------------------------------------------------------*/
 
 /*============= ENV ================*/
-t_env							*env_setup(char **env);
-void							free_env_list(t_env *head);
+t_env		*env_setup(char **env);
+void		free_env_list(t_env *head);
 
 /*============= LEXER ================*/
-int								is_redirection(char c);
-int								is_space(char c);
-void							add_token(t_token **head, char *content,
-									t_token_type type, t_quote_ctx quote);
-t_token							*lexer(char *input);
+int			is_redirection(char c);
+int			is_space(char c);
+void		add_token(t_token **head, char *content, t_token_type type, t_quote_ctx quote);
+t_token		*lexer(char *input);
 
 /*============= PARSER ================*/
-t_cmds							*parsing(t_mini *mini);
-int								commands_counter(t_token *head);
-void							add_command_node(t_cmds **head,
-									t_cmds *new_node);
+t_cmds		*parsing(t_mini *mini);
+int			commands_counter(t_token *head);
+void		add_command_node(t_cmds **head, t_cmds *new_node);
 
 /*============ EXECUTOR ==============*/
-void							cmd_handler(t_mini *mini);
-t_cmd_ex						*load_data(char **cmd, char **env, int fd_in,
-									int fd_out);
-void							open_files(char *file_in, char *file_out,
-									int *filefds);
-void							my_close(int fd1, int fd2, char *msg);
-void							clean(t_cmd_ex *data);
-void							clean_exit(t_cmd_ex *data, int my_errno,
-									char *msg);
-void							handle_err(int my_errno, char *msg);
-void							redirect(t_cmd_ex *data);
-void							close_exit(int *fds, int my_errno, char *msg);
-void							free_close_exit(int *fds1, int *fds2,
-									pid_t *childs, char *msg);
-void							wait_childs(pid_t *childs);
+void		cmd_handler(t_mini *mini);
+t_cmd_ex	*load_data(char **cmd, char **env, int fd_in, int fd_out);
+void		open_files(char *file_in, char *file_out, int *filefds);
+void		my_close(int fd1, int fd2, char *msg);
+void		clean(t_cmd_ex *data);
+void		clean_exit(t_cmd_ex *data, int my_errno, char *msg);
+void		handle_err(int my_errno, char *msg);
+void		redirect(t_cmd_ex *data);
+void		close_exit(int *fds, int my_errno, char *msg);
+void		free_close_exit(int *fds1, int *fds2, pid_t *childs, char *msg);
+void		wait_childs(pid_t *childs);
 
 /*============= CLEANUP ================*/
-void							fatal_error(t_mini *mini, char *msg,
-									int status);
-void							free_everything(t_mini *mini);
-void							free_tokens(t_token **head);
-void							free_env(t_env **env);
-void							free_commands(t_cmds **cmds);
-void							free_redirs(t_redir **redirs);
-void							free_str_array(char **array);
+void		fatal_error(t_mini *mini, char *msg, int status);
+void		free_everything(t_mini *mini);
+void		free_tokens(t_token **head);
+void		free_env(t_env **env);
+void		free_commands(t_cmds **cmds);
+void		free_redirs(t_redir **redirs);
+void		free_str_array(char **array);
 
 /*============= PROVES ================*/
-void							print_cmds(t_cmds *cmds);
-void							print_tokens(t_token *tokens);
-void							print_env(t_env *env);
+void		print_cmds(t_cmds *cmds);
+void		print_tokens(t_token *tokens);
+void		print_env(t_env *env);
 
 #endif
