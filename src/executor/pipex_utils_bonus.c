@@ -6,11 +6,7 @@
 /*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2026/02/07 19:30:25 by becanals         ###   ########.fr       */
-=======
-/*   Updated: 2026/02/07 15:26:48 by becanals         ###   ########.fr       */
->>>>>>> parser
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +16,9 @@
 
 void	my_close(int fd1, int fd2, char *msg)
 {
-<<<<<<< HEAD
 	if (fd1 > 2 && close(fd1) == -1)
 		perror(msg);
 	if (fd2 > 2 && close(fd2) == -1)
-=======
-	if (close(fd1) == -1)
-		perror(msg);
-	if (close(fd2) == -1)
->>>>>>> parser
 		perror(msg);
 }
 
