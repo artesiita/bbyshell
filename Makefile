@@ -11,6 +11,8 @@ SRC = src/main.c \
 		src/parser/parser.c \
 		src/proves.c
 
+######  EXECUTOR FILES:
+
 EX_SRC_DIR = src/executor/
 
 EX_SRC_NAMES = cmd_handler.c \
@@ -21,6 +23,23 @@ EX_SRC_NAMES = cmd_handler.c \
 EX_SRC = $(addprefix $(EX_SRC_DIR), $(EX_SRC_NAMES))
 
 SRC += $(EX_SRC)
+
+######  BUILT-IN FILES:
+
+BI_SRC_DIR = src/builtins/
+
+BI_SRC_NAMES = my_execve.c \
+			   my_echo.c \
+			   my_cd.c \
+			   my_pwd.c \
+			   my_export.c \
+			   my_unset.c \
+			   my_env.c \
+			   my_exit.c
+
+BI_SRC = $(addprefix $(BI_SRC_DIR), $(BI_SRC_NAMES))
+
+SRC += $(BI_SRC)
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

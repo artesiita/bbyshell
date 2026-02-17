@@ -77,23 +77,6 @@ typedef struct s_cmds
 	t_redir						*redirs;
 }								t_cmds;
 
-/*============= EXECUTOR ===============*/
-typedef struct s_cmd_ex
-{
-	char						*path;
-	char						**args;
-	int							fd_in;
-	int							fd_out;
-}								t_cmd_ex;
-
-typedef struct s_executor
-{
-	char						**env;
-	t_cmds						*cmds;
-	pid_t						*childs;
-	int							fds[2][2];
-}								t_executor;
-
 /*============= GLOBAL ================*/
 
 extern volatile sig_atomic_t	g_signal;
@@ -112,6 +95,25 @@ typedef struct s_mini
 	t_token						*tokens;
 	t_cmds						*cmds;
 }								t_mini;
+
+/*============= EXECUTOR ===============*/
+typedef struct s_cmd_ex
+{
+	char						*path;
+	char						**args;
+	int							fd_in;
+	int							fd_out;
+	t_mini						*mini;
+}								t_cmd_ex;
+
+typedef struct s_executor
+{
+	char						**env;
+	t_cmds						*cmds;
+	pid_t						*childs;
+	int							fds[2][2];
+	t_mini						*mini;
+}								t_executor;
 
 /*-----------------------------------------------------------------*/
 /*                           PROTOTYPES                            */
@@ -150,7 +152,16 @@ void							close_exit(int *fds, int my_errno, char *msg);
 void							free_close_exit(int *fds1, int *fds2,
 									pid_t *childs, char *msg);
 void							wait_childs(pid_t *childs);
-int								my_execve(t_cmd_ex *data);
+int								my_execve(t_cmd_ex *data, t_executor *ex);
+
+/*============ BUILT-INS ==============*/
+int								my_echo(t_cmd_ex *data);
+int								my_cd(t_cmd_ex *data);
+int								my_pwd(t_cmd_ex *data);
+int								my_export(t_cmd_ex *data);
+int								my_unset(t_cmd_ex *data);
+int								my_env(t_cmd_ex *data);
+int								my_exit(t_cmd_ex *data);
 
 /*============= CLEANUP ================*/
 void							fatal_error(t_mini *mini, char *msg,
