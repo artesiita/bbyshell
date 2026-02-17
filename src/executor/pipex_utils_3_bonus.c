@@ -6,7 +6,7 @@
 /*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 13:51:15 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/02/07 13:06:28 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/15 12:05:45 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_close_exit(int *fds1, int *fds2, pid_t *childs, char *msg)
 
 void	wait_childs(pid_t *childs)
 {
-	while (*childs != 0)
+	while (childs && *childs != 0)
 		if (waitpid(*childs++, NULL, 0) == -1)
 			perror("waitpid");
 }

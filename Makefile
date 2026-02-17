@@ -1,4 +1,5 @@
 NAME = minishell
+
 SRC = src/main.c \
 		src/builtins/env_setup.c \
 		src/builtins/env_utils.c \
@@ -9,6 +10,17 @@ SRC = src/main.c \
 		src/parser/parser_utils.c \
 		src/parser/parser.c \
 		src/proves.c
+
+EX_SRC_DIR = src/executor/
+
+EX_SRC_NAMES = cmd_handler.c \
+			   pipex_utils_bonus.c \
+			   pipex_utils_2_bonus.c \
+			   pipex_utils_3_bonus.c
+
+EX_SRC = $(addprefix $(EX_SRC_DIR), $(EX_SRC_NAMES))
+
+SRC += $(EX_SRC)
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

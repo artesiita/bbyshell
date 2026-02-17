@@ -1,7 +1,0 @@
-Agafar l'arxiu de src/executor/cmd_handler.c
-És bàsicament una còpia del bonus de pipex, es tracta d'anar fusionant el funcionament de pipex
-amb les estructres de la minishell
-
-Recorda que hi ha un parseig (una mica cutre) a main.c
-
-Fes-li un cop d'ull al Makefile pq he mogut arxius i he editat les adreces pero no estic convençut que estiguin bé!
