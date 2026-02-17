@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_execve.c                                        :+:      :+:    :+:   */
+/*   my_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/15 12:25:45 by bizcru           ###   ########.fr       */
+/*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
+/*   Updated: 2026/02/17 23:20:08 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	get_builtin_ft(t_cmd_ex *data, int (*funct)(t_cmd_ex *))
+int	my_export(t_cmd_ex *data)
 {
-	if (ft_strcmp(data->path, "env")
-		funct = &my_env
-}
-
-int	my_execve(t_cmd_ex *data)
-{
-	int (*bulitin_ft)(t_cmd_ex *);
-
-	get_builtin_ft(data, &builtin_ft);
-	if (builtin_ft)
-		return (builtin_ft(data));
-	else
-		return (execve(data->path, data->args, ex->env));
+	printf("Aquí executem el builtin de %s\n", data->path);
+	return (0);
 }

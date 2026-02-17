@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/15 12:13:45 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/02/17 23:15:55 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ pid_t	my_fork(t_executor *ex)//t_cmds *cmd, char **env, int **fds, pid_t *childs
 		set_cmd_redirs(ex);
 		data = load_data(ex->cmds->args, ex->env, ex->fds[1][0], ex->fds[0][1]);
 		redirect(data);
-		if (my_execve(data) == -1)
+		if (my_execve(data, ex) == -1)
 			clean_exit(data, errno, "execve");
 		my_close(data->fd_in, data->fd_out, "close in child afer execve");
 		//printf("exit amb exit: %i", getpid());
