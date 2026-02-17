@@ -150,6 +150,7 @@ void							close_exit(int *fds, int my_errno, char *msg);
 void							free_close_exit(int *fds1, int *fds2,
 									pid_t *childs, char *msg);
 void							wait_childs(pid_t *childs);
+int								my_execve(t_cmd_ex *data);
 
 /*============= CLEANUP ================*/
 void							fatal_error(t_mini *mini, char *msg,

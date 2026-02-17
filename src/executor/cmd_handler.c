@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/07 19:40:12 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/15 12:13:45 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ pid_t	my_fork(t_executor *ex)//t_cmds *cmd, char **env, int **fds, pid_t *childs
 		set_cmd_redirs(ex);
 		data = load_data(ex->cmds->args, ex->env, ex->fds[1][0], ex->fds[0][1]);
 		redirect(data);
-		if (execve(data->path, data->args, ex->env) == -1)
+		if (my_execve(data) == -1)
 			clean_exit(data, errno, "execve");
 		my_close(data->fd_in, data->fd_out, "close in child afer execve");
 		//printf("exit amb exit: %i", getpid());
@@ -157,7 +157,8 @@ void	cmd_handler(t_mini *mini)
 	do_childs(ex);
 	//my_close(oldfds[0], oldfds[1], "olds");
 	//my_close(newfds[0], newfds[1], "news");
-	wait_childs(ex->childs);
+	if (ex->childs && *(ex->childs))
+		wait_childs(ex->childs);
 	//Aqui falta gestionar millor la neteja de memoria, basicament caldra fer
 		//un free especial per l'struct de executor.
 	free(ex->childs);
