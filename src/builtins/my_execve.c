@@ -6,7 +6,7 @@
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/17 23:16:33 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/02/21 23:15:57 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 {
+	printf("comprovant el builtin: %s\n", data->path);
 	if (ft_strcmp(data->path, "echo"))
 		return (&my_echo);
 	else if (ft_strcmp(data->path, "cd"))

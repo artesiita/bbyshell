@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 10:23:31 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/07 19:42:05 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/21 23:05:53 by bizcru           ###   ########.fr       */
 /*   Updated: 2026/02/07 15:31:41 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -80,7 +80,7 @@ int main(int ac, char **av, char **env)
     //print_env(mini.env);
 
     char    *line;
-    while(1)
+    while(!mini.exit_status)
     {
         line = readline("bbyshell> ");
         if (!line)
