@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:55:23 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/17 23:19:45 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/02/22 13:07:31 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,24 @@
 
 int	my_env(t_cmd_ex *data)
 {
-	printf("Aquí executem el builtin de %s\n", data->path);
+	t_env	*current;
+
+	current = data->mini->env;
+	if (!data->mini->env || !data->mini->env->key || !data->mini->env->value)
+		return (1);
+	if (data->args[1])
+	{
+		ft_putstr_fd("env: ", STDERR_FILENO);
+		ft_putstr_fd(data->args[1], STDERR_FILENO);
+		ft_putstr_fd("command not found", STDERR_FILENO);
+	}
+	while (current)
+	{
+		if (current->value)
+		{
+			printf("%s=%s\n", current->key, current->value);
+		}
+		current = current->next;
+	}
 	return (0);
 }
