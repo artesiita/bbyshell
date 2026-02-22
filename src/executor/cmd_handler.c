@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/22 17:02:35 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/22 17:08:31 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ void	cmd_handler(t_mini *mini)
 	ex->fds[1][0] = 1;
 	ex->fds[1][1] = -1;
 	ex->mini = mini;
-	printf("mini env 1: %s = %s\n", ex->mini->env->key, ex->mini->env->value);
 	// ft_print_array(env_compile(mini->env));
 	do_childs(ex);
 	// my_close(oldfds[0], oldfds[1], "olds");
