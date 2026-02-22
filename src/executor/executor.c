@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/22 18:59:31 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/22 19:22:09 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,16 @@ void	ft_executor(t_mini *mini)
 	t_executor	*ex;
 
 	ex = ft_calloc(1, sizeof(t_executor));
-	if (!ex)
-		exit(EXIT_FAILURE);
-	//ex->env = env_compile(mini->env);
+	// acordar amb la Laia com maneguem els malloc error!
+	//if (!ex)
+		//exit(EXIT_FAILURE);
 	ex->cmds = mini->cmds;
 	ex->childs = ft_calloc(ft_lstcount(ex->cmds), sizeof(pid_t));
+	// acordar amb la Laia com maneguem els malloc error!
 	ex->fds[1][0] = 1;
 	ex->fds[1][1] = -1;
 	ex->mini = mini;
 	do_childs(ex);
-	//my_close(oldfds[0], oldfds[1], "olds");
-	//my_close(newfds[0], newfds[1], "news");
 	if (ex->childs && *(ex->childs))
 		wait_childs(ex->childs);
 	//Aqui falta gestionar millor la neteja de memoria, basicament caldra fer

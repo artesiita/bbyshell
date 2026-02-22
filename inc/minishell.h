@@ -97,6 +97,9 @@ typedef struct s_mini
 }								t_mini;
 
 /*============= EXECUTOR ===============*/
+
+// Struct for each cmd called
+
 typedef struct s_cmd_ex
 {
 	char						*path;
@@ -106,9 +109,11 @@ typedef struct s_cmd_ex
 	t_mini						*mini;
 }								t_cmd_ex;
 
+// General struct for executor processñ
+// Contains the child processes array mainly
+
 typedef struct s_executor
 {
-	char						**env;
 	t_cmds						*cmds;
 	pid_t						*childs;
 	int							fds[2][2];
