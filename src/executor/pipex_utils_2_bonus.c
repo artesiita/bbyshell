@@ -6,7 +6,7 @@
 /*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 11:32:22 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/02/07 13:06:21 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/22 12:53:27 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*set_error(int *my_errno, char *msg, char **msg_add)
 // Gets the path (if valid one) of the cmd of the child.
 // Manages errors to allow load_data print the correct error info.
 
-static char	*get_path(char *cmd, char **env, int *my_errno, char **msg_add)
+char	*get_path(char *cmd, char **env, int *my_errno, char **msg_add)
 {
 	int		i;
 	char	**paths;
@@ -54,11 +54,9 @@ static char	*get_path(char *cmd, char **env, int *my_errno, char **msg_add)
 
 // Loads the necessary data for the child process, also handles errors.
 
-t_cmd_ex	*load_data(char **cmd, char **env, int fd_in, int fd_out)
+t_cmd_ex	*load_data(char **cmd, int fd_in, int fd_out)
 {
 	t_cmd_ex	*new;
-	int		my_errno;
-	char	*msg;
 
 	new = malloc(sizeof(t_cmd_ex));
 	if (!new)
@@ -74,9 +72,6 @@ t_cmd_ex	*load_data(char **cmd, char **env, int fd_in, int fd_out)
 	new->args = cmd;
 	if (!new->args)
 		clean_exit(new, 0, "ft_split in load_data");
-	new->path = get_path(new->args[0], env, &my_errno, &msg);
-	if (!new->path)
-		clean_exit(new, my_errno, msg);
 	return (new);
 }
 
