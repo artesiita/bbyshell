@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 10:23:31 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/21 23:05:53 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/02/22 16:21:26 by becanals         ###   ########.fr       */
 /*   Updated: 2026/02/07 15:31:41 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -95,7 +95,7 @@ int main(int ac, char **av, char **env)
             //print_array(cmds);
             print_array(cmds);
 			my_cmd_parser(&mini, cmds);
-			cmd_handler(&mini);
+			ft_executor(&mini);
 			free(line);
         }
     }
