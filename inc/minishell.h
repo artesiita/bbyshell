@@ -164,6 +164,9 @@ int								my_export(t_cmd_ex *data);
 int								my_unset(t_cmd_ex *data);
 int								my_env(t_cmd_ex *data);
 int								my_exit(t_cmd_ex *data);
+t_env							*create_node(char *key, char *value);
+void							sort_env(t_env *head);
+t_env							*env_cpy(t_env *head);
 
 /*============= CLEANUP ================*/
 void							fatal_error(t_mini *mini, char *msg,
