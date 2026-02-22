@@ -137,9 +137,8 @@ void							add_command_node(t_cmds **head,
 									t_cmds *new_node);
 
 /*============ EXECUTOR ==============*/
-void							cmd_handler(t_mini *mini);
-t_cmd_ex						*load_data(char **cmd, int fd_in, int fd_out);
-char							*get_path(char *cmd, char **env, int *my_errno, char **msg_add);
+void							ft_executor(t_mini *mini);
+t_cmd_ex						*load_data(t_executor *ex, int fd_in, int fd_out);
 void							open_files(char *file_in, char *file_out,
 									int *filefds);
 void							my_close(int fd1, int fd2, char *msg);
