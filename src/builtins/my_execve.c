@@ -6,7 +6,7 @@
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 13:41:42 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/22 16:03:30 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 	char	*cmd;
 
 	cmd = data->args[0];
-	if (!ft_strcmp(cmd, "echo"))
+	if (ft_streq(cmd, "echo"))
 		return (&my_echo);
-	else if (!ft_strcmp(cmd, "cd"))
+	else if (ft_streq(cmd, "cd"))
 		return (my_cd);
-	else if (!ft_strcmp(cmd, "pwd"))
+	else if (ft_streq(cmd, "pwd"))
 		 return (&my_pwd);
-	else if (!ft_strcmp(cmd, "export"))
+	else if (ft_streq(cmd, "export"))
 		 return (&my_export);
-	else if (!ft_strcmp(cmd, "unset"))
+	else if (ft_streq(cmd, "unset"))
 		 return (&my_unset);
-	else if (!ft_strcmp(cmd, "env"))
+	else if (ft_streq(cmd, "env"))
 		 return (&my_env);
-	else if (!ft_strcmp(cmd, "exit"))
+	else if (ft_streq(cmd, "exit"))
 		 return (&my_exit);
 	else
 		 return (NULL);
