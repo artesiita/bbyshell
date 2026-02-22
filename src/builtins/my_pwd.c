@@ -6,7 +6,7 @@
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:03 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/17 23:20:16 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/02/22 13:25:59 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	my_pwd(t_cmd_ex *data)
 {
-	printf("Aquí executem el builtin de %s\n", data->path);
+	printf("Aquí executem el builtin de my_pwd, he rebut %s\n", data->args[0]);
 	return (0);
 }

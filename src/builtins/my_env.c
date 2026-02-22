@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:55:23 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 13:07:31 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/22 13:21:37 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	my_env(t_cmd_ex *data)
 {
 	t_env	*current;
 
+	printf("benvinguts a my_env/n");
 	current = data->mini->env;
 	if (!data->mini->env || !data->mini->env->key || !data->mini->env->value)
 		return (1);

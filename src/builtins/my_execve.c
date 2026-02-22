@@ -6,7 +6,7 @@
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 13:04:32 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/22 13:27:58 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 
 	cmd = data->args[0];
 	printf("comprovant el builtin: %s\n", cmd);
-	if (ft_strcmp(cmd, "echo"))
+	if (!ft_strcmp(cmd, "echo"))
 		return (&my_echo);
-	else if (ft_strcmp(cmd, "cd"))
+	else if (!ft_strcmp(cmd, "cd"))
 		return (my_cd);
-	else if (ft_strcmp(cmd, "pwd"))
+	else if (!ft_strcmp(cmd, "pwd"))
 		 return (&my_pwd);
-	else if (ft_strcmp(cmd, "export"))
+	else if (!ft_strcmp(cmd, "export"))
 		 return (&my_export);
-	else if (ft_strcmp(cmd, "unset"))
+	else if (!ft_strcmp(cmd, "unset"))
 		 return (&my_unset);
-	else if (ft_strcmp(cmd, "env"))
+	else if (!ft_strcmp(cmd, "env"))
 		 return (&my_env);
-	else if (ft_strcmp(cmd, "exit"))
+	else if (!ft_strcmp(cmd, "exit"))
 		 return (&my_exit);
 	else
 		 return (NULL);
