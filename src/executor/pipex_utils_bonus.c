@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/02/07 19:30:25 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/22 16:58:54 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	my_close(int fd1, int fd2, char *msg)
 
 void	clean(t_cmd_ex *data)
 {
-	//my_close(data->fd_in, data->fd_out, "close in child after error");
+	// my_close(data->fd_in, data->fd_out, "close in child after error");
 	if (data->path)
 		free(data->path);
-	if (data->args)
-		ft_free_array(data->args);
+	// if (data->args)
+	//	ft_free_array(data->args);
 	free(data);
 }
 

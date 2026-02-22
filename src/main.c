@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/15 11:33:19 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/02/22 14:15:50 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_mini mini;
-	char *line;
+	t_mini	mini;
+	char	*line;
 
 	(void)ac;
 	(void)av;
-
 	mini.env = env_setup(env);
 	mini.tokens = NULL;
 	mini.cmds = NULL;
 	mini.exit_status = 0;
-
 	while (1)
 	{
 		line = readline("bbyshell> ");
@@ -40,8 +38,6 @@ int	main(int ac, char **av, char **env)
 			if (mini.tokens)
 			{
 				mini.cmds = parsing(&mini);
-				if (mini.cmds)
-					print_cmds(mini.cmds);
 				cmd_handler(&mini);
 				free_tokens(&mini.tokens);
 				mini.tokens = NULL;

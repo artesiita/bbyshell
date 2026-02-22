@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils_2_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 11:32:22 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/02/22 12:53:27 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/22 17:02:41 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_path(char *cmd, char **env, int *my_errno, char **msg_add)
 
 // Loads the necessary data for the child process, also handles errors.
 
-t_cmd_ex	*load_data(char **cmd, int fd_in, int fd_out)
+t_cmd_ex	*load_data(t_executor *ex, int fd_in, int fd_out)
 {
 	t_cmd_ex	*new;
 
@@ -69,7 +69,8 @@ t_cmd_ex	*load_data(char **cmd, int fd_in, int fd_out)
 	new->fd_out = fd_out;
 	new->args = NULL;
 	new->path = NULL;
-	new->args = cmd;
+	new->args = ex->cmds->args;
+	new->mini = ex->mini;
 	if (!new->args)
 		clean_exit(new, 0, "ft_split in load_data");
 	return (new);
