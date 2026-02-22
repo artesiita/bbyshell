@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:55:23 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 17:09:19 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/22 18:01:22 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	my_env(t_cmd_ex *data)
 	{
 		ft_putstr_fd("env: ", STDERR_FILENO);
 		ft_putstr_fd(data->args[1], STDERR_FILENO);
-		ft_putstr_fd("command not found", STDERR_FILENO);
+		ft_putstr_fd(" command not found\n", STDERR_FILENO);
 		data->mini->exit_status = 127;
 		return (127);
 	}
