@@ -1,0 +1,4 @@
+at some point:
+->per execve del sistema, trobar la manera de fer eficient el tema de passar env com a arg**. Ara mateix es genera el char** cada vegada i segur que hi ha una manera millor.
+
+

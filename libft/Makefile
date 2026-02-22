@@ -6,7 +6,7 @@
 #    By: bizcru <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/28 15:47:58 by bizcru            #+#    #+#              #
-#    Updated: 2026/02/22 15:49:01 by becanals         ###   ########.fr        #
+#    Updated: 2026/02/22 18:57:00 by becanals         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,8 @@ SRCS = ft_islower.c \
 		ft_putnbr_fd.c \
 		ft_split.c \
 		ft_free_array.c \
-		ft_print_array.c
+		ft_print_array.c \
+		ft_lstcount.c 
 
 BONUS_SRCS = ft_lstnew_bonus.c \
 			 ft_lstadd_front_bonus.c \

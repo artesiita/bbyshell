@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/22 17:46:52 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/22 18:59:31 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void		do_childs(t_executor *ex);
 static pid_t	my_fork(t_executor *ex);
 static void		set_cmd_redirs(t_executor *ex);
 static void		update_oldfds(t_executor *ex);
-static void		update_oldfds(t_executor *ex);
-static int		count_cmds(t_cmds *cmds);
 
 void	ft_executor(t_mini *mini)
 {
@@ -28,7 +26,7 @@ void	ft_executor(t_mini *mini)
 		exit(EXIT_FAILURE);
 	//ex->env = env_compile(mini->env);
 	ex->cmds = mini->cmds;
-	ex->childs = ft_calloc(count_cmds(ex->cmds), sizeof(pid_t));
+	ex->childs = ft_calloc(ft_lstcount(ex->cmds), sizeof(pid_t));
 	ex->fds[1][0] = 1;
 	ex->fds[1][1] = -1;
 	ex->mini = mini;
@@ -128,21 +126,3 @@ static void	update_oldfds(t_executor *ex)
 		(ex->fds)[0][1] = 1;
 	}
 }
-
-
-// Aquesta funcio clarament no va aqui, hi esta temporalment mentre no existeix una
-// funcio recompte generica
-
-static int	count_cmds(t_cmds *cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds)
-	{
-		i++;
-		cmds = cmds->next;
-	}
-	return (i);
-}
-
