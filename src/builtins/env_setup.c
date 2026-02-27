@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:33:14 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/13 17:33:22 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/27 18:20:03 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_env	*create_env_node(char *content)
 	return (new);
 }
 
-static int	append_env_node(t_env **head, t_env **cur, char *content)
+int	append_env_node(t_env **head, t_env **cur, char *content)
 {
 	t_env	*node;
 
@@ -52,14 +52,14 @@ static int	append_env_node(t_env **head, t_env **cur, char *content)
 	return (1);
 }
 
-t_env	*env_setup(char **env)
+int	env_setup(t_mini *mini, char **env)
 {
 	t_env	*head;
 	t_env	*cur;
 	int		i;
 
 	if (!env || !*env)
-		return (NULL);
+		return (0);
 	head = NULL;
 	cur = NULL;
 	i = 0;
@@ -68,14 +68,16 @@ t_env	*env_setup(char **env)
 		while (env[i])
 		{
 			if (!append_env_node(&head, &cur, env[i]))
-				return (free_env_list(head), NULL);
+				return (free_env_list(head), 0);
 			i++;
 		}
 	}
 	else
 	{
 		if (!append_env_node(&head, &cur, ""))
-			return (free_env_list(head), NULL);
+			return (free_env_list(head), 0);
 	}
-	return (head);
+	mini->env_head = head;
+	mini->env_cur = cur;
+	return (1);
 }

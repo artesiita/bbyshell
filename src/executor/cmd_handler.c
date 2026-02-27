@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/02/22 17:08:31 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/27 17:56:39 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	cmd_handler(t_mini *mini)
 	ex = ft_calloc(1, sizeof(t_executor));
 	if (!ex)
 		exit(EXIT_FAILURE);
-	ex->env = env_compile(mini->env);
+	ex->env = env_compile(mini->env_head);
 	ex->cmds = mini->cmds;
 	ex->childs = ft_calloc(count_cmds(ex->cmds), sizeof(pid_t));
 	ex->fds[1][0] = 1;

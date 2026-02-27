@@ -6,20 +6,24 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 18:07:50 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/22 19:42:07 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/27 16:18:42 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	swap_env_nodes(t_env *cur, char *tmp_key, char *tmp_val)
+void	swap_env_nodes(t_env *cur, char *tmp_key, char *tmp_val, int *swapped)
 {
-	tmp_key = cur->key;
-	cur->key = cur->next->key;
-	cur->next->key = tmp_key;
-	tmp_val = cur->value;
-	cur->value = cur->next->value;
-	cur->next->value = tmp_val;
+	if (ft_strcmp(cur->key, cur->next->key) > 0)
+	{
+		tmp_key = cur->key;
+		cur->key = cur->next->key;
+		cur->next->key = tmp_key;
+		tmp_val = cur->value;
+		cur->value = cur->next->value;
+		cur->next->value = tmp_val;
+		*swapped = 1;
+	}
 }
 
 void	sort_env(t_env *head)
@@ -41,13 +45,7 @@ void	sort_env(t_env *head)
 		while (cur && cur->next)
 		{
 			if (cur->key && cur->next->key)
-			{
-				if (ft_strcmp(cur->key, cur->next->key) > 0)
-				{
-					swap_env_nodes(cur, tmp_key, tmp_val);
-					swapped = 1;
-				}
-			}
+				swap_env_nodes(cur, tmp_key, tmp_val, &swapped);
 			cur = cur->next;
 		}
 	}
