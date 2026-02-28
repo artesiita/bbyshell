@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:10:40 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/28 16:17:43 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/28 16:20:37 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,46 +101,3 @@ t_cmds	*parsing(t_mini *mini)
 	}
 	return (head);
 }
-
-/*
-t_cmds	*parsing(t_mini *mini)
-{
-	t_token	*cur;
-	t_cmds	*head;
-	t_cmds	*new_node;
-
-	cur = mini->tokens;
-	head = NULL;
-	if (cur && cur->type == T_PIPE)
-	{
-		printf("Bbyshell: syntax error\n");
-		mini->exit_status = 2;
-		return (NULL);
-	}
-	while (cur)
-	{
-		new_node = ft_calloc(1, sizeof(t_cmds));
-		if (!new_node)
-			fatal_error(mini, "minishell: malloc: cannot allocate memory", 1);
-		new_node->args = ft_calloc(commands_counter(cur) + 1, sizeof(char *));
-		if (!fill_args(new_node, cur, mini))
-		{
-			mini->exit_status = 2;
-			return (NULL);
-		}
-		add_command_node(&head, new_node);
-		while (cur && cur->type != T_PIPE)
-			cur = cur->next;
-		if (cur && cur->type == T_PIPE)
-		{
-			if (!cur->next || cur->next->type == T_PIPE)
-			{
-				printf("Bbyshell: syntax error\n");
-				mini->exit_status = 2;
-				return (NULL);
-			}
-			cur = cur->next;
-		}
-	}
-	return (head);
-}*/
