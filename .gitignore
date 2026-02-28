@@ -3,3 +3,4 @@
 *.d
 minishell
 .swp
+.DS_Store
