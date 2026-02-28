@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/28 15:58:51 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/28 17:22:02 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	my_export(t_cmd_ex *data)
 		new_env = env_cpy(data->mini->env_head);
 		sort_env(new_env);
 		print_export(new_env);
-		free_env(&data->mini->env_head);
+		free_env(&new_env);
 	}
 	while (data->args[i])
 	{
