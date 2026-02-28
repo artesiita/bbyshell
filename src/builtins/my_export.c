@@ -33,18 +33,15 @@ int	my_export(t_cmd_ex *data)
 	t_env	*new_env;
 	int		i;
 
-	// t_env	*head;
-	// t_env	*cur;
 	i = 1;
 	printf("CUR NODE: %s=%s\n", data->mini->env_cur->key,
 		data->mini->env_cur->value);
-	// head = data->mini->env_head;
-	// cur = data->mini->env_cur;
 	if (!data->args[i])
 	{
 		new_env = env_cpy(data->mini->env_head);
 		sort_env(new_env);
 		print_export(new_env);
+		free_env(&data->mini->env_head);
 	}
 	while (data->args[i])
 	{
@@ -56,8 +53,6 @@ int	my_export(t_cmd_ex *data)
 			printf("hauria d'afegir %s\n", data->args[i]);
 			append_env_node(&data->mini->env_head, &data->mini->env_cur,
 				data->args[i]);
-			// data->mini->env_head = head;
-			// data->mini->env_cur = cur;
 			printf("CUR NODE: %s=%s\n", data->mini->env_cur->key,
 				data->mini->env_cur->value);
 		}

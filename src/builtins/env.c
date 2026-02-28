@@ -4,8 +4,8 @@ int	ft_env(t_mini *mini, char **av)
 {
 	t_env	*current;
 
-	current = mini->env;
-	if (!mini->env || !mini->env->key || !mini->env->value)
+	current = mini->env_head;
+	if (!mini->env_head || !mini->env_head->key || !mini->env_head->value)
 		return (1);
 	if (av[1])
 	{
