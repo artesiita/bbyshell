@@ -20,6 +20,8 @@
 # include <unistd.h>
 
 # define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
+# define ERROR 1
+
 /*-----------------------------------------------------------------*/
 /*                             STRUCTS                             */
 /*-----------------------------------------------------------------*/
@@ -121,6 +123,7 @@ typedef struct s_executor
 /*============= ENV ================*/
 int								env_setup(t_mini *mini, char **env);
 void							free_env_list(t_env *head);
+char							*get_env_value(char *key, t_env *env);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);

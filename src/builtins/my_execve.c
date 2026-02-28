@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   my_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 13:27:58 by becanals         ###   ########.fr       */
+/*   Updated: 2026/02/28 18:46:38 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
+static int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 {
 	char	*cmd;
 
@@ -23,24 +23,24 @@ static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 	else if (!ft_strcmp(cmd, "cd"))
 		return (my_cd);
 	else if (!ft_strcmp(cmd, "pwd"))
-		 return (&my_pwd);
+		return (&my_pwd);
 	else if (!ft_strcmp(cmd, "export"))
-		 return (&my_export);
+		return (&my_export);
 	else if (!ft_strcmp(cmd, "unset"))
-		 return (&my_unset);
+		return (&my_unset);
 	else if (!ft_strcmp(cmd, "env"))
-		 return (&my_env);
+		return (&my_env);
 	else if (!ft_strcmp(cmd, "exit"))
-		 return (&my_exit);
+		return (&my_exit);
 	else
-		 return (NULL);
+		return (NULL);
 }
 
 int	my_execve(t_cmd_ex *data, t_executor *ex)
 {
 	int		(*builtin_ft)(t_cmd_ex *);
 	int		my_errno;
-	char	*msg;	
+	char	*msg;
 
 	builtin_ft = get_builtin_ft(data);
 	if (builtin_ft)
