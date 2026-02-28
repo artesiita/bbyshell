@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/27 19:30:15 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/28 15:58:51 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,3 @@ int	my_export(t_cmd_ex *data)
 	}
 	return (0);
 }
-
-// ERROR NOM---> bash: export: `2laia': not a valid identifier

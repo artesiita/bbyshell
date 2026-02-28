@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:10:40 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/13 17:25:51 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/28 16:17:43 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,46 @@ int	fill_args(t_cmds *node, t_token *cur, t_mini *mini)
 	return (1);
 }
 
+static int	process_node(t_cmds **head, t_token **cur, t_mini *mini)
+{
+	t_cmds	*new_node;
+
+	new_node = ft_calloc(1, sizeof(t_cmds));
+	if (!new_node)
+		return (0);
+	new_node->args = ft_calloc(commands_counter(*cur) + 1, sizeof(char *));
+	if (!new_node->args || !fill_args(new_node, *cur, mini))
+		return (0);
+	add_command_node(head, new_node);
+	while (*cur && (*cur)->type != T_PIPE)
+		*cur = (*cur)->next;
+	if (*cur && (*cur)->type == T_PIPE)
+		*cur = (*cur)->next;
+	return (1);
+}
+
+t_cmds	*parsing(t_mini *mini)
+{
+	t_token	*cur;
+	t_cmds	*head;
+
+	cur = mini->tokens;
+	head = NULL;
+	if (cur && cur->type == T_PIPE)
+	{
+		printf("Bbyshell: syntax error\n");
+		mini->exit_status = 2;
+		return (NULL);
+	}
+	while (cur)
+	{
+		if (!process_node(&head, &cur, mini))
+			return (NULL);
+	}
+	return (head);
+}
+
+/*
 t_cmds	*parsing(t_mini *mini)
 {
 	t_token	*cur;
@@ -103,4 +143,4 @@ t_cmds	*parsing(t_mini *mini)
 		}
 	}
 	return (head);
-}
+}*/
