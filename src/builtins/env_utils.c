@@ -30,6 +30,21 @@ char	*get_env_value(char *key, t_env *env)
 	return (NULL);
 }
 
+void		update_env_value(char *key, t_env *env, char *new_value)
+{
+	int		key_len;
+	t_env	*cur;
+
+	cur = env;
+	key_len = ft_strlen(key);
+	while (cur)
+	{
+		if (ft_strncmp(cur->key, key, key_len + 1) == 0 && ((int)ft_strlen(cur->key) == key_len))
+			cur->value = new_value;
+		cur = cur->next;
+	}
+}
+
 t_env	*create_node(char *key, char *value)
 {
 	t_env	*new;

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
+/*
 int	go_home(t_cmd_ex *data, char *old_path)
 {
 	char	*path;
@@ -24,6 +24,8 @@ int	go_home(t_cmd_ex *data, char *old_path)
 		return (ERROR);
 	}
 }
+
+
 
 int	my_cd(t_cmd_ex *data)
 {
@@ -39,3 +41,4 @@ int	my_cd(t_cmd_ex *data)
 		return (go_home(data, old_path));
 	return (0);
 }
+*/

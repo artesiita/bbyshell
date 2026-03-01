@@ -18,19 +18,19 @@ static int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 
 	cmd = data->args[0];
 	printf("comprovant el builtin: %s\n", cmd);
-	if (!ft_strcmp(cmd, "echo"))
+	if (!ft_strcmp(cmd, "echo") && (ft_strlen(cmd) == ft_strlen("echo")))
 		return (&my_echo);
-	else if (!ft_strcmp(cmd, "cd"))
+	else if (!ft_strcmp(cmd, "cd") && (ft_strlen(cmd) == ft_strlen("cd")))
 		return (my_cd);
-	else if (!ft_strcmp(cmd, "pwd"))
+	else if (!ft_strcmp(cmd, "pwd") && (ft_strlen(cmd) == ft_strlen("pwd")))
 		return (&my_pwd);
-	else if (!ft_strcmp(cmd, "export"))
+	else if (!ft_strcmp(cmd, "export") && (ft_strlen(cmd) == ft_strlen("export")))
 		return (&my_export);
-	else if (!ft_strcmp(cmd, "unset"))
+	else if (!ft_strcmp(cmd, "unset") && (ft_strlen(cmd) == ft_strlen("unset")))
 		return (&my_unset);
-	else if (!ft_strcmp(cmd, "env"))
+	else if (!ft_strcmp(cmd, "env") && (ft_strlen(cmd) == ft_strlen("env")))
 		return (&my_env);
-	else if (!ft_strcmp(cmd, "exit"))
+	else if (!ft_strcmp(cmd, "exit") && (ft_strlen(cmd) == ft_strlen("exit")))
 		return (&my_exit);
 	else
 		return (NULL);

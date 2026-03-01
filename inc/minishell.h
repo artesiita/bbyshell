@@ -124,6 +124,7 @@ typedef struct s_executor
 int								env_setup(t_mini *mini, char **env);
 void							free_env_list(t_env *head);
 char							*get_env_value(char *key, t_env *env);
+void		update_env_value(char *key, t_env *env, char *new_value);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);
