@@ -77,6 +77,25 @@ typedef struct s_cmds
 	t_redir						*redirs;
 }								t_cmds;
 
+/*============= EXECUTOR ===============*/
+typedef struct s_cmd_ex
+{
+	char						*path; // si calgués, pot anar a l'struct executor "pare"
+	char						**args; //Això es pot treure del cmd
+	int							fd_in; //Això jo crec que és un redundant amb fds[2][2]
+	int							fd_out; //ídem
+}								t_cmd_ex;
+
+typedef struct s_executor
+{
+	char						**env; //canviar el sistema de iteració de PATH perquè pugui processar l'struct que tenim
+										// Ja hi ha una funció que retorna el valor de una variable de dins de env.
+										// Es diu "get_env_value", a la branca de built-in
+	t_cmds						*cmds; //es pot treure de mini
+	pid_t						*childs;
+	int							fds[2][2];
+}								t_executor;
+
 /*============= GLOBAL ================*/
 
 extern volatile sig_atomic_t	g_signal;
@@ -86,7 +105,7 @@ typedef struct s_env
 	struct s_env				*next;
 	char						*key;
 	char						*value;
-}								t_env;
+}								t_eniv;
 
 typedef struct s_mini
 {
@@ -94,26 +113,8 @@ typedef struct s_mini
 	int							exit_status;
 	t_token						*tokens;
 	t_cmds						*cmds;
+	t_cmd_ex					*
 }								t_mini;
-
-/*============= EXECUTOR ===============*/
-typedef struct s_cmd_ex
-{
-	char						*path;
-	char						**args;
-	int							fd_in;
-	int							fd_out;
-	t_mini						*mini;
-}								t_cmd_ex;
-
-typedef struct s_executor
-{
-	char						**env;
-	t_cmds						*cmds;
-	pid_t						*childs;
-	int							fds[2][2];
-	t_mini						*mini;
-}								t_executor;
 
 /*-----------------------------------------------------------------*/
 /*                           PROTOTYPES                            */
