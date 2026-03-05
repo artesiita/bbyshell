@@ -35,14 +35,28 @@ void		update_env_value(char *key, t_env *env, char *new_value)
 	int		key_len;
 	t_env	*cur;
 
+	if (!key || !env)
+		return ;
 	cur = env;
 	key_len = ft_strlen(key);
 	while (cur)
 	{
 		if (ft_strncmp(cur->key, key, key_len + 1) == 0 && ((int)ft_strlen(cur->key) == key_len))
-			cur->value = new_value;
+		{
+			free(cur->value);
+			if (new_value)
+				cur->value = new_value;
+			else
+				cur->value = ft_strdup("");
+			return ;
+		}
 		cur = cur->next;
 	}
+}
+
+void	update_env(char *pwd, char *oldpwd)
+{
+
 }
 
 t_env	*create_node(char *key, char *value)

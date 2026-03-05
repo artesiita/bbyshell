@@ -11,20 +11,19 @@
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-/*
+
 int	go_home(t_cmd_ex *data, char *old_path)
 {
 	char	*path;
 
 	path = get_env_value("HOME", data->mini->env_head);
-	old_path = get_env_value("PATH", data->mini->env_head);
 	if (!path)
 	{
 		perror("cd: HOME not set");
 		return (ERROR);
 	}
+	if (chdir(path) == -1)
 }
-
 
 
 int	my_cd(t_cmd_ex *data)
@@ -37,8 +36,9 @@ int	my_cd(t_cmd_ex *data)
 		printf("bbyshell: cd: too many arguments\n");
 		return (ERROR);
 	}
+	if (!getcwd(old_path, sizeof(old_path)))
+		old_path = get_env_value("PWD", data->mini->env_head);
 	if (!data->args[1])
 		return (go_home(data, old_path));
 	return (0);
 }
-*/
