@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 18:11:05 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/05 22:27:01 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*get_path(char *cmd, t_env *env,  int *my_errno, char **msg_add)
 	return (set_error(my_errno, "command not found", msg_add));
 }
 
-static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
+static int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 {
 	char	*cmd;
 
@@ -73,7 +73,7 @@ static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
 	else if (ft_streq(cmd, "exit"))
 		 return (&my_exit);
 	else
-		 return (NULL);
+		return (NULL);
 }
 
 static char **env_compile(t_env *env_list)
@@ -106,7 +106,7 @@ int	my_execve(t_cmd_ex *data, t_executor *ex)
 {
 	int		(*builtin_ft)(t_cmd_ex *);
 	int		my_errno;
-	char	*msg;	
+	char	*msg;
 
 	builtin_ft = get_builtin_ft(data);
 	if (builtin_ft)

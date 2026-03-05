@@ -33,6 +33,7 @@ BI_SRC_NAMES = my_execve.c \
 			   my_cd.c \
 			   my_pwd.c \
 			   my_export.c \
+			   my_export_utils.c \
 			   my_unset.c \
 			   my_env.c \
 			   my_exit.c

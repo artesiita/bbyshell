@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:55:23 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 18:01:22 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/27 17:57:07 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	my_env(t_cmd_ex *data)
 {
 	t_env	*current;
 
-	if (!data || !data->mini || !data->mini->env)
+	if (!data || !data->mini || !data->mini->env_head)
 		return (1);
 	if (data->args && data->args[0] && data->args[1])
 	{
@@ -26,7 +26,7 @@ int	my_env(t_cmd_ex *data)
 		data->mini->exit_status = 127;
 		return (127);
 	}
-	current = data->mini->env;
+	current = data->mini->env_head;
 	while (current)
 	{
 		if (current->key && current->value)

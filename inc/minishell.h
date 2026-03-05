@@ -9,6 +9,7 @@
 # include "../libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -18,9 +19,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define PINK_B "\001\x1b[1;35m\002"
-# define RESET "\001\x1b[0m\002"
-# define PROMPT PINK_B "bbyshell> " RESET
+# define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
+# define ERROR 1
 
 /*-----------------------------------------------------------------*/
 /*                             STRUCTS                             */
@@ -109,7 +109,8 @@ typedef struct s_env
 
 typedef struct s_mini
 {
-	t_env						*env;
+	t_env						*env_head;
+	t_env						*env_cur;
 	int							exit_status;
 	t_token						*tokens;
 	t_cmds						*cmds;
@@ -121,8 +122,10 @@ typedef struct s_mini
 /*-----------------------------------------------------------------*/
 
 /*============= ENV ================*/
-t_env							*env_setup(char **env);
+int								env_setup(t_mini *mini, char **env);
 void							free_env_list(t_env *head);
+char							*get_env_value(char *key, t_env *env);
+void		update_env_value(char *key, t_env *env, char *new_value);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);
@@ -162,6 +165,11 @@ int								my_export(t_cmd_ex *data);
 int								my_unset(t_cmd_ex *data);
 int								my_env(t_cmd_ex *data);
 int								my_exit(t_cmd_ex *data);
+t_env							*create_node(char *key, char *value);
+void							sort_env(t_env *head);
+t_env							*env_cpy(t_env *head);
+int								append_env_node(t_env **head, t_env **cur,
+									char *content);
 
 /*============= CLEANUP ================*/
 void							fatal_error(t_mini *mini, char *msg,
