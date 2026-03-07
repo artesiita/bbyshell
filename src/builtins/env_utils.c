@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:32:20 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/28 18:54:56 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/07 15:55:32 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ void		update_env_value(char *key, t_env *env, char *new_value)
 		}
 		cur = cur->next;
 	}
-}
-
-void	update_env(char *pwd, char *oldpwd)
-{
-
 }
 
 t_env	*create_node(char *key, char *value)

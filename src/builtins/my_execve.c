@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/05 22:27:01 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:46:15 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ static char	*get_path(char *cmd, t_env *env,  int *my_errno, char **msg_add)
 	return (set_error(my_errno, "command not found", msg_add));
 }
 
-static int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
+static int (*get_builtin_ft(t_mini *mini))(t_mini *)
 {
 	char	*cmd;
 
-	cmd = data->args[0];
+	cmd = mini->cmds->args[0];
 	if (ft_streq(cmd, "echo"))
 		return (&my_echo);
 	else if (ft_streq(cmd, "cd"))
@@ -102,17 +102,20 @@ static char **env_compile(t_env *env_list)
 	return (env);
 }
 
-int	my_execve(t_cmd_ex *data, t_executor *ex)
+int	my_execve(t_mini *mini)
 {
-	int		(*builtin_ft)(t_cmd_ex *);
+	int		(*builtin_ft)(t_mini *);
 	int		my_errno;
 	char	*msg;
+	char	*path;
 
-	builtin_ft = get_builtin_ft(data);
+	builtin_ft = get_builtin_ft(mini);
 	if (builtin_ft)
-		return (builtin_ft(data));
-	data->path = get_path(data->args[0], ex->mini->env, &my_errno, &msg);
-	if (!data->path)
-		clean_exit(data, my_errno, msg);
-	return (execve(data->path, data->args, env_compile(ex->mini->env)));
+		return (builtin_ft(mini));
+	path = get_path(mini->ex->cur_cmd->args[0], mini->env_head, &my_errno, &msg);
+	if (!path)
+	{
+		//Fer free i gestionar el tema dels error message
+	}
+	return (execve(path, mini->ex->cur_cmd->args, env_compile(mini->env_head)));
 }

@@ -22,6 +22,12 @@
 # define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
 # define ERROR 1
 
+# define NEW_FDS 0
+# define OLD_FDS 1
+
+# define P_READ 0
+# define P_WRITE 1
+
 /*-----------------------------------------------------------------*/
 /*                             STRUCTS                             */
 /*-----------------------------------------------------------------*/
@@ -78,22 +84,14 @@ typedef struct s_cmds
 }								t_cmds;
 
 /*============= EXECUTOR ===============*/
-typedef struct s_cmd_ex
-{
-	char						*path; // si calgués, pot anar a l'struct executor "pare"
-	char						**args; //Això es pot treure del cmd
-	int							fd_in; //Això jo crec que és un redundant amb fds[2][2]
-	int							fd_out; //ídem
-}								t_cmd_ex;
 
 typedef struct s_executor
 {
-	char						**env; //canviar el sistema de iteració de PATH perquè pugui processar l'struct que tenim
-										// Ja hi ha una funció que retorna el valor de una variable de dins de env.
-										// Es diu "get_env_value", a la branca de built-in
-	t_cmds						*cmds; //es pot treure de mini
+	// Ja hi ha una funció que retorna el valor de una variable de dins de env.
+	// Es diu "get_env_value", a la branca de built-in
 	pid_t						*childs;
 	int							fds[2][2];
+	t_cmds						*cur_cmd;
 }								t_executor;
 
 /*============= GLOBAL ================*/
@@ -105,7 +103,7 @@ typedef struct s_env
 	struct s_env				*next;
 	char						*key;
 	char						*value;
-}								t_eniv;
+}								t_env;
 
 typedef struct s_mini
 {
@@ -114,7 +112,7 @@ typedef struct s_mini
 	int							exit_status;
 	t_token						*tokens;
 	t_cmds						*cmds;
-	t_cmd_ex					*
+	t_executor					*ex;
 }								t_mini;
 
 /*-----------------------------------------------------------------*/
@@ -142,29 +140,20 @@ void							add_command_node(t_cmds **head,
 
 /*============ EXECUTOR ==============*/
 void							ft_executor(t_mini *mini);
-t_cmd_ex						*load_data(t_executor *ex, int fd_in, int fd_out);
 void							open_files(char *file_in, char *file_out,
 									int *filefds);
 void							my_close(int fd1, int fd2, char *msg);
-void							clean(t_cmd_ex *data);
-void							clean_exit(t_cmd_ex *data, int my_errno,
-									char *msg);
-void							handle_err(int my_errno, char *msg);
-void							redirect(t_cmd_ex *data);
-void							close_exit(int *fds, int my_errno, char *msg);
-void							free_close_exit(int *fds1, int *fds2,
-									pid_t *childs, char *msg);
-void							wait_childs(pid_t *childs);
-int								my_execve(t_cmd_ex *data, t_executor *ex);
+int								redirect(t_mini *mini);
+int								my_execve(t_mini *mini);
 
 /*============ BUILT-INS ==============*/
-int								my_echo(t_cmd_ex *data);
-int								my_cd(t_cmd_ex *data);
-int								my_pwd(t_cmd_ex *data);
-int								my_export(t_cmd_ex *data);
-int								my_unset(t_cmd_ex *data);
-int								my_env(t_cmd_ex *data);
-int								my_exit(t_cmd_ex *data);
+int								my_echo(t_mini *mini);
+int								my_cd(t_mini *mini);
+int								my_pwd(t_mini *mini);
+int								my_export(t_mini *mini);
+int								my_unset(t_mini *mini);
+int								my_env(t_mini *mini);
+int								my_exit(t_mini *mini);
 t_env							*create_node(char *key, char *value);
 void							sort_env(t_env *head);
 t_env							*env_cpy(t_env *head);

@@ -6,84 +6,90 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/05 22:24:53 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:49:01 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void		do_childs(t_executor *ex);
-static pid_t	my_fork(t_executor *ex);
-static void		set_cmd_redirs(t_executor *ex);
-static void		update_oldfds(t_executor *ex);
+static void		do_childs(t_mini *mini);
+static pid_t	my_fork(t_mini *mini);
+static void		set_cmd_redirs(t_mini *mini);
+static void		my_pipe(t_mini *mini);
 static int		count_cmds(t_cmds *cmds);
+static void		wait_childs(pid_t *childs);
+
+// main functin of the executor section of the Minishell.
+// Receives a full mini with a parsed input, executes the correct commands,
+//   handles errors and its input, sets the errno and returns the control.
 
 void	ft_executor(t_mini *mini)
 {
-	t_executor	*ex;
-
-	ex = ft_calloc(1, sizeof(t_executor));
-	if (!ex)
+	mini->ex = ft_calloc(1, sizeof(t_executor));
+	if (!mini->ex) // faltarà gestionar l'eror d'això
 		exit(EXIT_FAILURE);
-	//ex->env = env_compile(mini->env);
-	ex->cmds = mini->cmds;
-	ex->childs = ft_calloc(count_cmds(ex->cmds), sizeof(pid_t));
-	ex->fds[1][0] = 1;
-	ex->fds[1][1] = -1;
-	ex->mini = mini;
-	do_childs(ex);
-	//my_close(oldfds[0], oldfds[1], "olds");
-	//my_close(newfds[0], newfds[1], "news");
-	if (ex->childs && *(ex->childs))
-		wait_childs(ex->childs);
+	mini->ex->childs = ft_calloc(count_cmds(mini->cmds), sizeof(pid_t));
+	if (!mini->ex->childs)
+		exit(EXIT_FAILURE); // faltarà gestionar l'error del malloc
+	mini->ex->fds[OLD_FDS][P_READ] = 1;
+	mini->ex->fds[OLD_FDS][P_WRITE] = -1;
+	do_childs(mini);
+	if (mini->ex->childs && *(mini->ex->childs))
+		wait_childs(mini->ex->childs);
 	//Aqui falta gestionar millor la neteja de memoria, basicament caldra fer
 		//un free especial per l'struct de executor.
-	free(ex->childs);
 }
 
 // Handles the iteration of creating a child process for each cmd
 
-static void	do_childs(t_executor *ex)
+static void	do_childs(t_mini *mini)
 {
 	int		i;
 
 	i = 0;
-	while (ex->cmds)
+	mini->ex->cur_cmd = mini->cmds;
+	while (mini->ex->cur_cmd)
 	{
-		update_oldfds(ex);
-		ex->childs[i] = my_fork(ex);
-		if (ex->childs[i++] == -1)
-			free_close_exit(ex->fds[1], ex->fds[0], ex->childs, "fork");
-		my_close(ex->fds[1][0], ex->fds[1][1], "close in main proc after forking");
-		ex->fds[1][0] = ex->fds[0][0];
-		ex->fds[1][1] = ex->fds[0][1];
-		ex->cmds = ex->cmds->next;
+		my_pipe(mini);
+		mini->ex->childs[i] = my_fork(mini);
+		if (mini->ex->childs[i++] == -1)
+		{
+			//funció de neteja que inclou close
+			//gestió de l'error
+		}
+		my_close(mini->ex->fds[OLD_FDS][P_READ], mini->ex->fds[OLD_FDS][P_WRITE], 
+			"close in main proc after forking");
+		mini->ex->fds[OLD_FDS][P_READ] = mini->ex->fds[NEW_FDS][P_READ];
+		mini->ex->fds[OLD_FDS][P_WRITE] = mini->ex->fds[NEW_FDS][P_WRITE];
+		mini->ex->cur_cmd = mini->ex->cur_cmd->next;
 	}
 	return ;
 }
 
 // Handles the forking process and manages errors
 
-static pid_t	my_fork(t_executor *ex)
+static pid_t	my_fork(t_mini *mini)
 {
 	pid_t		my_id;
-	t_cmd_ex	*data;
 
 	my_id = fork();
 	if (my_id == -1)
 		return (my_id);
 	else if (my_id == 0)
 	{
-		//maybe not necessary?
-		free(ex->childs);
-		my_close(ex->fds[1][1], ex->fds[0][0], "close in child pre execve");
-		set_cmd_redirs(ex);
-		data = load_data(ex, ex->fds[1][0], ex->fds[0][1]);
-		redirect(data);
-		if (my_execve(data, ex) == -1)
-			clean_exit(data, errno, "execve");
-		my_close(data->fd_in, data->fd_out, "close in child afer execve");
-		//printf("exit amb exit: %i", getpid());
+		my_close(mini->ex->fds[OLD_FDS][P_WRITE], mini->ex->fds[NEW_FDS][P_READ],
+			"close in child pre execve");
+		set_cmd_redirs(mini);
+		if(!redirect(mini))
+		{
+			//Gestionar l'error de dup2 (clean i exit) (no feia close)
+		}
+		if (my_execve(mini) == -1)
+		{
+			//Fer clean i exit
+		}
+		my_close(mini->ex->fds[OLD_FDS][P_READ], mini->ex->fds[NEW_FDS][P_WRITE],
+			 "close in child afer execve");
 		exit(EXIT_SUCCESS);
 	}
 	return (my_id);
@@ -91,22 +97,22 @@ static pid_t	my_fork(t_executor *ex)
 
 // Review the cmd redirection instructions and updates the fds accordingly
 
-static void	set_cmd_redirs(t_executor *ex)
+static void	set_cmd_redirs(t_mini *mini)
 {
 	t_redir	*redir;
 
-	redir = ex->cmds->redirs;
+	redir = mini->cmds->redirs;
 	while (redir)
 	{
 		if (redir->type == R_IN)
 		{
-			close(ex->fds[0][0]);
-			ex->fds[0][0] = open(redir->target, O_RDONLY);
+			close(mini->ex->fds[NEW_FDS][P_READ]);
+			mini->ex->fds[NEW_FDS][P_READ] = open(redir->target, O_RDONLY);
 		}
 		else if (redir->type == R_OUT)
 		{
-			close(ex->fds[0][1]);
-			ex->fds[0][1] = open(redir->target, O_RDONLY);
+			close(mini->ex->fds[NEW_FDS][P_WRITE]);
+			mini->ex->fds[NEW_FDS][P_WRITE] = open(redir->target, O_RDONLY);
 		}
 		redir = redir->next;
 	}
@@ -114,17 +120,22 @@ static void	set_cmd_redirs(t_executor *ex)
 
 // Updates fds depending on if we are in the last cmd (stdout & null) or else (pipe)
 
-static void	update_oldfds(t_executor *ex)
+static void	my_pipe(t_mini *mini)
 {
-	if (ex->cmds->next)
+	if (mini->cmds->next)
 	{
-		if (pipe(ex->fds[0]) == -1)
-			free_close_exit(ex->fds[1], NULL, ex->childs, "pipe");
+		if (pipe(mini->ex->fds[NEW_FDS]) == -1)
+		{
+			mini->ex->fds[NEW_FDS][P_READ] = -1;
+			mini->ex->fds[NEW_FDS][P_WRITE] = -1;
+			// funció clean (que inclogui close!)
+			// gestió de l'errnum
+		}
 	}
 	else
 	{
-		(ex->fds)[0][0] = -1;
-		(ex->fds)[0][1] = 1;
+		(mini->ex->fds)[NEW_FDS][P_READ] = -1;
+		(mini->ex->fds)[NEW_FDS][P_WRITE] = 1;
 	}
 }
 
@@ -142,4 +153,13 @@ static int	count_cmds(t_cmds *cmds)
 		cmds = cmds->next;
 	}
 	return (i);
+}
+
+// Waits for all the child pid_t processes
+
+static void	wait_childs(pid_t *childs)
+{
+	while (childs && *childs != 0)
+		if (waitpid(*childs++, NULL, 0) == -1)
+			perror("waitpid");
 }

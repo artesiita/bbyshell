@@ -16,9 +16,7 @@ SRC = src/main.c \
 EX_SRC_DIR = src/executor/
 
 EX_SRC_NAMES = executor.c \
-				executor_utils_1.c \
-				executor_utils_2.c \
-				executor_utils_3.c
+				executor_utils_1.c
 
 EX_SRC = $(addprefix $(EX_SRC_DIR), $(EX_SRC_NAMES))
 
