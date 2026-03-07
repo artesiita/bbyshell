@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:03 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/28 18:55:38 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/07 18:21:36 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static int	handle_pwd_error(t_env *env)
 	return (ERROR);
 }
 
-int	my_pwd(t_cmd_ex *data)
+int	my_pwd(t_mini *mini)
 {
 	char	pwd[PATH_MAX];
 
-	if (data->args && data->args[1])
+	if (mini->ex->cur_cmd->args && mini->ex->cur_cmd->args[1])
 	{
 		printf("pwd: too many arguments\n");
 		return (ERROR);
@@ -43,5 +43,5 @@ int	my_pwd(t_cmd_ex *data)
 		printf("%s\n", pwd);
 		return (0);
 	}
-	return (handle_pwd_error(data->mini->env_head));
+	return (handle_pwd_error(mini->env_head));
 }

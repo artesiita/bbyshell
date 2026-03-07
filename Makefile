@@ -1,8 +1,6 @@
 NAME = minishell
 
 SRC = src/main.c \
-		src/builtins/env_setup.c \
-		src/builtins/env_utils.c \
 		src/cleanup/cleanup.c \
 		src/cleanup/free.c \
 		src/lexer/lexer_utils.c \
@@ -15,10 +13,8 @@ SRC = src/main.c \
 
 EX_SRC_DIR = src/executor/
 
-EX_SRC_NAMES = cmd_handler.c \
-			   pipex_utils_bonus.c \
-			   pipex_utils_2_bonus.c \
-			   pipex_utils_3_bonus.c
+EX_SRC_NAMES = executor.c \
+				executor_utils_1.c
 
 EX_SRC = $(addprefix $(EX_SRC_DIR), $(EX_SRC_NAMES))
 
@@ -30,13 +26,15 @@ BI_SRC_DIR = src/builtins/
 
 BI_SRC_NAMES = my_execve.c \
 			   my_echo.c \
+			   env_setup.c \
+			   env_utils.c \
 			   my_cd.c \
-			   my_pwd.c \
-			   my_export.c \
-			   my_export_utils.c \
-			   my_unset.c \
 			   my_env.c \
-			   my_exit.c
+			   my_exit.c \
+			   my_export_utils.c \
+			   my_export.c \
+			   my_pwd.c \
+			   my_unset.c
 
 BI_SRC = $(addprefix $(BI_SRC_DIR), $(BI_SRC_NAMES))
 
