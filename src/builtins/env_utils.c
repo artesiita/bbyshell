@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:32:20 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/28 18:54:56 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/07 16:17:08 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_env_value(char *key, t_env *env)
 	return (NULL);
 }
 
-void		update_env_value(char *key, t_env *env, char *new_value)
+void	update_env_value(t_env *env, char *key, char *new_value)
 {
 	int		key_len;
 	t_env	*cur;
@@ -41,22 +41,18 @@ void		update_env_value(char *key, t_env *env, char *new_value)
 	key_len = ft_strlen(key);
 	while (cur)
 	{
-		if (ft_strncmp(cur->key, key, key_len + 1) == 0 && ((int)ft_strlen(cur->key) == key_len))
+		if (ft_strncmp(cur->key, key, key_len + 1) == 0
+			&& ((int)ft_strlen(cur->key) == key_len))
 		{
 			free(cur->value);
 			if (new_value)
-				cur->value = new_value;
+				cur->value = ft_strdup(new_value);
 			else
 				cur->value = ft_strdup("");
 			return ;
 		}
 		cur = cur->next;
 	}
-}
-
-void	update_env(char *pwd, char *oldpwd)
-{
-
 }
 
 t_env	*create_node(char *key, char *value)
