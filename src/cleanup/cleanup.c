@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:28:29 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/13 17:28:55 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/02/27 17:56:16 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_everything(t_mini *mini)
 {
-	free_env(&mini->env);
+	free_env(&mini->env_head);
 	free_tokens(&mini->tokens);
 	free_commands(&mini->cmds);
 }

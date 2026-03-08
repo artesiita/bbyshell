@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 18:11:05 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/07 18:36:10 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*set_error(int *my_errno, char *msg, char **msg_add)
 // Gets the path (if valid one) of the cmd of the child.
 // Manages errors to allow load_data print the correct error info.
 
-static char	*get_path(char *cmd, t_env *env,  int *my_errno, char **msg_add)
+static char	*get_path(char *cmd, t_env *env, int *my_errno, char **msg_add)
 {
 	int		i;
 	char	**paths;
@@ -53,30 +53,30 @@ static char	*get_path(char *cmd, t_env *env,  int *my_errno, char **msg_add)
 	return (set_error(my_errno, "command not found", msg_add));
 }
 
-static 	int (*get_builtin_ft(t_cmd_ex *data))(t_cmd_ex *)
+static int (*get_builtin_ft(t_mini *mini))(t_mini *)
 {
 	char	*cmd;
 
-	cmd = data->args[0];
+	cmd = mini->ex->cur_cmd->args[0];
 	if (ft_streq(cmd, "echo"))
 		return (&my_echo);
-	else if (ft_streq(cmd, "cd"))
-		return (my_cd);
+	// else if (ft_streq(cmd, "cd"))
+	//	return (my_cd);
 	else if (ft_streq(cmd, "pwd"))
-		 return (&my_pwd);
+		return (&my_pwd);
 	else if (ft_streq(cmd, "export"))
-		 return (&my_export);
+		return (&my_export);
 	else if (ft_streq(cmd, "unset"))
-		 return (&my_unset);
+		return (&my_unset);
 	else if (ft_streq(cmd, "env"))
-		 return (&my_env);
+		return (&my_env);
 	else if (ft_streq(cmd, "exit"))
-		 return (&my_exit);
+		return (&my_exit);
 	else
-		 return (NULL);
+		return (NULL);
 }
 
-static char **env_compile(t_env *env_list)
+static char	**env_compile(t_env *env_list)
 {
 	int		i;
 	t_env	*counter;
@@ -102,17 +102,21 @@ static char **env_compile(t_env *env_list)
 	return (env);
 }
 
-int	my_execve(t_cmd_ex *data, t_executor *ex)
+int	my_execve(t_mini *mini)
 {
-	int		(*builtin_ft)(t_cmd_ex *);
+	int		(*builtin_ft)(t_mini *);
 	int		my_errno;
-	char	*msg;	
+	char	*msg;
+	char	*path;
 
-	builtin_ft = get_builtin_ft(data);
+	builtin_ft = get_builtin_ft(mini);
 	if (builtin_ft)
-		return (builtin_ft(data));
-	data->path = get_path(data->args[0], ex->mini->env, &my_errno, &msg);
-	if (!data->path)
-		clean_exit(data, my_errno, msg);
-	return (execve(data->path, data->args, env_compile(ex->mini->env)));
+		return (builtin_ft(mini));
+	path = get_path(mini->ex->cur_cmd->args[0], mini->env_head, &my_errno,
+			&msg);
+	if (!path)
+	{
+		// Fer free i gestionar el tema dels error message
+	}
+	return (execve(path, mini->ex->cur_cmd->args, env_compile(mini->env_head)));
 }

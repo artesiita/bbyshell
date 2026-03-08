@@ -9,6 +9,7 @@
 # include "../libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -18,9 +19,14 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define PINK_B "\001\x1b[1;35m\002"
-# define RESET "\001\x1b[0m\002"
-# define PROMPT PINK_B "bbyshell> " RESET
+# define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
+# define ERROR 1
+
+# define NEW_FDS 0
+# define OLD_FDS 1
+
+# define P_READ 0
+# define P_WRITE 1
 
 /*-----------------------------------------------------------------*/
 /*                             STRUCTS                             */
@@ -77,6 +83,15 @@ typedef struct s_cmds
 	t_redir						*redirs;
 }								t_cmds;
 
+/*============= EXECUTOR ===============*/
+
+typedef struct s_executor
+{
+	pid_t						*childs;
+	int							fds[2][2];
+	t_cmds						*cur_cmd;
+}								t_executor;
+
 /*============= GLOBAL ================*/
 
 extern volatile sig_atomic_t	g_signal;
@@ -90,43 +105,24 @@ typedef struct s_env
 
 typedef struct s_mini
 {
-	t_env						*env;
+	t_env						*env_head;
+	t_env						*env_cur;
 	int							exit_status;
 	t_token						*tokens;
 	t_cmds						*cmds;
+	t_executor					*ex;
 }								t_mini;
-
-/*============= EXECUTOR ===============*/
-
-// Struct for each cmd called
-
-typedef struct s_cmd_ex
-{
-	char						*path;
-	char						**args;
-	int							fd_in;
-	int							fd_out;
-	t_mini						*mini;
-}								t_cmd_ex;
-
-// General struct for executor processñ
-// Contains the child processes array mainly
-
-typedef struct s_executor
-{
-	t_cmds						*cmds;
-	pid_t						*childs;
-	int							fds[2][2];
-	t_mini						*mini;
-}								t_executor;
 
 /*-----------------------------------------------------------------*/
 /*                           PROTOTYPES                            */
 /*-----------------------------------------------------------------*/
 
 /*============= ENV ================*/
-t_env							*env_setup(char **env);
+int								env_setup(t_mini *mini, char **env);
 void							free_env_list(t_env *head);
+char							*get_env_value(char *key, t_env *env);
+void							update_env_value(t_env *env, char *key,
+									char *new_value);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);
@@ -143,29 +139,25 @@ void							add_command_node(t_cmds **head,
 
 /*============ EXECUTOR ==============*/
 void							ft_executor(t_mini *mini);
-t_cmd_ex						*load_data(t_executor *ex, int fd_in, int fd_out);
 void							open_files(char *file_in, char *file_out,
 									int *filefds);
 void							my_close(int fd1, int fd2, char *msg);
-void							clean(t_cmd_ex *data);
-void							clean_exit(t_cmd_ex *data, int my_errno,
-									char *msg);
-void							handle_err(int my_errno, char *msg);
-void							redirect(t_cmd_ex *data);
-void							close_exit(int *fds, int my_errno, char *msg);
-void							free_close_exit(int *fds1, int *fds2,
-									pid_t *childs, char *msg);
-void							wait_childs(pid_t *childs);
-int								my_execve(t_cmd_ex *data, t_executor *ex);
+int								redirect(t_mini *mini);
+int								my_execve(t_mini *mini);
 
 /*============ BUILT-INS ==============*/
-int								my_echo(t_cmd_ex *data);
-int								my_cd(t_cmd_ex *data);
-int								my_pwd(t_cmd_ex *data);
-int								my_export(t_cmd_ex *data);
-int								my_unset(t_cmd_ex *data);
-int								my_env(t_cmd_ex *data);
-int								my_exit(t_cmd_ex *data);
+int								my_echo(t_mini *mini);
+int								my_cd(t_mini *mini);
+int								my_pwd(t_mini *mini);
+int								my_export(t_mini *mini);
+int								my_unset(t_mini *mini);
+int								my_env(t_mini *mini);
+int								my_exit(t_mini *mini);
+t_env							*create_node(char *key, char *value);
+void							sort_env(t_env *head);
+t_env							*env_cpy(t_env *head);
+int								append_env_node(t_env **head, t_env **cur,
+									char *content);
 
 /*============= CLEANUP ================*/
 void							fatal_error(t_mini *mini, char *msg,

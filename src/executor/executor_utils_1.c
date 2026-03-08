@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
+/*   executor_utils_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcanals- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/02/07 19:30:25 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/07 15:49:34 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,45 +22,12 @@ void	my_close(int fd1, int fd2, char *msg)
 		perror(msg);
 }
 
-// Frees the data of a t_cmd_ex
-// Checks which one is available to avoid double free in load_data
-
-void	clean(t_cmd_ex *data)
-{
-	//my_close(data->fd_in, data->fd_out, "close in child after error");
-	if (data->path)
-		free(data->path);
-	if (data->args)
-		ft_free_array(data->args);
-	free(data);
-}
-
-// Frees the data in t_cmd_ex and exits the code via handl_err
-
-void	clean_exit(t_cmd_ex *data, int my_errno, char *msg)
-{
-	clean(data);
-	handle_err(my_errno, msg);
-}
-
-// Exits the process previously printing the error msg
-
-void	handle_err(int my_errno, char *msg)
-{
-	errno = my_errno;
-	if (my_errno)
-		perror(msg);
-	else
-		ft_putstr_fd(msg, 2);
-	exit(EXIT_FAILURE);
-}
-
 // Manages the dup2 with its error handlings
 
-void	redirect(t_cmd_ex *data)
+int	redirect(t_mini *mini)
 {
-	if (dup2(data->fd_in, STDIN_FILENO) == -1)
-		clean_exit(data, errno, "dup2");
-	if (dup2(data->fd_out, STDOUT_FILENO) == -1)
-		clean_exit(data, errno, "dup2");
+	if ((dup2(mini->ex->fds[OLD_FDS][P_READ], STDIN_FILENO) == -1) ||
+	 (dup2(mini->ex->fds[NEW_FDS][P_WRITE], STDOUT_FILENO) == -1) )
+		return (0);
+	return (1);
 }
