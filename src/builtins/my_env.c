@@ -6,27 +6,29 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:55:23 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/27 17:57:07 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/07 18:09:11 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	my_env(t_cmd_ex *data)
+int	my_env(t_mini *mini)
 {
 	t_env	*current;
+	char	**ag;
 
-	if (!data || !data->mini || !data->mini->env_head)
+	ag = mini->ex->cur_cmd->args;
+	if (!mini || !mini->env_head)
 		return (1);
-	if (data->args && data->args[0] && data->args[1])
+	if (ag && ag[0] && ag[1])
 	{
 		ft_putstr_fd("env: ", STDERR_FILENO);
-		ft_putstr_fd(data->args[1], STDERR_FILENO);
+		ft_putstr_fd(ag[1], STDERR_FILENO);
 		ft_putstr_fd(" command not found\n", STDERR_FILENO);
-		data->mini->exit_status = 127;
+		mini->exit_status = 127;
 		return (127);
 	}
-	current = data->mini->env_head;
+	current = mini->env_head;
 	while (current)
 	{
 		if (current->key && current->value)

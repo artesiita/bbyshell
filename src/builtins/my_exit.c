@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   my_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:55:44 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/22 13:25:40 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/07 18:10:58 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	my_exit(t_cmd_ex *data)
+int	my_exit(t_mini *mini)
 {
-	data->mini->exit_status = -1;
+	mini->exit_status = -1;
 	exit(EXIT_SUCCESS);
-	printf("Aquí executem el builtin de my_exit, he rebut %s\n", data->args[0]);
-	return (0);
+	// s'ha de gestionar neteja
 }

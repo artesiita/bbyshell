@@ -87,8 +87,6 @@ typedef struct s_cmds
 
 typedef struct s_executor
 {
-	// Ja hi ha una funció que retorna el valor de una variable de dins de env.
-	// Es diu "get_env_value", a la branca de built-in
 	pid_t						*childs;
 	int							fds[2][2];
 	t_cmds						*cur_cmd;
@@ -123,7 +121,8 @@ typedef struct s_mini
 int								env_setup(t_mini *mini, char **env);
 void							free_env_list(t_env *head);
 char							*get_env_value(char *key, t_env *env);
-void		update_env_value(char *key, t_env *env, char *new_value);
+void							update_env_value(t_env *env, char *key,
+									char *new_value);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);

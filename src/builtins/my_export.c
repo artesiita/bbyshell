@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/02/28 17:22:02 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/07 18:06:32 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,32 @@ void	print_export(t_env *env)
 	}
 }
 
-int	my_export(t_cmd_ex *data)
+int	my_export(t_mini *mini)
 {
 	t_env	*new_env;
 	int		i;
 
 	i = 1;
-	printf("CUR NODE: %s=%s\n", data->mini->env_cur->key,
-		data->mini->env_cur->value);
-	if (!data->args[i])
+	// printf("CUR NODE: %s=%s\n", mini->env_cur->key, mini->env_cur->value);
+	if (!mini->ex->cur_cmd->args[i])
 	{
-		new_env = env_cpy(data->mini->env_head);
+		new_env = env_cpy(mini->env_head);
 		sort_env(new_env);
 		print_export(new_env);
 		free_env(&new_env);
 	}
-	while (data->args[i])
+	while (mini->ex->cur_cmd->args[i])
 	{
-		if (!ft_isalpha(data->args[i][0]))
+		if (!ft_isalpha(mini->ex->cur_cmd->args[i][0]))
 			printf("bbyshell: export: %s : not a valid identifier\n",
-				data->args[i]);
+				mini->ex->cur_cmd->args[i]);
 		else
 		{
-			printf("hauria d'afegir %s\n", data->args[i]);
-			append_env_node(&data->mini->env_head, &data->mini->env_cur,
-				data->args[i]);
-			printf("CUR NODE: %s=%s\n", data->mini->env_cur->key,
-				data->mini->env_cur->value);
+			// printf("hauria d'afegir %s\n", mini->ex->cur_cmd->args[i]);
+			append_env_node(&mini->env_head, &mini->env_cur,
+				mini->ex->cur_cmd->args[i]);
+			// printf("CUR NODE: %s=%s\n", mini->env_cur->key,
+			// mini->env_cur->value);
 		}
 		i++;
 	}
