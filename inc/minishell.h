@@ -144,7 +144,7 @@ void							open_files(char *file_in, char *file_out,
 void							my_close(int fd1, int fd2, char *msg);
 int								redirect(t_mini *mini);
 int								my_execve(t_mini *mini);
-int								(*get_builtin_ft(t_mini *mini))(t_mini *);
+int (*get_builtin_ft(t_mini *mini))(t_mini *);
 
 /*============ BUILT-INS ==============*/
 int								my_echo(t_mini *mini);
@@ -159,6 +159,7 @@ void							sort_env(t_env *head);
 t_env							*env_cpy(t_env *head);
 int								append_env_node(t_env **head, t_env **cur,
 									char *content);
+int								check_env_variable(t_env *head, char *key);
 
 /*============= CLEANUP ================*/
 void							fatal_error(t_mini *mini, char *msg,

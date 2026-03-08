@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:32:20 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/07 17:52:22 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/08 18:54:29 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ t_env	*create_node(char *key, char *value)
 	if (!new)
 		return (NULL);
 	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
+	if (value)
+		new->value = ft_strdup(value);
+	else
+		new->value = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -77,7 +80,8 @@ void	free_env_list(t_env *head)
 		temp = head;
 		head = head->next;
 		free(temp->key);
-		free(temp->value);
+		if (temp->value)
+			free(temp->value);
 		free(temp);
 	}
 }

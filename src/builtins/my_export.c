@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/08 12:54:17 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/08 17:57:02 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,59 @@ void	print_export(t_env *env)
 	if (!env)
 		return ;
 	cur = env;
-	while (cur->next)
+	while (cur)
 	{
 		printf("declare -x %s", cur->key);
 		if (cur->value)
-			printf("=\"%s\"\n", cur->value);
+			printf("=\"%s\"", cur->value);
+		printf("\n");
 		cur = cur->next;
 	}
+}
+int	export_value(t_mini *mini, char **ag, char *limit, char *key)
+{
+	int		i;
+	char	*value;
+
+	i = 1;
+	while (ag[i])
+	{
+		if (!ft_isalpha(ag[i][0]))
+		{
+			printf("bbyshell: export: %s : not a valid identifier\n", ag[i]);
+			return (ERROR);
+		}
+		else
+		{
+			limit = (char *)ft_strchr(ag[i], '=');
+			key = ft_substr(ag[i], 0, limit - ag[i]);
+			if (limit)
+				value = ft_strdup(limit + 1);
+			if (check_env_variable(mini->env_head, key))
+				update_env_value(mini->env_head, key, value);
+			else
+				append_env_node(&mini->env_head, &mini->env_cur, ag[i]);
+		}
+		i++;
+	}
+	return (0);
 }
 
 int	my_export(t_mini *mini)
 {
 	t_env	*new_env;
-	int		i;
+	char	*limit;
+	char	*key;
 
-	i = 1;
-	// printf("CUR NODE: %s=%s\n", mini->env_cur->key, mini->env_cur->value);
-	if (!mini->ex->cur_cmd->args[i])
+	if (!mini->ex->cur_cmd->args[1])
 	{
 		new_env = env_cpy(mini->env_head);
 		sort_env(new_env);
 		print_export(new_env);
 		free_env(&new_env);
 	}
-	while (mini->ex->cur_cmd->args[i])
-	{
-		if (!ft_isalpha(mini->ex->cur_cmd->args[i][0]))
-			printf("bbyshell: export: %s : not a valid identifier\n",
-				mini->ex->cur_cmd->args[i]);
-		else
-		{
-			// printf("hauria d'afegir %s\n", mini->ex->cur_cmd->args[i]);
-			append_env_node(&mini->env_head, &mini->env_cur,
-				mini->ex->cur_cmd->args[i]);
-			// printf("CUR NODE: %s=%s\n", mini->env_cur->key,
-			// mini->env_cur->value);
-		}
-		i++;
-	}
+	limit = NULL;
+	key = NULL;
+	export_value(mini, mini->ex->cur_cmd->args, limit, key);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/07 18:34:50 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/08 15:46:32 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int ac, char **av, char **env)
 			if (mini.tokens)
 			{
 				mini.cmds = parsing(&mini);
-				print_cmds(mini.cmds);
 				ft_executor(&mini);
 				free_tokens(&mini.tokens);
 				mini.tokens = NULL;
