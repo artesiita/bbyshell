@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/08 12:08:46 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/08 12:47:53 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void		do_childs(t_mini *mini);
 static pid_t	my_fork(t_mini *mini);
 static void		set_cmd_redirs(t_mini *mini);
 static void		my_pipe(t_mini *mini);
-static int		count_cmds(t_cmds *cmds);
 static void		wait_childs(pid_t *childs);
 
 // main functin of the executor section of the Minishell.
@@ -25,17 +24,36 @@ static void		wait_childs(pid_t *childs);
 
 void	ft_executor(t_mini *mini)
 {
+	//printf("compto %i envs\n", ft_lstcount(mini->env_head));
+	//printf("compto %i nuls\n", ft_lstcount(NULL));
+	//printf("compto %i tokens\n", ft_lstcount(mini->tokens));
+	//printf("compto %i cmds\n", ft_lstcount(mini->cmds));
+	
+	// S'hauria de fer quan es munta mini i aprofitar-lo, no anar refent-lo cada cop
 	mini->ex = ft_calloc(1, sizeof(t_executor));
 	if (!mini->ex) // faltarà gestionar l'eror d'això
 		exit(EXIT_FAILURE);
-	mini->ex->childs = ft_calloc(count_cmds(mini->cmds), sizeof(pid_t));
-	if (!mini->ex->childs)
-		exit(EXIT_FAILURE); // faltarà gestionar l'error del malloc
-	mini->ex->fds[OLD_FDS][P_READ] = 1;
-	mini->ex->fds[OLD_FDS][P_WRITE] = -1;
-	do_childs(mini);
-	if (mini->ex->childs && *(mini->ex->childs))
-		wait_childs(mini->ex->childs);
+	mini->ex->cur_cmd = mini->cmds;
+	if (ft_lstcount(mini->cmds) > 1)
+	{
+		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds), sizeof(pid_t));
+		if (!mini->ex->childs)
+			exit(EXIT_FAILURE); // faltarà gestionar l'error del malloc
+		do_childs(mini);
+		if (mini->ex->childs && *(mini->ex->childs))
+			wait_childs(mini->ex->childs);
+		
+	}
+	else
+	{
+		mini->ex->fds[OLD_FDS][P_READ] = STDIN_FILENO;
+		mini->ex->fds[NEW_FDS][P_WRITE] = STDOUT_FILENO;
+		set_cmd_redirs(mini);
+		if (my_execve(mini) == -1)
+		{
+			//Fer clean i exit
+		}
+	}
 	//Aqui falta gestionar millor la neteja de memoria, basicament caldra fer
 		//un free especial per l'struct de executor.
 }
@@ -47,7 +65,8 @@ static void	do_childs(t_mini *mini)
 	int		i;
 
 	i = 0;
-	mini->ex->cur_cmd = mini->cmds;
+	mini->ex->fds[OLD_FDS][P_READ] = 1;
+	mini->ex->fds[OLD_FDS][P_WRITE] = -1;
 	while (mini->ex->cur_cmd)
 	{
 		my_pipe(mini);
@@ -106,12 +125,14 @@ static void	set_cmd_redirs(t_mini *mini)
 	{
 		if (redir->type == R_IN)
 		{
-			close(mini->ex->fds[NEW_FDS][P_READ]);
+			if (mini->ex->fds[NEW_FDS][P_READ] > 2)
+				close(mini->ex->fds[NEW_FDS][P_READ]);
 			mini->ex->fds[NEW_FDS][P_READ] = open(redir->target, O_RDONLY);
 		}
 		else if (redir->type == R_OUT)
 		{
-			close(mini->ex->fds[NEW_FDS][P_WRITE]);
+			if (mini->ex->fds[NEW_FDS][P_WRITE] > 2)
+				close(mini->ex->fds[NEW_FDS][P_WRITE]);
 			mini->ex->fds[NEW_FDS][P_WRITE] = open(redir->target, O_RDONLY);
 		}
 		redir = redir->next;
@@ -137,22 +158,6 @@ static void	my_pipe(t_mini *mini)
 		(mini->ex->fds)[NEW_FDS][P_READ] = -1;
 		(mini->ex->fds)[NEW_FDS][P_WRITE] = 1;
 	}
-}
-
-// Aquesta funcio clarament no va aqui, hi esta temporalment mentre no existeix una
-// funcio recompte generica
-
-static int	count_cmds(t_cmds *cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds)
-	{
-		i++;
-		cmds = cmds->next;
-	}
-	return (i);
 }
 
 // Waits for all the child pid_t processes

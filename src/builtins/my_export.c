@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/07 18:06:32 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/08 12:54:17 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_export(t_env *env)
 	{
 		printf("declare -x %s", cur->key);
 		if (cur->value)
-			printf("=\"%s\"\n", env->value);
+			printf("=\"%s\"\n", cur->value);
 		cur = cur->next;
 	}
 }
