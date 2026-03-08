@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/13 17:29:41 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/08 15:13:21 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,66 +27,58 @@ void	free_str_array(char **array)
 	free(array);
 }
 
-void	free_redirs(t_redir **redirs)
+void	free_redirs(t_redir *redirs)
 {
 	t_redir	*tmp;
 
-	if (!redirs || !*redirs)
-		return ;
-	while (*redirs)
+	while (redirs)
 	{
-		tmp = (*redirs)->next;
-		free((*redirs)->target);
-		free(*redirs);
-		*redirs = tmp;
+		tmp = redirs->next;
+		free(redirs->target);
+		free(redirs);
+		redirs = tmp;
 	}
 }
 
-void	free_commands(t_cmds **cmds)
+void	free_commands(t_cmds *cmds)
 {
 	t_cmds	*tmp;
 
-	if (!cmds || !*cmds)
-		return ;
-	while (*cmds)
+	while (cmds)
 	{
-		tmp = (*cmds)->next;
-		free_str_array((*cmds)->args);
-		if ((*cmds)->redirs)
-			free_redirs(&(*cmds)->redirs);
-		free(*cmds);
-		*cmds = tmp;
+		tmp = cmds->next;
+		free_str_array(cmds->args);
+		if (cmds->redirs)
+			free_redirs(cmds->redirs);
+		free(cmds);
+		cmds = tmp;
 	}
 }
 
-void	free_env(t_env **env)
+void	free_env(t_env *env)
 {
 	t_env	*tmp;
 
-	if (!env || !*env)
-		return ;
-	while (*env)
+	while (env)
 	{
-		tmp = (*env)->next;
-		free((*env)->key);
-		free((*env)->value);
-		free(*env);
-		*env = tmp;
+		tmp = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = tmp;
 	}
 }
 
-void	free_tokens(t_token **head)
+void	free_tokens(t_token *head)
 {
 	t_token	*temp;
 
-	if (!head || !*head)
-		return ;
-	while (*head)
+	while (head)
 	{
-		temp = (*head)->next;
-		if ((*head)->content)
-			free((*head)->content);
-		free(*head);
-		*head = temp;
+		temp = head->next;
+		if (head->content)
+			free(head->content);
+		free(head);
+		head = temp;
 	}
 }

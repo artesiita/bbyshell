@@ -164,10 +164,10 @@ int								append_env_node(t_env **head, t_env **cur,
 void							fatal_error(t_mini *mini, char *msg,
 									int status);
 void							free_everything(t_mini *mini);
-void							free_tokens(t_token **head);
-void							free_env(t_env **env);
-void							free_commands(t_cmds **cmds);
-void							free_redirs(t_redir **redirs);
+void							free_tokens(t_token *head);
+void							free_env(t_env *env);
+void							free_commands(t_cmds *cmds);
+void							free_redirs(t_redir *redirs);
 void							free_str_array(char **array);
 
 /*============= PROVES ================*/

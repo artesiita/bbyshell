@@ -6,38 +6,28 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/08 13:03:49 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/08 16:24:10 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-// Helper function for get_path to manage the error handling.
-
-static char	*set_error(int *my_errno, char *msg, char **msg_add)
-{
-	*my_errno = errno;
-	*msg_add = msg;
-	return (NULL);
-}
-
 // Gets the path (if valid one) of the cmd of the child.
 // Manages errors to allow load_data print the correct error info.
 
-static char	*get_path(char *cmd, t_env *env, int *my_errno, char **msg_add)
+static char	*get_path(char *cmd, t_env *env)
 {
 	int		i;
 	char	**paths;
 	char	*this_path;
-	t_env	*my_env;
 
-	my_env = env;
-	while (my_env && !(ft_streq(my_env->key, "PATH")))
-		my_env = my_env->next;
-	if (my_env)
-		paths = ft_split(my_env->value, ':');
-	if (!my_env || !paths)
-		return (set_error(my_errno, "env PATH not found\n", msg_add));
+	if (ft_strchr(cmd, '/') && access(cmd, X_OK) == 0)
+		return (cmd);
+	if (ft_strchr(cmd, '/'))
+		return (NULL);
+	paths = ft_split(get_env_value("PATH", env), ':');
+	if (!paths)
+		return (NULL);
 	i = -1;
 	while (paths[++i])
 	{
@@ -50,7 +40,7 @@ static char	*get_path(char *cmd, t_env *env, int *my_errno, char **msg_add)
 		free(this_path);
 	}
 	ft_free_array(paths);
-	return (set_error(my_errno, "command not found", msg_add));
+	return (NULL);
 }
 
 int (*get_builtin_ft(t_mini *mini))(t_mini *)
@@ -105,18 +95,18 @@ static char	**env_compile(t_env *env_list)
 int	my_execve(t_mini *mini)
 {
 	int		(*builtin_ft)(t_mini *);
-	int		my_errno;
-	char	*msg;
 	char	*path;
 
+	printf("executant des del procés %i\n", getpid());
 	builtin_ft = get_builtin_ft(mini);
 	if (builtin_ft)
 		return (builtin_ft(mini));
-	path = get_path(mini->ex->cur_cmd->args[0], mini->env_head, &my_errno,
-			&msg);
+	path = get_path(mini->ex->cur_cmd->args[0], mini->env_head);
+	printf("amb el path: %s\n", path);
 	if (!path)
 	{
-		// Fer free i gestionar el tema dels error message
+		perror(mini->ex->cur_cmd->args[0]);
+		return (0);
 	}
 	return (execve(path, mini->ex->cur_cmd->args, env_compile(mini->env_head)));
 }
