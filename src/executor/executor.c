@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/08 12:47:53 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/08 13:17:40 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_executor(t_mini *mini)
 	if (!mini->ex) // faltarà gestionar l'eror d'això
 		exit(EXIT_FAILURE);
 	mini->ex->cur_cmd = mini->cmds;
-	if (ft_lstcount(mini->cmds) > 1)
+	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
 	{
 		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds), sizeof(pid_t));
 		if (!mini->ex->childs)
@@ -42,7 +42,6 @@ void	ft_executor(t_mini *mini)
 		do_childs(mini);
 		if (mini->ex->childs && *(mini->ex->childs))
 			wait_childs(mini->ex->childs);
-		
 	}
 	else
 	{

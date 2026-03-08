@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:53:23 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/07 18:29:40 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/08 13:16:46 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,20 @@ int	change_directory(t_mini *mini, char *old_path, char **args)
 	char	*path;
 
 	if (args[1][0] == '-' && args[1][1] == '\0')
-	{
+	{	
 		path = get_env_value("OLDPWD", mini->env_head);
 		if (!path)
 		{
 			printf("cd: OLDPWD not set");
 			return (ERROR);
 		}
+		if (chdir(path) == -1)
+			return (perror("cd"), ERROR);
 	}
 	else
 	{
 		if (chdir(args[1]) == -1)
-		{
-			perror("cd");
-			return (ERROR);
-		}
+			return (perror("cd"), ERROR);
 		cur_path = getcwd(NULL, 0);
 		update_env_value(mini->env_head, "PWD", cur_path);
 		update_env_value(mini->env_head, "OLDPWD", old_path);

@@ -144,6 +144,7 @@ void							open_files(char *file_in, char *file_out,
 void							my_close(int fd1, int fd2, char *msg);
 int								redirect(t_mini *mini);
 int								my_execve(t_mini *mini);
+int								(*get_builtin_ft(t_mini *mini))(t_mini *);
 
 /*============ BUILT-INS ==============*/
 int								my_echo(t_mini *mini);
