@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/08 16:24:10 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/08 18:20:09 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,10 @@ int	my_execve(t_mini *mini)
 	int		(*builtin_ft)(t_mini *);
 	char	*path;
 
-	printf("executant des del procés %i\n", getpid());
 	builtin_ft = get_builtin_ft(mini);
 	if (builtin_ft)
 		return (builtin_ft(mini));
 	path = get_path(mini->ex->cur_cmd->args[0], mini->env_head);
-	printf("amb el path: %s\n", path);
 	if (!path)
 	{
 		perror(mini->ex->cur_cmd->args[0]);
