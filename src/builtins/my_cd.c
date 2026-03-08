@@ -22,7 +22,7 @@ int	change_directory(t_mini *mini, char *old_path, char **args)
 		path = get_env_value("OLDPWD", mini->env_head);
 		if (!path)
 		{
-			printf("cd: OLDPWD not set");
+			printf("cd: OLDPWD not set\n");
 			return (ERROR);
 		}
 	}

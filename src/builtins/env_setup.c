@@ -55,9 +55,17 @@ int	append_env_node(t_env **head, t_env **cur, char *content)
 int	env_setup(t_mini *mini, char **env)
 {
 	int	i;
+	//t_env	*new;
 
+	/*
 	if (!env || !*env)
-		return (0);
+	{
+		new = (t_env *)malloc(sizeof(t_env));
+			if (!new)
+				return (0);
+		new = NULL;
+
+	}*/
 	mini->env_head = NULL;
 	mini->env_cur = NULL;
 	i = 0;
@@ -70,10 +78,11 @@ int	env_setup(t_mini *mini, char **env)
 			i++;
 		}
 	}
+	/*
 	else
 	{
 		if (!append_env_node(&mini->env_head, &mini->env_cur, ""))
 			return (free_env_list(mini->env_head), 0);
-	}
+	}*/
 	return (1);
 }
