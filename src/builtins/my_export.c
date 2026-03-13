@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/08 17:57:02 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/13 14:53:53 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	export_value(t_mini *mini, char **ag, char *limit, char *key)
 		}
 		i++;
 	}
+	free(key);
+	free(value);
 	return (0);
 }
 
