@@ -35,6 +35,7 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(line);
 			mini.tokens = lexer(line);
+			print_tokens(mini.tokens);
 			if (mini.tokens)
 			{
 				mini.cmds = parsing(&mini);
