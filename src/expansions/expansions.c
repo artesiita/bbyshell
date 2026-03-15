@@ -1,65 +1,62 @@
 
 #include "../../inc/minishell.h"
 
-void    expand_variable(char *str, int start)
+char	*get_variable(char *str, int dollar, t_mini *mini)
 {
-    int     end;
-    char    *var;
-    int     var_len;
-    int     i;
+	char	*prefix;
+	char	*sufix;
+	char	*key;
+	char	*variable;
+	int		variable_len;
 
-    start++;
-    if (str[start] == ' ')
-        return ;
-    end = start;
-    while (str[end] != ' ' ||  str[end] != '\0')
-        end++;
-    var_len = end - start;
-    var = malloc(sizeof(char) * var_len + 1);
-    if (!var)
-    {
-        //gestionar malloc error
-    }
-    i = 0;
-    while (var[i])
-    {
-        var[i] = str[start + i];
-        i++;
-    }
-
+	variable_len = 0;
+	prefix = ft_substr(str, 0, dollar);
+	dollar++;
+	while (str[dollar] != ' ' && str[dollar] != '\0')
+		variable_len++;
+	key = ft_substr(str, dollar, variable_len);
+	sufix = ft_substr(str, dollar + variable_len, ft_strlen(prefix)
+			+ ft_strlen(key));
+	variable = get_env_value(key, mini->env_head);
+	str = ft_strjoins(prefix, variable, sufix);
 }
 
-void    expand_content(t_token *token)
+int	expand_double_quoted(t_token *token)
 {
-    int i;
+	char	*prefix;
+	char	*variable;
+	char	*sufix;
+	int		i;
 
-    i = 0;
-    while (token->content[i])
-    {
-        if (token->content[i] == '$')
-        {
-            if (token->content[i + 1] == '?')
-                expand_last_error(token->content);
-            else
-                expand_variable(token->content, i);
-        }
-        i++;
-    }
+	i = 0;
+	while (token->content[i])
+	{
+		if (token->content[i] == '$')
+	}
 }
 
-int     expansions(t_mini *mini)
+int	expansions(t_mini *mini)
 {
-    t_token     *cur;
-    int         i;
+	t_token *cur;
 
-    cur = mini->tokens;
-    if (!cur)
-        return (ERROR);
-    while (cur)
-    {
-        if (cur->type != Q_SINGLE)
-            expand_content(cur);
-        cur = cur->next;
-    }
-    return (0);
+	cur = mini->tokens;
+	if (!cur)
+		return (ERROR);
+	while (cur)
+	{
+		if (cur->type == T_WORD && cur->quote != Q_SINGLE
+			&& ft_strchr(cur->content, '$'))
+		{
+			if (cur->quote == Q_DOUBLE)
+				expand_double_quoted(cur);
+			else
+				cur = expand_non_quoted(cur, mini);
+		}
+		else if (cur->type == T_WORD && (cur->quote == Q_SINGLE
+				|| cur->quote == Q_DOUBLE))
+			remove_quotes(cur);
+		else
+			cur = cur->next;
+	}
+	return (0);
 }
