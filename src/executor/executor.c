@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/08 16:47:04 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/20 21:42:00 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ static void		wait_childs(pid_t *childs);
 
 void	ft_executor(t_mini *mini)
 {
-	// S'hauria de fer quan es munta mini i aprofitar-lo, no anar refent-lo cada cop
-	mini->ex = ft_calloc(1, sizeof(t_executor));
-	if (!mini->ex) // faltarà gestionar l'eror d'això
-		exit(EXIT_FAILURE);
 	mini->ex->cur_cmd = mini->cmds;
 	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
 	{
@@ -43,6 +39,11 @@ void	ft_executor(t_mini *mini)
 		mini->ex->fds[OLD_FDS][P_READ] = STDIN_FILENO;
 		mini->ex->fds[NEW_FDS][P_WRITE] = STDOUT_FILENO;
 		set_cmd_redirs(mini);
+		if(!redirect(mini))
+		{
+			//NO ESTIC SEGUR QUE AIXÒ TINGUI SENTIT AQUÍ
+			//Gestionar l'error de dup2 (clean i exit) (no feia close)
+		}
 		if (my_execve(mini) == -1)
 		{
 			//Fer clean i exit
@@ -119,15 +120,15 @@ static void	set_cmd_redirs(t_mini *mini)
 	{
 		if (redir->type == R_IN)
 		{
-			if (mini->ex->fds[NEW_FDS][P_READ] > 2)
-				close(mini->ex->fds[NEW_FDS][P_READ]);
-			mini->ex->fds[NEW_FDS][P_READ] = open(redir->target, O_RDONLY);
+			if (mini->ex->fds[OLD_FDS][P_READ] > 2)
+				close(mini->ex->fds[OLD_FDS][P_READ]);
+			mini->ex->fds[OLD_FDS][P_READ] = open(redir->target, O_RDONLY);
 		}
 		else if (redir->type == R_OUT)
 		{
 			if (mini->ex->fds[NEW_FDS][P_WRITE] > 2)
 				close(mini->ex->fds[NEW_FDS][P_WRITE]);
-			mini->ex->fds[NEW_FDS][P_WRITE] = open(redir->target, O_RDONLY);
+			mini->ex->fds[NEW_FDS][P_WRITE] = open(redir->target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
 		redir = redir->next;
 	}
