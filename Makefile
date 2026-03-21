@@ -7,6 +7,8 @@ SRC = src/main.c \
 		src/lexer/lexer.c \
 		src/parser/parser_utils.c \
 		src/parser/parser.c \
+		src/expansions/expansions.c \
+		src/expansions/expansions_utils.c \
 		src/proves.c
 
 ######  EXECUTOR FILES:
@@ -48,7 +50,7 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 DEP = $(SRC:%.c=$(OBJ_DIR)/%.d)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CCFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 LDFLAGS = -lreadline
 
 all: libft $(NAME)
