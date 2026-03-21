@@ -77,29 +77,43 @@ void	expand_double_quoted(t_mini *mini, t_token *token)
 			i++;
 	}
 }
+void		quote_flag(char *content, int *q_ctx, int i)
+{
+		if (content[i] == '\'' && *q_ctx == 0)
+			*q_ctx = 1;
+		else if (content[i] == '\"' && *q_ctx == 0)
+			*q_ctx = 2;
+		else if ((content[i] == '\'' && *q_ctx == 1) || 
+                 (content[i] == '\"' && *q_ctx == 2))
+			*q_ctx = 0;
+}
+
 
 void	expand_non_quoted(t_mini *mini, t_token *tok)
 {
-	int		i;
-	int		q;
-	char	*tmp;
+	int	i;
+	int	q_ctx;
 
 	i = 0;
-	q = 0;
+	q_ctx = 0;
 	while (tok->content && tok->content[i])
 	{
-		if (tok->content[i] == '\"')
-			q++;
-		if (tok->content[i] == '$' && tok->content[i + 1] != ' ' 
-			&& tok->content[i + 1] != '\0')
+		quote_flag(tok->content, &q_ctx, i);
+		if (tok->content[i] == '$' && q_ctx != 1 && tok->content[i + 1])
 		{
-			tmp = tok->content;
-			if (q % 2 != 0)
-				tok->content = get_variable(mini, tmp, &i, i + 1);
+			if (tok->content[i + 1] == ' ' || tok->content[i + 1] == '\0')
+			{
+				i++;
+				continue ;
+			}
+			if (q_ctx == 0)
+				expand_to_tokens(mini, tok, &i, i + 1); 
 			else
-				expand_to_tokens(mini, tok, &i, i + 1);
-			if (q % 2 != 0)
-				free(tmp);
+			{
+				char *old = tok->content;
+				tok->content = expand_to_str(mini, tok->content, &i, i + 1);
+				free(old);
+			}
 		}
 		else
 			i++;
@@ -109,7 +123,7 @@ void	expand_non_quoted(t_mini *mini, t_token *tok)
 int	expansions(t_mini *mini)
 {
 	t_token	*cur;
-	char	*tmp;
+	char	*clean_content;
 
 	cur = mini->tokens;
 	while (cur)
@@ -123,9 +137,9 @@ int	expansions(t_mini *mini)
 		}
 		if (cur->type == T_WORD)
 		{
-			tmp = cur->content;
-			cur->content = remove_quotes(tmp);
-			free(tmp);
+			clean_content = remove_quotes(cur->content);
+			free(cur->content);
+			cur->content = clean_content;
 		}
 		cur = cur->next;
 	}

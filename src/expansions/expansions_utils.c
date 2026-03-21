@@ -26,7 +26,8 @@ void	split_to_tokens(t_token *tok, t_expan *expan)
 	next_save = tok->next;
 	if (!split || !split[0])
 		return (free(tok->content), tok->content = ft_strjoin(expan->pre, expan->suf), (void)free_split(split));
-	free(tok->content);
+	if(tok->content)
+    	free(tok->content);
 	tok->content = ft_strjoin(expan->pre, split[0]);
 	i = 0;
 	while (split[++i])
