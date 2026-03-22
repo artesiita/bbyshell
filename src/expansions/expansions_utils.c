@@ -39,10 +39,9 @@ void	split_to_tokens(t_mini *mini, t_token *tok, t_expan *expan)
 	}
 	expan->tmp = tok->content;
 	tok->content = ft_strjoin(expan->tmp, expan->suf);
-	free(expan->tmp);
-	free_split(split);
-	expand_non_quoted(mini, tok, ft_strlen(tok->content)
+	filter_expansion(mini, tok, ft_strlen(tok->content)
 		- ft_strlen(expan->suf));
+	return ((free(expan->tmp)), (void)free_split(split));
 }
 
 char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i)

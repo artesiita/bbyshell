@@ -142,7 +142,7 @@ t_token							*lexer(char *input);
 
 /*============= EXPANSIONS ================*/
 int								expansions(t_mini *mini);
-void							expand_non_quoted(t_mini *mini, t_token *tok,
+void							filter_expansion(t_mini *mini, t_token *tok,
 									int i);
 void							expand_double_quoted(t_mini *mini,
 									t_token *token);
