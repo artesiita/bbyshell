@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42barcelon      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:06:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/22 13:07:01 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/22 13:17:59 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	filter_expansion(t_mini *mini, t_token *tok, int i)
 	{
 		quote_flag(tok->content, &q_ctx, i);
 		if (tok->content[i] == '$' && q_ctx != 1 && tok->content[i + 1]
-			&& tok->content[i + 1] != ' ')
+			&& (ft_isalnum(tok->content[i + 1]) || tok->content[i + 1] == '_'
+				|| tok->content[i + 1] == '?'))
 		{
 			if (q_ctx == 0)
 				expand_to_tokens(mini, tok, &i, i + 1);
