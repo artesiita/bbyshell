@@ -69,14 +69,14 @@ typedef enum e_redir_type
 	R_HEREDOC = 13 /* << */
 }								t_redir_type;
 
-typedef struct	s_expan
+typedef struct s_expan
 {
-	char	*pre;
-	char	*val;
-	char	*suf;
-	char	*tmp;
-	char	*res;
-} t_expan;
+	char						*pre;
+	char						*val;
+	char						*suf;
+	char						*tmp;
+	char						*res;
+}								t_expan;
 
 typedef struct s_redir
 {
@@ -127,10 +127,11 @@ typedef struct s_mini
 /*-----------------------------------------------------------------*/
 
 /*============= ENV ================*/
-int		env_setup(t_mini *mini, char **env);
-void	free_env_list(t_env *head);
-char	*get_env_value(char *key, t_env *env);
-void	update_env_value(t_env *env, char *key, char *new_value);
+int								env_setup(t_mini *mini, char **env);
+void							free_env_list(t_env *head);
+char							*get_env_value(char *key, t_env *env);
+void							update_env_value(t_env *env, char *key,
+									char *new_value);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);
@@ -140,11 +141,15 @@ void							add_token(t_token **head, char *content,
 t_token							*lexer(char *input);
 
 /*============= EXPANSIONS ================*/
-int	expansions(t_mini *mini);
-void	expand_non_quoted(t_mini *mini, t_token *tok);
-void	expand_double_quoted(t_mini *mini, t_token *token);
-char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i);
-void    expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i);
+int								expansions(t_mini *mini);
+void							expand_non_quoted(t_mini *mini, t_token *tok,
+									int i);
+void							expand_double_quoted(t_mini *mini,
+									t_token *token);
+char							*expand_to_str(t_mini *mini, char *str,
+									int *dollar_idx, int i);
+void							expand_to_tokens(t_mini *mini, t_token *token,
+									int *dollar_idx, int i);
 
 /*============= PARSER ================*/
 t_cmds							*parsing(t_mini *mini);

@@ -1,6 +1,5 @@
 #include "../../inc/minishell.h"
 
-
 t_token	*tokenize(char *content)
 {
 	t_token	*new;
@@ -15,7 +14,7 @@ t_token	*tokenize(char *content)
 	return (new);
 }
 
-void	split_to_tokens(t_token *tok, t_expan *expan)
+void	split_to_tokens(t_mini *mini, t_token *tok, t_expan *expan)
 {
 	char	**split;
 	t_token	*next_save;
@@ -25,9 +24,10 @@ void	split_to_tokens(t_token *tok, t_expan *expan)
 	split = ft_split(expan->val, ' ');
 	next_save = tok->next;
 	if (!split || !split[0])
-		return (free(tok->content), tok->content = ft_strjoin(expan->pre, expan->suf), (void)free_split(split));
-	if(tok->content)
-    	free(tok->content);
+		return (free(tok->content), tok->content = ft_strjoin(expan->pre,
+				expan->suf), (void)free_split(split));
+	if (tok->content)
+		free(tok->content);
 	tok->content = ft_strjoin(expan->pre, split[0]);
 	i = 0;
 	while (split[++i])
@@ -41,11 +41,13 @@ void	split_to_tokens(t_token *tok, t_expan *expan)
 	tok->content = ft_strjoin(expan->tmp, expan->suf);
 	free(expan->tmp);
 	free_split(split);
+	expand_non_quoted(mini, tok, ft_strlen(tok->content)
+		- ft_strlen(expan->suf));
 }
 
 char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i)
 {
-	t_expan expan;
+	t_expan	expan;
 
 	expan.pre = ft_substr(str, 0, *dollar_idx);
 	if (str[*dollar_idx + 1] == '?')
@@ -69,12 +71,13 @@ char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i)
 	expan.tmp = ft_strjoin(expan.pre, expan.val);
 	expan.res = ft_strjoin(expan.tmp, expan.suf);
 	*dollar_idx = ft_strlen(expan.pre) + ft_strlen(expan.val);
-	return (free(expan.pre), free(expan.val), free(expan.suf), free(expan.tmp), expan.res);
+	return (free(expan.pre), free(expan.val), free(expan.suf), free(expan.tmp),
+		expan.res);
 }
 
-void    expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
+void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
 {
-    t_expan expan;
+	t_expan	expan;
 
 	expan.pre = ft_substr(token->content, 0, *dollar_idx);
 	if (token->content[*dollar_idx + 1] == '?')
@@ -84,9 +87,11 @@ void    expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
 	}
 	else
 	{
-		while (token->content[i] && (ft_isalnum(token->content[i]) || token->content[i] == '_'))
+		while (token->content[i] && (ft_isalnum(token->content[i])
+				|| token->content[i] == '_'))
 			i++;
-		expan.tmp = ft_substr(token->content, *dollar_idx + 1, i - (*dollar_idx + 1));
+		expan.tmp = ft_substr(token->content, *dollar_idx + 1, i - (*dollar_idx
+					+ 1));
 		expan.val = get_env_value(expan.tmp, mini->env_head);
 		if (!expan.val)
 			expan.val = ft_strdup("");
@@ -95,7 +100,7 @@ void    expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
 		free(expan.tmp);
 	}
 	expan.suf = ft_strdup(&token->content[i]);
-	split_to_tokens(token, &expan);
+	split_to_tokens(mini, token, &expan);
 	*dollar_idx = ft_strlen(token->content);
 	return (free(expan.pre), free(expan.val), free(expan.suf), (void)0);
 }

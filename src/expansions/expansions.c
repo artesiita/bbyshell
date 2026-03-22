@@ -30,35 +30,6 @@ char	*remove_quotes(char *str)
 	return (new);
 }
 
-char	*get_variable(t_mini *mini, char *str, int *dollar_idx, int i)
-{
-	t_expan	e;
-
-	e.pre = ft_substr(str, 0, *dollar_idx);
-	if (str[*dollar_idx + 1] == '?')
-	{
-		e.val = ft_itoa(mini->exit_status);
-		i = *dollar_idx + 2;
-	}
-	else
-	{
-		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-			i++;
-		e.tmp = ft_substr(str, *dollar_idx + 1, i - (*dollar_idx + 1));
-		e.val = get_env_value(e.tmp, mini->env_head);
-		if (!e.val)
-			e.val = ft_strdup("");
-		else
-			e.val = ft_strdup(e.val);
-		free(e.tmp);
-	}
-	e.suf = ft_strdup(&str[i]);
-	e.tmp = ft_strjoin(e.pre, e.val);
-	e.res = ft_strjoin(e.tmp, e.suf);
-	*dollar_idx = ft_strlen(e.pre) + ft_strlen(e.val);
-	return (free(e.pre), free(e.val), free(e.suf), free(e.tmp), e.res);
-}
-
 void	expand_double_quoted(t_mini *mini, t_token *token)
 {
 	int		i;
@@ -67,7 +38,8 @@ void	expand_double_quoted(t_mini *mini, t_token *token)
 	i = 0;
 	while (token->content[i])
 	{
-		if (token->content[i] == '$' && (token->content[i + 1] != ' ' && token->content[i + 1] != '\0'))
+		if (token->content[i] == '$' && (token->content[i + 1] != ' '
+				&& token->content[i + 1] != '\0'))
 		{
 			old_str = token->content;
 			token->content = expand_to_str(mini, token->content, &i, i + 1);
@@ -77,24 +49,22 @@ void	expand_double_quoted(t_mini *mini, t_token *token)
 			i++;
 	}
 }
-void		quote_flag(char *content, int *q_ctx, int i)
+void	quote_flag(char *content, int *q_ctx, int i)
 {
-		if (content[i] == '\'' && *q_ctx == 0)
-			*q_ctx = 1;
-		else if (content[i] == '\"' && *q_ctx == 0)
-			*q_ctx = 2;
-		else if ((content[i] == '\'' && *q_ctx == 1) || 
-                 (content[i] == '\"' && *q_ctx == 2))
-			*q_ctx = 0;
+	if (content[i] == '\'' && *q_ctx == 0)
+		*q_ctx = 1;
+	else if (content[i] == '\"' && *q_ctx == 0)
+		*q_ctx = 2;
+	else if ((content[i] == '\'' && *q_ctx == 1) || (content[i] == '\"'
+			&& *q_ctx == 2))
+		*q_ctx = 0;
 }
 
-
-void	expand_non_quoted(t_mini *mini, t_token *tok)
+void	expand_non_quoted(t_mini *mini, t_token *tok, int i)
 {
-	int	i;
-	int	q_ctx;
+	int		q_ctx;
+	char	*old;
 
-	i = 0;
 	q_ctx = 0;
 	while (tok->content && tok->content[i])
 	{
@@ -107,10 +77,10 @@ void	expand_non_quoted(t_mini *mini, t_token *tok)
 				continue ;
 			}
 			if (q_ctx == 0)
-				expand_to_tokens(mini, tok, &i, i + 1); 
+				expand_to_tokens(mini, tok, &i, i + 1);
 			else
 			{
-				char *old = tok->content;
+				old = tok->content;
 				tok->content = expand_to_str(mini, tok->content, &i, i + 1);
 				free(old);
 			}
@@ -122,8 +92,8 @@ void	expand_non_quoted(t_mini *mini, t_token *tok)
 
 int	expansions(t_mini *mini)
 {
-	t_token	*cur;
-	char	*clean_content;
+	t_token *cur;
+	char *clean_content;
 
 	cur = mini->tokens;
 	while (cur)
@@ -133,7 +103,7 @@ int	expansions(t_mini *mini)
 			if (cur->quote == Q_DOUBLE)
 				expand_double_quoted(mini, cur);
 			else
-				expand_non_quoted(mini, cur);
+				expand_non_quoted(mini, cur, 0);
 		}
 		if (cur->type == T_WORD)
 		{
