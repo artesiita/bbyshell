@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/20 21:42:00 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/22 14:53:42 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,13 @@ static void	set_cmd_redirs(t_mini *mini)
 			if (mini->ex->fds[NEW_FDS][P_WRITE] > 2)
 				close(mini->ex->fds[NEW_FDS][P_WRITE]);
 			mini->ex->fds[NEW_FDS][P_WRITE] = open(redir->target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
+		else if (redir->type == R_HEREDOC)
+		{
+			if (mini->ex->fds[OLD_FDS][P_READ] > 2)
+				close(mini->ex->fds[OLD_FDS][P_READ]);
+			mini->ex->fds[OLD_FDS][P_READ] = 1;
+			set_heredoc(mini; redir->target);
 		}
 		redir = redir->next;
 	}

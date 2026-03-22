@@ -85,11 +85,25 @@ typedef struct s_cmds
 
 /*============= EXECUTOR ===============*/
 
+typedef struct	s_hd_data
+{
+	struct s_hd_data			*next;
+	char						line;
+}								*t_hd_data;
+
+typedef struct s_hedoc
+{
+	struct s_hedoc				*next;
+	int							fd;
+	t_hd_data					*data;
+}								t_hedoc;
+
 typedef struct s_executor
 {
 	pid_t						*childs;
 	int							fds[2][2];
 	t_cmds						*cur_cmd;
+	t_hedoc						*hedocs;
 }								t_executor;
 
 /*============= GLOBAL ================*/
