@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lartes-s <lartes-s@student.42barcelon      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/22 13:06:57 by lartes-s          #+#    #+#             */
+/*   Updated: 2026/03/22 13:07:01 by lartes-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
@@ -50,13 +61,9 @@ void	filter_expansion(t_mini *mini, t_token *tok, int i)
 	while (tok->content && tok->content[i])
 	{
 		quote_flag(tok->content, &q_ctx, i);
-		if (tok->content[i] == '$' && q_ctx != 1 && tok->content[i + 1])
+		if (tok->content[i] == '$' && q_ctx != 1 && tok->content[i + 1]
+			&& tok->content[i + 1] != ' ')
 		{
-			if (tok->content[i + 1] == ' ' || tok->content[i + 1] == '\0')
-			{
-				i++;
-				continue ;
-			}
 			if (q_ctx == 0)
 				expand_to_tokens(mini, tok, &i, i + 1);
 			else
@@ -73,8 +80,8 @@ void	filter_expansion(t_mini *mini, t_token *tok, int i)
 
 int	expansions(t_mini *mini)
 {
-	t_token *cur;
-	char *clean_content;
+	t_token	*cur;
+	char	*clean_content;
 
 	cur = mini->tokens;
 	while (cur)
