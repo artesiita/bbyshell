@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/08 15:14:10 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:18:22 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static int	load_mini(t_mini *mini, t_executor *ex, char **env)
 	if (!env_setup(mini, env))
 		return (0);
 	mini->ex = ex;
+	mini->ex->hedocs = NULL;
 	mini->tokens = NULL;
 	mini->cmds = NULL;
 	mini->exit_status = 0;

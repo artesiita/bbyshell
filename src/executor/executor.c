@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/22 14:53:42 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/03/22 20:26:26 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void		do_childs(t_mini *mini);
 static pid_t	my_fork(t_mini *mini);
 static void		set_cmd_redirs(t_mini *mini);
 static void		my_pipe(t_mini *mini);
-static void		wait_childs(pid_t *childs);
 
 // main functin of the executor section of the Minishell.
 // Receives a full mini with a parsed input, executes the correct commands,
@@ -64,7 +63,9 @@ static void	do_childs(t_mini *mini)
 	mini->ex->fds[OLD_FDS][P_WRITE] = -1;
 	while (mini->ex->cur_cmd)
 	{
+		printf("flag 1, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
 		my_pipe(mini);
+		printf("flag 2, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
 		mini->ex->childs[i] = my_fork(mini);
 		if (mini->ex->childs[i++] == -1)
 		{
@@ -94,14 +95,18 @@ static pid_t	my_fork(t_mini *mini)
 		my_close(mini->ex->fds[OLD_FDS][P_WRITE], mini->ex->fds[NEW_FDS][P_READ],
 			"close in child pre execve");
 		set_cmd_redirs(mini);
+		printf("flag 4, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
 		if(!redirect(mini))
 		{
 			//Gestionar l'error de dup2 (clean i exit) (no feia close)
 		}
+		dump_heredoc(mini);
+		printf("pare ha tornat post dump_heredoc\n");
 		if (my_execve(mini) == -1)
 		{
 			//Fer clean i exit
 		}
+		printf("pel pare ja hem acabat execve\n");
 		my_close(mini->ex->fds[OLD_FDS][P_READ], mini->ex->fds[NEW_FDS][P_WRITE],
 			 "close in child afer execve");
 		exit(EXIT_SUCCESS);
@@ -119,24 +124,13 @@ static void	set_cmd_redirs(t_mini *mini)
 	while (redir)
 	{
 		if (redir->type == R_IN)
-		{
-			if (mini->ex->fds[OLD_FDS][P_READ] > 2)
-				close(mini->ex->fds[OLD_FDS][P_READ]);
-			mini->ex->fds[OLD_FDS][P_READ] = open(redir->target, O_RDONLY);
-		}
+			ft_redir_in(mini, redir);
 		else if (redir->type == R_OUT)
-		{
-			if (mini->ex->fds[NEW_FDS][P_WRITE] > 2)
-				close(mini->ex->fds[NEW_FDS][P_WRITE]);
-			mini->ex->fds[NEW_FDS][P_WRITE] = open(redir->target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		}
+			ft_redir_out(mini, redir);
+		else if (redir->type == R_APPEND)
+			ft_redir_append(mini, redir);
 		else if (redir->type == R_HEREDOC)
-		{
-			if (mini->ex->fds[OLD_FDS][P_READ] > 2)
-				close(mini->ex->fds[OLD_FDS][P_READ]);
-			mini->ex->fds[OLD_FDS][P_READ] = 1;
-			set_heredoc(mini; redir->target);
-		}
+			ft_redir_heredoc(mini, redir);
 		redir = redir->next;
 	}
 }
@@ -160,13 +154,4 @@ static void	my_pipe(t_mini *mini)
 		(mini->ex->fds)[NEW_FDS][P_READ] = -1;
 		(mini->ex->fds)[NEW_FDS][P_WRITE] = 1;
 	}
-}
-
-// Waits for all the child pid_t processes
-
-static void	wait_childs(pid_t *childs)
-{
-	while (childs && *childs)
-		if (waitpid(*childs++, NULL, 0) == -1)
-			perror("waitpid");
 }

@@ -6,21 +6,21 @@
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 02:48:49 by bizcru            #+#    #+#             */
-/*   Updated: 2024/07/08 02:53:34 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/03/22 16:48:55 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	*ft_lstlast(void *lst)
 {
-	t_list	*last;
+	void	*last;
 
 	last = lst;
 	while (lst)
 	{
 		last = lst;
-		lst = lst->next;
+		lst = *(void **)lst;
 	}
 	return (last);
 }
