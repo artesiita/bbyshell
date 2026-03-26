@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/08 13:17:40 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/22 10:36:33 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,20 @@ static void		wait_childs(pid_t *childs);
 
 void	ft_executor(t_mini *mini)
 {
-	//printf("compto %i envs\n", ft_lstcount(mini->env_head));
-	//printf("compto %i nuls\n", ft_lstcount(NULL));
-	//printf("compto %i tokens\n", ft_lstcount(mini->tokens));
-	//printf("compto %i cmds\n", ft_lstcount(mini->cmds));
-	
-	// S'hauria de fer quan es munta mini i aprofitar-lo, no anar refent-lo cada cop
+	// printf("compto %i envs\n", ft_lstcount(mini->env_head));
+	// printf("compto %i nuls\n", ft_lstcount(NULL));
+	// printf("compto %i tokens\n", ft_lstcount(mini->tokens));
+	// printf("compto %i cmds\n", ft_lstcount(mini->cmds));
+	// S'hauria de fer quan es munta mini i aprofitar-lo,
+	// no anar refent-lo cada cop
 	mini->ex = ft_calloc(1, sizeof(t_executor));
 	if (!mini->ex) // faltarà gestionar l'eror d'això
 		exit(EXIT_FAILURE);
 	mini->ex->cur_cmd = mini->cmds;
 	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
 	{
-		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds), sizeof(pid_t));
+		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds) + 1,
+				sizeof(pid_t));
 		if (!mini->ex->childs)
 			exit(EXIT_FAILURE); // faltarà gestionar l'error del malloc
 		do_childs(mini);
@@ -50,18 +51,18 @@ void	ft_executor(t_mini *mini)
 		set_cmd_redirs(mini);
 		if (my_execve(mini) == -1)
 		{
-			//Fer clean i exit
+			// Fer clean i exit
 		}
 	}
-	//Aqui falta gestionar millor la neteja de memoria, basicament caldra fer
-		//un free especial per l'struct de executor.
+	// Aqui falta gestionar millor la neteja de memoria, basicament caldra fer
+	// un free especial per l'struct de executor.
 }
 
 // Handles the iteration of creating a child process for each cmd
 
 static void	do_childs(t_mini *mini)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	mini->ex->fds[OLD_FDS][P_READ] = 1;
@@ -72,10 +73,11 @@ static void	do_childs(t_mini *mini)
 		mini->ex->childs[i] = my_fork(mini);
 		if (mini->ex->childs[i++] == -1)
 		{
-			//funció de neteja que inclou close
-			//gestió de l'error
+			// funció de neteja que inclou close
+			// gestió de l'error
 		}
-		my_close(mini->ex->fds[OLD_FDS][P_READ], mini->ex->fds[OLD_FDS][P_WRITE], 
+		my_close(mini->ex->fds[OLD_FDS][P_READ],
+			mini->ex->fds[OLD_FDS][P_WRITE],
 			"close in main proc after forking");
 		mini->ex->fds[OLD_FDS][P_READ] = mini->ex->fds[NEW_FDS][P_READ];
 		mini->ex->fds[OLD_FDS][P_WRITE] = mini->ex->fds[NEW_FDS][P_WRITE];
@@ -88,26 +90,26 @@ static void	do_childs(t_mini *mini)
 
 static pid_t	my_fork(t_mini *mini)
 {
-	pid_t		my_id;
+	pid_t	my_id;
 
 	my_id = fork();
 	if (my_id == -1)
 		return (my_id);
 	else if (my_id == 0)
 	{
-		my_close(mini->ex->fds[OLD_FDS][P_WRITE], mini->ex->fds[NEW_FDS][P_READ],
-			"close in child pre execve");
+		my_close(mini->ex->fds[OLD_FDS][P_WRITE],
+			mini->ex->fds[NEW_FDS][P_READ], "close in child pre execve");
 		set_cmd_redirs(mini);
-		if(!redirect(mini))
+		if (!redirect(mini))
 		{
-			//Gestionar l'error de dup2 (clean i exit) (no feia close)
+			// Gestionar l'error de dup2 (clean i exit) (no feia close)
 		}
 		if (my_execve(mini) == -1)
 		{
-			//Fer clean i exit
+			// Fer clean i exit
 		}
-		my_close(mini->ex->fds[OLD_FDS][P_READ], mini->ex->fds[NEW_FDS][P_WRITE],
-			 "close in child afer execve");
+		my_close(mini->ex->fds[OLD_FDS][P_READ],
+			mini->ex->fds[NEW_FDS][P_WRITE], "close in child afer execve");
 		exit(EXIT_SUCCESS);
 	}
 	return (my_id);

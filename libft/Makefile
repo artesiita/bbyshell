@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bizcru <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/28 15:47:58 by bizcru            #+#    #+#              #
-#    Updated: 2026/02/22 18:57:00 by becanals         ###   ########.fr        #
+#    Updated: 2026/03/21 13:47:26 by laiaartes        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRCS = ft_islower.c \
 		ft_split.c \
 		ft_free_array.c \
 		ft_print_array.c \
+		ft_free_split.c \
 		ft_lstcount.c 
 
 BONUS_SRCS = ft_lstnew_bonus.c \

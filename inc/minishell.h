@@ -69,6 +69,15 @@ typedef enum e_redir_type
 	R_HEREDOC = 13 /* << */
 }								t_redir_type;
 
+typedef struct s_expan
+{
+	char						*pre;
+	char						*val;
+	char						*suf;
+	char						*tmp;
+	char						*res;
+}								t_expan;
+
 typedef struct s_redir
 {
 	struct s_redir				*next;
@@ -130,6 +139,17 @@ int								is_space(char c);
 void							add_token(t_token **head, char *content,
 									t_token_type type, t_quote_ctx quote);
 t_token							*lexer(char *input);
+
+/*============= EXPANSIONS ================*/
+int								expansions(t_mini *mini);
+void							filter_expansion(t_mini *mini, t_token *tok,
+									int i);
+void							expand_double_quoted(t_mini *mini,
+									t_token *token);
+char							*expand_to_str(t_mini *mini, char *str,
+									int *dollar_idx, int i);
+void							expand_to_tokens(t_mini *mini, t_token *token,
+									int *dollar_idx, int i);
 
 /*============= PARSER ================*/
 t_cmds							*parsing(t_mini *mini);
