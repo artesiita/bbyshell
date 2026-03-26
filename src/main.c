@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/22 13:02:46 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/26 19:42:54 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(line);
 			mini.tokens = lexer(line);
-			// print_tokens(mini.tokens);
 			expansions(&mini);
-			print_tokens(mini.tokens);
 			if (mini.tokens)
 			{
 				mini.cmds = parsing(&mini);

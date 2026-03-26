@@ -3,17 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   my_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:50:53 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/07 17:19:27 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/26 19:42:07 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+int	ft_arraylen(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+		i++;
+	return (i);
+}
+
+int	is_n_flag(const char *arg)
+{
+	int	i;
+
+	if (!arg || arg[0] != '-' || arg[1] != 'n')
+		return (0);
+	i = 2;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	my_echo(t_mini *mini)
 {
-	printf("Aquí executem el builtin de my_echo, he rebut %s\n", mini->ex->cur_cmd->args[0]);
+	int		i;
+	int		n_flag;
+	char	**argv;
+
+	argv = mini->ex->cur_cmd->args;
+	if (!argv || !argv[0] || !argv[1])
+	{
+		printf("\n");
+		return (0);
+	}
+	i = 1;
+	n_flag = 0;
+	while (argv[i] && is_n_flag(argv[i]))
+	{
+		n_flag = 1;
+		i++;
+	}
+	while (i < ft_arraylen(argv))
+	{
+		printf("%s", argv[i]);
+		if (argv[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (!n_flag)
+		printf("\n");
 	return (0);
 }
