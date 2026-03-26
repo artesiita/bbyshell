@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42barcelon      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:07:09 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/22 13:07:12 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/26 19:25:37 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,25 @@ void	split_to_tokens(t_mini *mini, t_token *tok, t_expan *expan)
 	split = ft_split(expan->val, ' ');
 	next_save = tok->next;
 	if (!split || !split[0])
-		return (free(tok->content), tok->content = ft_strjoin(expan->pre,
-				expan->suf), (void)free_split(split));
-	free(tok->content);
-	tok->content = ft_strjoin(expan->pre, split[0]);
-	i = 0;
+	{
+		free(tok->content);
+		tok->content = ft_strjoin(expan->pre, expan->suf);
+		free_split(split);
+		filter_expansion(mini, tok, ft_strlen(expan->pre));
+		return ;
+	}
+	if (expan->val[0] == ' ')
+	{
+		free(tok->content);
+		tok->content = ft_strjoin(expan->pre, expan->suf);
+		i = -1;
+	}
+	else
+	{
+		free(tok->content);
+		tok->content = ft_strjoin(expan->pre, split[0]);
+		i = 0;
+	}
 	while (split[++i])
 	{
 		new = tokenize(split[i]);
