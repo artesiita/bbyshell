@@ -6,11 +6,39 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:06:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/26 17:08:41 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/27 15:42:56 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i)
+{
+	t_expan	expan;
+
+	expan.pre = ft_substr(str, 0, *dollar_idx);
+	if (str[*dollar_idx + 1] == '?')
+	{
+		expan.val = ft_itoa(mini->exit_status);
+		i = *dollar_idx + 2;
+	}
+	else
+	{
+		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+			i++;
+		expan.tmp = ft_substr(str, *dollar_idx + 1, i - (*dollar_idx + 1));
+		expan.val = get_env_value(expan.tmp, mini->env_head);
+		if (expan.val)
+			expan.val = ft_strdup(expan.val);
+		else
+			expan.val = ft_strdup("");
+		free(expan.tmp);
+	}
+	expan.suf = ft_strdup(&str[i]);
+	expan.res = ft_strjoins(expan.pre, expan.val, expan.suf);
+	*dollar_idx = ft_strlen(expan.pre) + ft_strlen(expan.val);
+	return (free(expan.pre), free(expan.val), free(expan.suf), expan.res);
+}
 
 char	*remove_quotes(char *str)
 {
