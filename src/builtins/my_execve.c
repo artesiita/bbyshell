@@ -6,20 +6,11 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/27 17:57:49 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/27 18:03:51 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-/*Helper function for get_path to manage the error handling.*/
-
-static char	*set_error(int *my_errno, char *msg, char **msg_add)
-{
-	*my_errno = errno;
-	*msg_add = msg;
-	return (NULL);
-}
 
 /*Gets the path (if valid one) of the cmd of the child.
 Manages errors to allow load_data print the correct error info.*/
