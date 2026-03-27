@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/22 20:37:27 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:25:06 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static void	fill_heredoc(t_hedoc *heredoc, char *end)
 	while (!ft_streq(line, end))
 	{
 		new = ft_lstnew(sizeof(t_hd_data), line);
+		//printf("linia: %p\n", line);
+		//printf("guardada a: %p\n", ((t_hd_data *)new)->line);
 		if (!new)
 			return ; // Aquí faltarà fer el clear i tot això		
 		ft_lstadd_back((void **)&(heredoc->data), new);
@@ -43,6 +45,8 @@ void	set_heredoc(t_mini *mini, char *end)
 	if (!current)
 		return ; //falta gestionar l'error de malloc
 	fill_heredoc(current, end);
+	if (current->data->line)
+		write(1, current->data->line, 1);
 	ft_lstadd_back((void **)&(mini->ex->hedocs), current);
 }
 
@@ -52,7 +56,7 @@ void	set_heredoc(t_mini *mini, char *end)
 
 void	dump_heredoc(t_mini *mini)
 {
-	//pid_t		my_id;
+	pid_t		my_id;
 	t_hedoc		*heredoc;
 	t_hd_data	*data;
 	int			fd;
@@ -60,29 +64,30 @@ void	dump_heredoc(t_mini *mini)
 	heredoc = ft_lstlast(mini->ex->hedocs);
 	if (!heredoc)
 		return ;
-	//my_id = fork();
-	//if (my_id == -1)
-	//	return ; //gestionar error??
-	//else if (my_id == 0)
-	//{
-	//	printf("hola soc el fill\n");
+	my_id = fork();
+	if (my_id == -1)
+		return ; //gestionar error??
+	else if (my_id == 0)
+	{
+		//printf("hola soc el fill\n");
 		data = heredoc->data;
 		fd = mini->ex->fds[OLD_FDS][P_WRITE];
-		//close(mini->ex->fds[OLD_FDS][P_READ]);
+		close(mini->ex->fds[OLD_FDS][P_READ]);
 		while (data)
 		{
 			//printf("fill: dins del while\n");
+			//printf("fill: ready x imprimir %p\n", data->line);
 			write(fd, data->line, ft_strlen(data->line));
 			write(fd, "\n", 1);
-			write(2, "he escrit\n", 10);
+			//write(2, "he escrit \n", 10);
 			data = data->next;
 		}
-		//close(1);
+		close(fd);
 		//printf("adeu soc el fill\n");
 		// pensar si cal algun cleanup aqui
-		//exit(EXIT_SUCCESS);
-	//}
-	//close(mini->ex->fds[OLD_FDS][P_WRITE]);
+		exit(EXIT_SUCCESS);
+	}
+	close(mini->ex->fds[OLD_FDS][P_WRITE]);
 	return ;
 }
 

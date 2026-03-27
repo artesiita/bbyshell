@@ -50,7 +50,7 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 DEP = $(SRC:%.c=$(OBJ_DIR)/%.d)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CCFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LDFLAGS = -lreadline
 
 all: libft $(NAME)

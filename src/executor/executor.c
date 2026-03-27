@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/22 20:26:26 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:49:23 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_executor(t_mini *mini)
 		do_childs(mini);
 		if (mini->ex->childs && *(mini->ex->childs))
 			wait_childs(mini->ex->childs);
+		free(mini->ex->childs);
 	}
 	else
 	{
@@ -63,9 +64,9 @@ static void	do_childs(t_mini *mini)
 	mini->ex->fds[OLD_FDS][P_WRITE] = -1;
 	while (mini->ex->cur_cmd)
 	{
-		printf("flag 1, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
+		//printf("flag 1, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
 		my_pipe(mini);
-		printf("flag 2, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
+		//printf("flag 2, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
 		mini->ex->childs[i] = my_fork(mini);
 		if (mini->ex->childs[i++] == -1)
 		{
@@ -95,18 +96,18 @@ static pid_t	my_fork(t_mini *mini)
 		my_close(mini->ex->fds[OLD_FDS][P_WRITE], mini->ex->fds[NEW_FDS][P_READ],
 			"close in child pre execve");
 		set_cmd_redirs(mini);
-		printf("flag 4, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
+		//printf("flag 4, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
 		if(!redirect(mini))
 		{
 			//Gestionar l'error de dup2 (clean i exit) (no feia close)
 		}
 		dump_heredoc(mini);
-		printf("pare ha tornat post dump_heredoc\n");
+		//printf("pare ha tornat post dump_heredoc\n");
 		if (my_execve(mini) == -1)
 		{
 			//Fer clean i exit
 		}
-		printf("pel pare ja hem acabat execve\n");
+		//printf("pel pare ja hem acabat execve\n");
 		my_close(mini->ex->fds[OLD_FDS][P_READ], mini->ex->fds[NEW_FDS][P_WRITE],
 			 "close in child afer execve");
 		exit(EXIT_SUCCESS);

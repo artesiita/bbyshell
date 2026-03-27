@@ -6,7 +6,7 @@
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 01:40:43 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/22 17:13:37 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:52:52 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*ft_lstnew(int struct_size, void *content)
 	rtrn = malloc(struct_size);
 	if (!rtrn)
 		return (NULL);
-	ft_memcpy((char *)rtrn + sizeof(void *), content, sizeof(void *));
+	*(void **)rtrn = NULL;
+	ft_memcpy((char *)rtrn + sizeof(void *), &content, sizeof(void *));
 	return (rtrn);
 }
