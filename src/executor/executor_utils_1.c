@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/03/07 15:49:34 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:54:58 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,13 @@ int	redirect(t_mini *mini)
 	 (dup2(mini->ex->fds[NEW_FDS][P_WRITE], STDOUT_FILENO) == -1) )
 		return (0);
 	return (1);
+}
+
+// Waits for all the child pid_t processes
+
+void	wait_childs(pid_t *childs)
+{
+	while (childs && *childs)
+		if (waitpid(*childs++, NULL, 0) == -1)
+			perror("waitpid");
 }

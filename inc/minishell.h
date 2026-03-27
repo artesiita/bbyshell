@@ -65,8 +65,8 @@ typedef enum e_redir_type
 {
 	R_IN = 10,     /* <  */
 	R_OUT = 11,    /* >  */
-	R_APPEND = 12, /* >> */
-	R_HEREDOC = 13 /* << */
+	R_HEREDOC = 12, /* << */
+	R_APPEND = 13 /* >> */
 }								t_redir_type;
 
 typedef struct s_expan
@@ -94,11 +94,25 @@ typedef struct s_cmds
 
 /*============= EXECUTOR ===============*/
 
+typedef struct	s_hd_data
+{
+	struct s_hd_data			*next;
+	char						*line;
+}								t_hd_data;
+
+typedef struct s_hedoc
+{
+	struct s_hedoc				*next;
+	int							fd;
+	t_hd_data					*data;
+}								t_hedoc;
+
 typedef struct s_executor
 {
 	pid_t						*childs;
 	int							fds[2][2];
 	t_cmds						*cur_cmd;
+	t_hedoc						*hedocs;
 }								t_executor;
 
 /*============= GLOBAL ================*/
@@ -159,10 +173,17 @@ void							add_command_node(t_cmds **head,
 
 /*============ EXECUTOR ==============*/
 void							ft_executor(t_mini *mini);
+void							ft_redir_in(t_mini *mini, t_redir *redir);
+void							ft_redir_out(t_mini *mini, t_redir *redir);
+void							ft_redir_heredoc(t_mini *mini, t_redir *redir);
+void							ft_redir_append(t_mini *mini, t_redir *redir);
+void							set_heredoc(t_mini *mini, char *end);
+void							dump_heredoc(t_mini *mini);
 void							open_files(char *file_in, char *file_out,
 									int *filefds);
 void							my_close(int fd1, int fd2, char *msg);
 int								redirect(t_mini *mini);
+void							wait_childs(pid_t *childs);
 int								my_execve(t_mini *mini);
 int (*get_builtin_ft(t_mini *mini))(t_mini *);
 
@@ -185,10 +206,10 @@ int								check_env_variable(t_env *head, char *key);
 void							fatal_error(t_mini *mini, char *msg,
 									int status);
 void							free_everything(t_mini *mini);
-void							free_tokens(t_token **head);
-void							free_env(t_env **env);
-void							free_commands(t_cmds **cmds);
-void							free_redirs(t_redir **redirs);
+void							free_tokens(t_token *head);
+void							free_env(t_env *env);
+void							free_commands(t_cmds *cmds);
+void							free_redirs(t_redir *redirs);
 void							free_str_array(char **array);
 
 /*============= PROVES ================*/

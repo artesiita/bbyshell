@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bizcru <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 04:17:34 by bizcru            #+#    #+#             */
-/*   Updated: 2024/07/19 12:52:48 by bcanals-         ###   ########.fr       */
+/*   Created: 2024/07/08 01:40:43 by bizcru            #+#    #+#             */
+/*   Updated: 2026/03/27 16:52:52 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+void	*ft_lstnew(int struct_size, void *content)
 {
-	t_list	*rtrn;
-	t_list	*last;
-	t_list	*my_list;
+	void	*rtrn;
 
-	my_list = lst;
-	if (!my_list || !f || !del)
+	rtrn = malloc(struct_size);
+	if (!rtrn)
 		return (NULL);
-	rtrn = NULL;
-	while (my_list)
-	{
-		last = malloc(sizeof(t_list));
-		if (!last)
-		{
-			ft_lstclear(&rtrn, del);
-			return (NULL);
-		}
-		last->content = f(my_list->content);
-		last->next = NULL;
-		ft_lstadd_back(&rtrn, last);
-		my_list = my_list->next;
-	}
+	*(void **)rtrn = NULL;
+	ft_memcpy((char *)rtrn + sizeof(void *), &content, sizeof(void *));
 	return (rtrn);
 }
