@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:33:14 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/08 19:09:58 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:32:35 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,7 @@ int	append_env_node(t_env **head, t_env **cur, char *content)
 int	env_setup(t_mini *mini, char **env)
 {
 	int	i;
-	//t_env	*new;
 
-	/*
-	if (!env || !*env)
-	{
-		new = (t_env *)malloc(sizeof(t_env));
-			if (!new)
-				return (0);
-		new = NULL;
-
-	}*/
 	mini->env_head = NULL;
 	mini->env_cur = NULL;
 	i = 0;
@@ -78,11 +68,5 @@ int	env_setup(t_mini *mini, char **env)
 			i++;
 		}
 	}
-	/*
-	else
-	{
-		if (!append_env_node(&mini->env_head, &mini->env_cur, ""))
-			return (free_env_list(mini->env_head), 0);
-	}*/
 	return (1);
 }

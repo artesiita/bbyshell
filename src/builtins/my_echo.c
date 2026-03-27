@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:50:53 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/26 19:42:07 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:03:41 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ int	my_echo(t_mini *mini)
 		printf("\n");
 		return (0);
 	}
-	i = 1;
+	i = 0;
 	n_flag = 0;
-	while (argv[i] && is_n_flag(argv[i]))
-	{
+	while (argv[++i] && is_n_flag(argv[i]))
 		n_flag = 1;
-		i++;
-	}
 	while (i < ft_arraylen(argv))
 	{
 		printf("%s", argv[i]);

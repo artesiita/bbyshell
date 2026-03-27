@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 18:07:50 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/08 17:55:24 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:40:05 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	sort_env(t_env *head)
 		}
 	}
 }
+
 int	check_env_variable(t_env *head, char *key)
 {
 	int		key_len;

@@ -6,13 +6,13 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/08 13:03:49 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:13:19 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-// Helper function for get_path to manage the error handling.
+/*Helper function for get_path to manage the error handling.*/
 
 static char	*set_error(int *my_errno, char *msg, char **msg_add)
 {
@@ -21,8 +21,8 @@ static char	*set_error(int *my_errno, char *msg, char **msg_add)
 	return (NULL);
 }
 
-// Gets the path (if valid one) of the cmd of the child.
-// Manages errors to allow load_data print the correct error info.
+/*Gets the path (if valid one) of the cmd of the child.
+Manages errors to allow load_data print the correct error info.*/
 
 static char	*get_path(char *cmd, t_env *env, int *my_errno, char **msg_add)
 {
@@ -53,7 +53,7 @@ static char	*get_path(char *cmd, t_env *env, int *my_errno, char **msg_add)
 	return (set_error(my_errno, "command not found", msg_add));
 }
 
-int (*get_builtin_ft(t_mini *mini))(t_mini *)
+int (*get_builtin_ft(t_mini *mini))(t_mini *mini)
 {
 	char	*cmd;
 

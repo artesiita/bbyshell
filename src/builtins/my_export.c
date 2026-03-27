@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   my_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/21 17:44:18 by laiaartes        ###   ########.fr       */
+/*   Updated: 2026/03/27 16:54:22 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,31 @@ void	print_export(t_env *env)
 		cur = cur->next;
 	}
 }
+
 int	export_value(t_mini *mini, char **ag, char *limit, char *key)
 {
 	int		i;
 	char	*value;
 
-	i = 1;
-	while (ag[i])
+	i = 0;
+	while (ag[++i])
 	{
 		if (!ft_isalpha(ag[i][0]))
 		{
 			printf("bbyshell: export: %s : not a valid identifier\n", ag[i]);
 			return (ERROR);
 		}
+		value = NULL;
+		limit = (char *)ft_strchr(ag[i], '=');
+		key = ft_substr(ag[i], 0, limit - ag[i]);
+		if (limit)
+			value = ft_strdup(limit + 1);
+		if (check_env_variable(mini->env_head, key))
+			update_env_value(mini->env_head, key, value);
 		else
-		{
-			limit = (char *)ft_strchr(ag[i], '=');
-			key = ft_substr(ag[i], 0, limit - ag[i]);
-			if (limit)
-				value = ft_strdup(limit + 1);
-			if (check_env_variable(mini->env_head, key))
-				update_env_value(mini->env_head, key, value);
-			else
-				append_env_node(&mini->env_head, &mini->env_cur, ag[i]);
-			free(key);
-			free(value);
-		}
-		i++;
+			append_env_node(&mini->env_head, &mini->env_cur, ag[i]);
+		free(key);
+		free(value);
 	}
 	return (0);
 }
