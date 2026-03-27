@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/27 18:02:02 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/27 19:25:58 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void		my_pipe(t_mini *mini);
 
 void	ft_executor(t_mini *mini)
 {
+	mini->ex->cur_cmd = mini->cmds;
 	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
 	{
 		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds) + 1, sizeof(pid_t));
