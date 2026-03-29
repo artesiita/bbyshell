@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/27 19:25:58 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/29 14:05:52 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ static pid_t	my_fork(t_mini *mini);
 static void		set_cmd_redirs(t_mini *mini);
 static void		my_pipe(t_mini *mini);
 
-// main functin of the executor section of the Minishell.
-// Receives a full mini with a parsed input, executes the correct commands,
-//   handles errors and its input, sets the errno and returns the control.
+/* 
+	main functin of the executor section of the Minishell.
+	Receives a full mini with a parsed input, executes the correct commands,
+	handles errors and its input, sets the errno and returns the control.
+ */
 
 void	ft_executor(t_mini *mini)
 {
+	printf("procés %i = pare\n", getpid());
 	mini->ex->cur_cmd = mini->cmds;
 	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
 	{
@@ -49,11 +52,13 @@ void	ft_executor(t_mini *mini)
 			// Fer clean i exit
 		}
 	}
-	// Aqui falta gestionar millor la neteja de memoria, basicament caldra fer
+	ft_postex_clean(mini);
 	// un free especial per l'struct de executor.
 }
 
-// Handles the iteration of creating a child process for each cmd
+/*
+   Handles the iteration of creating a child process for each cmd
+*/
 
 static void	do_childs(t_mini *mini)
 {
@@ -83,7 +88,9 @@ static void	do_childs(t_mini *mini)
 	return ;
 }
 
-// Handles the forking process and manages errors
+/*
+	Handles the forking process and manages errors
+*/
 
 static pid_t	my_fork(t_mini *mini)
 {
@@ -94,6 +101,7 @@ static pid_t	my_fork(t_mini *mini)
 		return (my_id);
 	else if (my_id == 0)
 	{
+		printf("procés %i = fill ex\n", getpid()); 
 		my_close(mini->ex->fds[OLD_FDS][P_WRITE],
 			mini->ex->fds[NEW_FDS][P_READ], "close in child pre execve");
 		set_cmd_redirs(mini);
@@ -114,7 +122,9 @@ static pid_t	my_fork(t_mini *mini)
 	return (my_id);
 }
 
-// Review the cmd redirection instructions and updates the fds accordingly
+/*
+	Review the cmd redirection instructions and updates the fds accordingly
+*/
 
 static void	set_cmd_redirs(t_mini *mini)
 {
@@ -135,7 +145,9 @@ static void	set_cmd_redirs(t_mini *mini)
 	}
 }
 
-// Updates fds depending on if we are in the last cmd (stdout & null) or else (pipe)
+/*
+   Updates fds depending on if we are in the last cmd (stdout & null) or else (pipe)
+*/
 
 static void	my_pipe(t_mini *mini)
 {
