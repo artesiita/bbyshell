@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 18:07:50 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/27 16:40:05 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/29 17:08:27 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_env_variable(t_env *head, char *key)
 	return (0);
 }
 
-t_env	*env_cpy(t_env *head)
+t_env	*env_cpy(t_mini *mini, t_env *head)
 {
 	t_env	*new_list;
 	t_env	*current;
@@ -81,7 +81,7 @@ t_env	*env_cpy(t_env *head)
 	current = head;
 	while (current)
 	{
-		new_node = create_node(current->key, current->value);
+		new_node = create_node(mini, current->key, current->value);
 		if (!new_node)
 			return (NULL);
 		if (!new_list)

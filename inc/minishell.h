@@ -195,10 +195,10 @@ int								my_export(t_mini *mini);
 int								my_unset(t_mini *mini);
 int								my_env(t_mini *mini);
 int								my_exit(t_mini *mini);
-t_env							*create_node(char *key, char *value);
+t_env							*create_node(t_mini *mini, char *key, char *value);
 void							sort_env(t_env *head);
-t_env							*env_cpy(t_env *head);
-int								append_env_node(t_env **head, t_env **cur,
+t_env							*env_cpy(t_mini *mini, t_env *head);
+int								append_env_node(t_mini *mini, t_env **head, t_env **cur,
 									char *content);
 int								check_env_variable(t_env *head, char *key);
 
