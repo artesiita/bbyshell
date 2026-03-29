@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:30:05 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/29 18:34:58 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/29 18:47:59 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	handle_word(t_mini *mini, t_token **head, char *input, int *i)
 	if (quote != 0)
 	{
 		printf("syntax error: unclosed quotes\n");
-		mini->exit_status = 2;;
+		mini->exit_status = 2;
 		return (ERROR);
 	}
 	add_token(head, ft_substr(input, start, *i - start), T_WORD);
@@ -90,7 +90,7 @@ t_token	*lexer(t_mini *mini, char *input)
 			handle_redirections(&tokens, input, &i);
 		else
 			if (handle_word(mini, &tokens, input, &i) == ERROR)
-				return(free_tokens(mini->tokens), NULL);
+				return (free_tokens(mini->tokens), NULL);
 	}
 	return (tokens);
 }
