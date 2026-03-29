@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/27 17:25:06 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/29 12:34:09 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	fill_heredoc(t_hedoc *heredoc, char *end)
 	char	*line;
 	void	*new;
 
-	line = readline(">");
+	line = readline("> ");
 	while (!ft_streq(line, end))
 	{
 		new = ft_lstnew(sizeof(t_hd_data), line);
