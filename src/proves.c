@@ -16,11 +16,6 @@ void print_tokens(t_token *tokens)
         else if (tmp->type == T_REDIR_HEREDOC) printf("HEREDOC");
         else if (tmp->type == T_REDIR_APPEND) printf("APPEND");
         
-        printf(" | Quote: ");
-        if (tmp->quote == Q_NONE) printf("NONE");
-        else if (tmp->quote == Q_SINGLE) printf("SINGLE");
-        else if (tmp->quote == Q_DOUBLE) printf("DOUBLE");
-        
         printf("\n");
         tmp = tmp->next;
     }

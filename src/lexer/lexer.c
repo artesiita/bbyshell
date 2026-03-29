@@ -6,25 +6,19 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:30:05 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/13 17:30:17 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/29 18:34:58 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	handle_word(t_token **head, char *input, int *i)
+int	handle_word(t_mini *mini, t_token **head, char *input, int *i)
 {
 	int			start;
 	char		quote;
-	t_quote_ctx	ctx;
 
 	start = *i;
 	quote = 0;
-	ctx = Q_NONE;
-	if (input[*i] == '\'')
-		ctx = Q_SINGLE;
-	else if (input[*i] == '\"')
-		ctx = Q_DOUBLE;
 	while (input[*i])
 	{
 		if ((input[*i] == '\'' || input[*i] == '\"') && quote == 0)
@@ -38,11 +32,12 @@ void	handle_word(t_token **head, char *input, int *i)
 	}
 	if (quote != 0)
 	{
-		printf("syntax error lexer\n"); /*syntax error,
-			need to think how to handle (unclosed quotes)*/
-		return ;
+		printf("syntax error: unclosed quotes\n");
+		mini->exit_status = 2;;
+		return (ERROR);
 	}
-	add_token(head, ft_substr(input, start, *i - start), T_WORD, ctx);
+	add_token(head, ft_substr(input, start, *i - start), T_WORD);
+	return (SUCCESS);
 }
 
 void	handle_redirections(t_token **head, char *input, int *i)
@@ -69,11 +64,11 @@ void	handle_redirections(t_token **head, char *input, int *i)
 			offset = 2;
 		}
 	}
-	add_token(head, ft_substr(input, *i, offset), type, Q_NONE);
+	add_token(head, ft_substr(input, *i, offset), type);
 	*i += offset;
 }
 
-t_token	*lexer(char *input)
+t_token	*lexer(t_mini *mini, char *input)
 {
 	t_token	*tokens;
 	int		i;
@@ -88,13 +83,14 @@ t_token	*lexer(char *input)
 			break ;
 		if (input[i] == '|')
 		{
-			add_token(&tokens, ft_strdup("|"), T_PIPE, Q_NONE);
+			add_token(&tokens, ft_strdup("|"), T_PIPE);
 			i++;
 		}
 		else if (input[i] == '<' || input[i] == '>')
 			handle_redirections(&tokens, input, &i);
 		else
-			handle_word(&tokens, input, &i);
+			if (handle_word(mini, &tokens, input, &i) == ERROR)
+				return(free_tokens(mini->tokens), NULL);
 	}
 	return (tokens);
 }

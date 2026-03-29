@@ -21,6 +21,7 @@
 
 # define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
 # define ERROR 1
+# define SUCCESS 0
 
 # define NEW_FDS 0
 # define OLD_FDS 1
@@ -44,19 +45,21 @@ typedef enum e_token_type
 	T_REDIR_APPEND = 13   /* >> */
 }								t_token_type;
 
+/*
 typedef enum e_quote_ctx
 {
 	Q_NONE,
 	Q_SINGLE,
 	Q_DOUBLE
 }								t_quote_ctx;
+*/
 
 typedef struct s_token
 {
 	struct s_token				*next;
 	char						*content;
 	t_token_type				type;
-	t_quote_ctx					quote;
+	//t_quote_ctx					quote;
 }								t_token;
 
 /*============= PARSER ================*/
@@ -151,8 +154,8 @@ void							update_env_value(t_env *env, char *key,
 int								is_redirection(char c);
 int								is_space(char c);
 void							add_token(t_token **head, char *content,
-									t_token_type type, t_quote_ctx quote);
-t_token							*lexer(char *input);
+									t_token_type type);
+t_token							*lexer(t_mini *mini, char *input);
 
 /*============= EXPANSIONS ================*/
 int								expansions(t_mini *mini);

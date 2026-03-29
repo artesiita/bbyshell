@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:07:09 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/27 15:43:54 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/29 18:20:23 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_token	*tokenize(char *content)
 	if (!new)
 		return (NULL);
 	new->content = ft_strdup(content);
-	new->quote = Q_NONE;
 	new->type = T_WORD;
 	new->next = NULL;
 	return (new);
