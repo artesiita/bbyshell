@@ -188,7 +188,8 @@ void							my_close(int fd1, int fd2, char *msg);
 int								redirect(t_mini *mini);
 void							wait_childs(pid_t *childs);
 int								my_execve(t_mini *mini);
-int (*get_builtin_ft(t_mini *mini))(t_mini *);
+int								(*get_builtin_ft(t_mini *mini))(t_mini *);
+void							ft_postex_clean(t_mini *mini);
 
 /*============ BUILT-INS ==============*/
 int								my_echo(t_mini *mini);

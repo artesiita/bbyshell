@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 16:11:14 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/22 19:56:36 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/29 12:51:00 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void ft_redir_heredoc(t_mini *mini, t_redir *redir)
 
 void ft_redir_append(t_mini *mini, t_redir *redir)
 {
-	mini = mini;
-	redir = redir;
-	return ;
+	if (mini->ex->fds[NEW_FDS][P_WRITE] > 2)
+		close(mini->ex->fds[NEW_FDS][P_WRITE]);
+	mini->ex->fds[NEW_FDS][P_WRITE] = open(redir->target, O_WRONLY | O_CREAT | O_APPEND, 0644);
 }

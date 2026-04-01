@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/27 17:25:06 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/29 14:12:01 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	fill_heredoc(t_hedoc *heredoc, char *end)
 	char	*line;
 	void	*new;
 
-	line = readline(">");
+	line = readline("> ");
 	while (!ft_streq(line, end))
 	{
 		new = ft_lstnew(sizeof(t_hd_data), line);
@@ -29,7 +29,7 @@ static void	fill_heredoc(t_hedoc *heredoc, char *end)
 		if (!new)
 			return ; // Aquí faltarà fer el clear i tot això		
 		ft_lstadd_back((void **)&(heredoc->data), new);
-		line = readline(">");
+		line = readline("> ");
 	}
 }
 
@@ -69,22 +69,18 @@ void	dump_heredoc(t_mini *mini)
 		return ; //gestionar error??
 	else if (my_id == 0)
 	{
-		//printf("hola soc el fill\n");
+		printf("procés %i = heredoc dumper\n", getpid());
 		data = heredoc->data;
 		fd = mini->ex->fds[OLD_FDS][P_WRITE];
 		close(mini->ex->fds[OLD_FDS][P_READ]);
 		while (data)
 		{
-			//printf("fill: dins del while\n");
-			//printf("fill: ready x imprimir %p\n", data->line);
 			write(fd, data->line, ft_strlen(data->line));
 			write(fd, "\n", 1);
-			//write(2, "he escrit \n", 10);
 			data = data->next;
 		}
 		close(fd);
-		//printf("adeu soc el fill\n");
-		// pensar si cal algun cleanup aqui
+		ft_postex_clean(mini);
 		exit(EXIT_SUCCESS);
 	}
 	close(mini->ex->fds[OLD_FDS][P_WRITE]);
