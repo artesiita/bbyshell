@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:10:40 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/29 17:15:06 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/01 19:54:32 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,18 @@ static int	process_node(t_cmds **head, t_token **cur, t_mini *mini)
 	if (!new_node)
 		fatal_error(mini, "bbyshell: malloc: cannot allocate memory\n", 1);
 	new_node->args = ft_calloc(commands_counter(*cur) + 1, sizeof(char *));
-	if (!new_node->args || !fill_args(new_node, *cur, mini))
+	if (!new_node->args)
 		fatal_error(mini, "bbyshell: malloc: cannot allocate memory\n", 1);
+	if (!fill_args(new_node, *cur, mini))
+	{
+		mini->exit_status = 2;
+		free_commands(new_node);
+		while (*cur && (*cur)->type != T_PIPE)
+			*cur = (*cur)->next;
+		if (*cur && (*cur)->type == T_PIPE)
+			*cur = (*cur)->next;
+		return (0);
+	}
 	add_command_node(head, new_node);
 	while (*cur && (*cur)->type != T_PIPE)
 		*cur = (*cur)->next;
