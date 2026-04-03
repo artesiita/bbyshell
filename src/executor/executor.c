@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/04 08:34:43 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/11 13:29:54 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void		my_pipe(t_mini *mini);
 void	ft_executor(t_mini *mini)
 {
 	/*printf("procés %i = pare\n", getpid());*/
+	signals_nonintmode();
 	mini->ex->cur_cmd = mini->cmds;
 	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
 	{
