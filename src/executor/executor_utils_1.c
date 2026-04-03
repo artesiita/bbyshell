@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/03/29 14:39:17 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/03 12:55:07 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ void	ft_del_t_hedoc(void *void_node)
 
 void	ft_postex_clean(t_mini *mini)
 {
-	free_tokens(mini->tokens);
-	free_commands(mini->cmds);
+	free_parsing(mini);
 	mini->ex->cur_cmd = NULL;
 	ft_lstclear((void **)&(mini->ex->hedocs), &ft_del_t_hedoc);
 	//revisar que es tanquen els docs (per si no faig un process fill)

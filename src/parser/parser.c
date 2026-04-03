@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:10:40 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/01 19:54:32 by laiaartes        ###   ########.fr       */
+/*   Updated: 2026/04/03 12:54:45 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ static int	process_node(t_cmds **head, t_token **cur, t_mini *mini)
 	while (*cur && (*cur)->type != T_PIPE)
 		*cur = (*cur)->next;
 	if (*cur && (*cur)->type == T_PIPE)
+	{
 		*cur = (*cur)->next;
+		if (!*cur)
+			return (-1);
+	}
 	return (1);
 }
 
@@ -95,20 +99,27 @@ t_cmds	*parsing(t_mini *mini)
 {
 	t_token	*cur;
 	t_cmds	*head;
+	int		result;
 
 	cur = mini->tokens;
 	head = NULL;
-	if (cur && cur->type == T_PIPE)
-	{
-		printf("Bbyshell: syntax error\n");
-		mini->exit_status = 2;
-		free(mini->tokens);
-		mini->tokens = NULL;
-		return (NULL);
-	}
 	while (cur)
-		process_node(&head, &cur, mini);
-	free_tokens(mini->tokens);
-	mini->tokens = NULL;
+	{
+		if (cur->type == T_PIPE)
+		{
+			printf("Bbyshell: syntax error near unexpected token `|'\n");
+			mini->exit_status = 2;
+			return (NULL);
+		}
+		result = process_node(&head, &cur, mini);
+		if (result == 0)
+			return (NULL);
+		if (result == -1)
+		{
+			printf("Bbyshell: syntax error near unexpected token `newline'\n");
+			mini->exit_status = 2;
+			return (NULL);
+		}
+	}
 	return (head);
 }

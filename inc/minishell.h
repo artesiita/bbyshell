@@ -215,6 +215,7 @@ void							free_env(t_env *env);
 void							free_commands(t_cmds *cmds);
 void							free_redirs(t_redir *redirs);
 void							free_str_array(char **array);
+void	free_parsing(t_mini *mini);
 
 /*============= PROVES ================*/
 void							print_cmds(t_cmds *cmds);
