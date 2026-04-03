@@ -9,6 +9,7 @@ SRC = src/main.c \
 		src/parser/parser.c \
 		src/expansions/expansions.c \
 		src/expansions/expand_to_tokens.c \
+		src/signals/signals.c \
 		src/proves.c
 
 ######  EXECUTOR FILES:

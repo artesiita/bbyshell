@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/03 12:52:54 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/03 18:42:46 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	mini_loop(t_mini *mini)
 
 	while (1)
 	{
+		signals_intmode();
 		line = readline(PROMPT);
 		if (!line)
 		{
