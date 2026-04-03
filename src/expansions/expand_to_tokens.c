@@ -1,26 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansions_utils.c                                 :+:      :+:    :+:   */
+/*   expand_to_tokens.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:07:09 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/29 18:20:23 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:45:18 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*get_env_dup(char *key, t_env *env)
-{
-	char	*val;
-
-	val = get_env_value(key, env);
-	if (val)
-		return (ft_strdup(val));
-	return (ft_strdup(""));
-}
 
 t_token	*tokenize(char *content)
 {

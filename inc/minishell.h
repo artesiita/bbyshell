@@ -149,6 +149,7 @@ void							free_env_list(t_env *head);
 char							*get_env_value(char *key, t_env *env);
 void							update_env_value(t_env *env, char *key,
 									char *new_value);
+char	*get_env_dup(char *key, t_env *env);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);

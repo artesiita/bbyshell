@@ -8,7 +8,7 @@ SRC = src/main.c \
 		src/parser/parser_utils.c \
 		src/parser/parser.c \
 		src/expansions/expansions.c \
-		src/expansions/expansions_utils.c \
+		src/expansions/expand_to_tokens.c \
 		src/proves.c
 
 ######  EXECUTOR FILES:

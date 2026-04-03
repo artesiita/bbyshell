@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:32:20 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/29 17:08:31 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:45:19 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,14 @@ void	free_env_list(t_env *head)
 			free(temp->value);
 		free(temp);
 	}
+}
+
+char	*get_env_dup(char *key, t_env *env)
+{
+	char	*val;
+
+	val = get_env_value(key, env);
+	if (val)
+		return (ft_strdup(val));
+	return (ft_strdup(""));
 }
