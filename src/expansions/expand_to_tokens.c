@@ -6,12 +6,11 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:07:09 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/03 13:45:18 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:19:35 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 t_token	*tokenize(char *content)
 {
@@ -39,8 +38,16 @@ int	manage_token(t_mini *mini, t_token *tok, t_expan *expan, char **split)
 	if (expan->val[0] == ' ')
 	{
 		free(tok->content);
-		tok->content = ft_strjoin(expan->pre, expan->suf);
-		return (-1);
+		if (ft_strlen(expan->pre) == 0)
+		{
+			tok->content = ft_strdup(split[0]);
+			return (0);
+		}
+		else
+		{
+			tok->content = ft_strdup(expan->pre);
+			return (-1);
+		}
 	}
 	else
 	{
@@ -70,10 +77,26 @@ void	split_to_tokens(t_mini *mini, t_token *tok, t_expan *expan)
 		tok = new;
 	}
 	expan->tmp = tok->content;
-	tok->content = ft_strjoin(expan->tmp, expan->suf);
-	filter_expansion(mini, tok, ft_strlen(tok->content)
-		- ft_strlen(expan->suf));
-	return ((free(expan->tmp)), (void)free_split(split));
+	if (expan->val[ft_strlen(expan->val) - 1] == ' ')
+	{
+		tok->content = ft_strdup(expan->tmp);
+		free(expan->tmp);
+		if (expan->suf && expan->suf[0])
+		{
+			new = tokenize(expan->suf);
+			new->next = next_save;
+			tok->next = new;
+			filter_expansion(mini, new, 0);
+		}
+	}
+	else
+	{
+		tok->content = ft_strjoin(expan->tmp, expan->suf);
+		filter_expansion(mini, tok, ft_strlen(tok->content)
+			- ft_strlen(expan->suf));
+		free(expan->tmp);
+	}
+	free_split(split);
 }
 
 void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
@@ -95,6 +118,8 @@ void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
 					+ 1));
 		expan.val = get_env_dup(expan.tmp, mini->env_head);
 		free(expan.tmp);
+		if (!expan.val)
+			expan.val = ft_strdup("");  
 	}
 	expan.suf = ft_strdup(&token->content[i]);
 	split_to_tokens(mini, token, &expan);

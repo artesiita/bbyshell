@@ -79,6 +79,7 @@ typedef struct s_expan
 	char						*suf;
 	char						*tmp;
 	char						*res;
+	char						*key;
 }								t_expan;
 
 typedef struct s_redir
