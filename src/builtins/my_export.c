@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/27 17:58:42 by becanals         ###   ########.fr       */
+/*   Updated: 2026/03/29 17:12:21 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	export_value(t_mini *mini, char **ag, char *limit, char *key)
 		if (check_env_variable(mini->env_head, key))
 			update_env_value(mini->env_head, key, value);
 		else
-			append_env_node(&mini->env_head, &mini->env_cur, ag[i]);
+			append_env_node(mini, &mini->env_head, &mini->env_cur, ag[i]);
 		free(key);
 		free(value);
 	}
@@ -65,7 +65,7 @@ int	my_export(t_mini *mini)
 
 	if (!mini->ex->cur_cmd->args[1])
 	{
-		new_env = env_cpy(mini->env_head);
+		new_env = env_cpy(mini, mini->env_head);
 		sort_env(new_env);
 		print_export(new_env);
 		free_env(new_env);

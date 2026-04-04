@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:32:20 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/27 17:56:58 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:45:19 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ void	update_env_value(t_env *env, char *key, char *new_value)
 	}
 }
 
-t_env	*create_node(char *key, char *value)
+t_env	*create_node(t_mini *mini, char *key, char *value)
 {
 	t_env	*new;
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (NULL);
+		fatal_error(mini, "bbyshell: malloc: cannot alocate memory\n", 1);
 	new->key = ft_strdup(key);
 	if (value)
 		new->value = ft_strdup(value);
@@ -84,4 +84,14 @@ void	free_env_list(t_env *head)
 			free(temp->value);
 		free(temp);
 	}
+}
+
+char	*get_env_dup(char *key, t_env *env)
+{
+	char	*val;
+
+	val = get_env_value(key, env);
+	if (val)
+		return (ft_strdup(val));
+	return (ft_strdup(""));
 }

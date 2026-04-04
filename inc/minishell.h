@@ -21,6 +21,7 @@
 
 # define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
 # define ERROR 1
+# define SUCCESS 0
 
 # define NEW_FDS 0
 # define OLD_FDS 1
@@ -44,19 +45,21 @@ typedef enum e_token_type
 	T_REDIR_APPEND = 13   /* >> */
 }								t_token_type;
 
+/*
 typedef enum e_quote_ctx
 {
 	Q_NONE,
 	Q_SINGLE,
 	Q_DOUBLE
 }								t_quote_ctx;
+*/
 
 typedef struct s_token
 {
 	struct s_token				*next;
 	char						*content;
 	t_token_type				type;
-	t_quote_ctx					quote;
+	//t_quote_ctx					quote;
 }								t_token;
 
 /*============= PARSER ================*/
@@ -76,6 +79,7 @@ typedef struct s_expan
 	char						*suf;
 	char						*tmp;
 	char						*res;
+	char						*key;
 }								t_expan;
 
 typedef struct s_redir
@@ -146,13 +150,14 @@ void							free_env_list(t_env *head);
 char							*get_env_value(char *key, t_env *env);
 void							update_env_value(t_env *env, char *key,
 									char *new_value);
+char	*get_env_dup(char *key, t_env *env);
 
 /*============= LEXER ================*/
 int								is_redirection(char c);
 int								is_space(char c);
 void							add_token(t_token **head, char *content,
-									t_token_type type, t_quote_ctx quote);
-t_token							*lexer(char *input);
+									t_token_type type);
+t_token							*lexer(t_mini *mini, char *input);
 
 /*============= EXPANSIONS ================*/
 int								expansions(t_mini *mini);
@@ -196,10 +201,10 @@ int								my_export(t_mini *mini);
 int								my_unset(t_mini *mini);
 int								my_env(t_mini *mini);
 int								my_exit(t_mini *mini);
-t_env							*create_node(char *key, char *value);
+t_env							*create_node(t_mini *mini, char *key, char *value);
 void							sort_env(t_env *head);
-t_env							*env_cpy(t_env *head);
-int								append_env_node(t_env **head, t_env **cur,
+t_env							*env_cpy(t_mini *mini, t_env *head);
+int								append_env_node(t_mini *mini, t_env **head, t_env **cur,
 									char *content);
 int								check_env_variable(t_env *head, char *key);
 
@@ -212,6 +217,7 @@ void							free_env(t_env *env);
 void							free_commands(t_cmds *cmds);
 void							free_redirs(t_redir *redirs);
 void							free_str_array(char **array);
+void	free_parsing(t_mini *mini);
 
 /*============= PROVES ================*/
 void							print_cmds(t_cmds *cmds);

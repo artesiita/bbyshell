@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:31:23 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/02/13 17:32:06 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/03/29 18:19:34 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	is_redirection(char c)
 	return (0);
 }
 
-void	add_token(t_token **head, char *content, t_token_type type,
-		t_quote_ctx quote)
+void	add_token(t_token **head, char *content, t_token_type type)
 {
 	t_token	*new;
 	t_token	*last;
@@ -37,7 +36,6 @@ void	add_token(t_token **head, char *content, t_token_type type,
 		return ;
 	new->content = content;
 	new->type = type;
-	new->quote = quote;
 	new->next = NULL;
 	if (*head == NULL)
 		*head = new;

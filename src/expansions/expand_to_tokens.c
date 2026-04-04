@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansions_utils.c                                 :+:      :+:    :+:   */
+/*   expand_to_tokens.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:07:09 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/27 15:43:54 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:55:46 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-char	*get_env_dup(char *key, t_env *env)
-{
-	char	*val;
-
-	val = get_env_value(key, env);
-	if (val)
-		return (ft_strdup(val));
-	return (ft_strdup(""));
-}
 
 t_token	*tokenize(char *content)
 {
@@ -30,7 +20,6 @@ t_token	*tokenize(char *content)
 	if (!new)
 		return (NULL);
 	new->content = ft_strdup(content);
-	new->quote = Q_NONE;
 	new->type = T_WORD;
 	new->next = NULL;
 	return (new);
@@ -38,9 +27,9 @@ t_token	*tokenize(char *content)
 
 int	manage_token(t_mini *mini, t_token *tok, t_expan *expan, char **split)
 {
+	free(tok->content);
 	if (!split || !split[0])
 	{
-		free(tok->content);
 		tok->content = ft_strjoin(expan->pre, expan->suf);
 		free_split(split);
 		filter_expansion(mini, tok, ft_strlen(expan->pre));
@@ -48,15 +37,44 @@ int	manage_token(t_mini *mini, t_token *tok, t_expan *expan, char **split)
 	}
 	if (expan->val[0] == ' ')
 	{
-		free(tok->content);
-		tok->content = ft_strjoin(expan->pre, expan->suf);
-		return (-1);
+		if (ft_strlen(expan->pre) == 0)
+		{
+			tok->content = ft_strdup(split[0]);
+			return (0);
+		}
+		else
+		{
+			tok->content = ft_strdup(expan->pre);
+			return (-1);
+		}
+	}
+	else
+		tok->content = ft_strjoin(expan->pre, split[0]);
+	return (0);
+}
+
+void	token_tail(t_mini *mini, t_token *tok, t_expan *expan, t_token *nsave)
+{
+	t_token	*new;
+
+	if (expan->val[ft_strlen(expan->val) - 1] == ' ')
+	{
+		tok->content = ft_strdup(expan->tmp);
+		free(expan->tmp);
+		if (expan->suf && expan->suf[0])
+		{
+			new = tokenize(expan->suf);
+			new->next = nsave;
+			tok->next = new;
+			filter_expansion(mini, new, 0);
+		}
 	}
 	else
 	{
-		free(tok->content);
-		tok->content = ft_strjoin(expan->pre, split[0]);
-		return (0);
+		tok->content = ft_strjoin(expan->tmp, expan->suf);
+		filter_expansion(mini, tok, ft_strlen(tok->content)
+			- ft_strlen(expan->suf));
+		free(expan->tmp);
 	}
 }
 
@@ -80,10 +98,8 @@ void	split_to_tokens(t_mini *mini, t_token *tok, t_expan *expan)
 		tok = new;
 	}
 	expan->tmp = tok->content;
-	tok->content = ft_strjoin(expan->tmp, expan->suf);
-	filter_expansion(mini, tok, ft_strlen(tok->content)
-		- ft_strlen(expan->suf));
-	return ((free(expan->tmp)), (void)free_split(split));
+	token_tail(mini, tok, expan, next_save);
+	free_split(split);
 }
 
 void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
@@ -105,6 +121,8 @@ void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
 					+ 1));
 		expan.val = get_env_dup(expan.tmp, mini->env_head);
 		free(expan.tmp);
+		if (!expan.val)
+			expan.val = ft_strdup("");
 	}
 	expan.suf = ft_strdup(&token->content[i]);
 	split_to_tokens(mini, token, &expan);

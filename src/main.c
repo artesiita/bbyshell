@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/27 18:00:55 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/03 12:52:54 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,15 @@ static void	mini_loop(t_mini *mini)
 		if (line[0] != '\0')
 		{
 			add_history(line);
-			mini->tokens = lexer(line);
+			mini->tokens = lexer(mini, line);
+			expansions(mini);
 			if (mini->tokens)
 			{
 				mini->cmds = parsing(mini);
-				ft_executor(mini);
-				free_tokens(mini->tokens);
-				mini->tokens = NULL;
-				if (mini->cmds)
-				{
-					free_commands(mini->cmds);
-					mini->cmds = NULL;
-				}
+				if (!mini->cmds)
+					free_parsing(mini);
+				else
+					ft_executor(mini);
 			}
 		}
 		free(line);
