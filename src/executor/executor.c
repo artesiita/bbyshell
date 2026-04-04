@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/03 13:14:45 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/04 08:34:43 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static void	do_childs(t_mini *mini)
 			// funció de neteja que inclou close
 			// gestió de l'error
 		}
-		my_close(mini->ex->fds[OLD_FDS][P_READ],
-			mini->ex->fds[OLD_FDS][P_WRITE],
+		my_close(&(mini->ex->fds[OLD_FDS][P_READ]),
+			&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			"close in main proc after forking");
 		mini->ex->fds[OLD_FDS][P_READ] = mini->ex->fds[NEW_FDS][P_READ];
 		mini->ex->fds[OLD_FDS][P_WRITE] = mini->ex->fds[NEW_FDS][P_WRITE];
@@ -102,8 +102,8 @@ static pid_t	my_fork(t_mini *mini)
 	else if (my_id == 0)
 	{
 		printf("procés %i = fill ex\n", getpid()); 
-		my_close(mini->ex->fds[OLD_FDS][P_WRITE],
-			mini->ex->fds[NEW_FDS][P_READ], "close in child pre execve");
+		my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
+			&(mini->ex->fds[NEW_FDS][P_READ]), "close in child pre execve");
 		set_cmd_redirs(mini);
 		if(!redirect(mini))
 		{
@@ -115,7 +115,7 @@ static pid_t	my_fork(t_mini *mini)
 		{
 			// Fer clean i exit
 		}
-		my_close(mini->ex->fds[OLD_FDS][P_READ], mini->ex->fds[NEW_FDS][P_WRITE],
+		my_close(&(mini->ex->fds[OLD_FDS][P_READ]), &(mini->ex->fds[NEW_FDS][P_WRITE]),
 			 "close in child afer execve");
 		exit(EXIT_SUCCESS);
 	}

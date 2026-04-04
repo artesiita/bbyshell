@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/03 12:55:07 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/04 08:41:50 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 
 // quick line to close 2 fds and print the errors if there are any
 
-void	my_close(int fd1, int fd2, char *msg)
+void	my_close(int *fd1, int *fd2, char *msg)
 {
-	if (fd1 > 2 && close(fd1) == -1)
-		perror(msg);
-	if (fd2 > 2 && close(fd2) == -1)
-		perror(msg);
+	if (*fd1 > 2 )
+	{
+		if (close(*fd1) == -1)
+			perror(msg);
+		*fd1 = -1;
+	}
+	if (*fd2 > 2)
+	{
+		if (close(*fd2) == -1)
+			perror(msg);
+		*fd2 = -1;
+	}
 }
 
 // Manages the dup2 with its error handlings
@@ -67,5 +75,8 @@ void	ft_postex_clean(t_mini *mini)
 	free_parsing(mini);
 	mini->ex->cur_cmd = NULL;
 	ft_lstclear((void **)&(mini->ex->hedocs), &ft_del_t_hedoc);
-	//revisar que es tanquen els docs (per si no faig un process fill)
+	my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
+			&(mini->ex->fds[OLD_FDS][P_READ]), "close in cleanup");
+	my_close(&(mini->ex->fds[NEW_FDS][P_WRITE]),
+			&(mini->ex->fds[NEW_FDS][P_READ]), "close in cleanup");
 }

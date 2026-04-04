@@ -186,7 +186,7 @@ void							set_heredoc(t_mini *mini, char *end);
 void							dump_heredoc(t_mini *mini);
 void							open_files(char *file_in, char *file_out,
 									int *filefds);
-void							my_close(int fd1, int fd2, char *msg);
+void							my_close(int *fd1, int *fd2, char *msg);
 int								redirect(t_mini *mini);
 void							wait_childs(pid_t *childs);
 int								my_execve(t_mini *mini);
@@ -217,7 +217,7 @@ void							free_env(t_env *env);
 void							free_commands(t_cmds *cmds);
 void							free_redirs(t_redir *redirs);
 void							free_str_array(char **array);
-void	free_parsing(t_mini *mini);
+void							free_parsing(t_mini *mini);
 
 /*============= PROVES ================*/
 void							print_cmds(t_cmds *cmds);
