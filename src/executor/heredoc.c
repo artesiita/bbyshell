@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/29 14:12:01 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/07 22:02:27 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	dump_heredoc(t_mini *mini)
 		return ; //gestionar error??
 	else if (my_id == 0)
 	{
-		printf("procés %i = heredoc dumper\n", getpid());
+		//printf("procés %i = heredoc dumper\n", getpid());
 		data = heredoc->data;
 		fd = mini->ex->fds[OLD_FDS][P_WRITE];
 		close(mini->ex->fds[OLD_FDS][P_READ]);
@@ -80,8 +80,7 @@ void	dump_heredoc(t_mini *mini)
 			data = data->next;
 		}
 		close(fd);
-		ft_postex_clean(mini);
-		exit(EXIT_SUCCESS);
+		ex_exit(mini, EXIT_SUCCESS);
 	}
 	close(mini->ex->fds[OLD_FDS][P_WRITE]);
 	return ;

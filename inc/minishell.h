@@ -192,6 +192,7 @@ void							wait_childs(pid_t *childs);
 int								my_execve(t_mini *mini);
 int								(*get_builtin_ft(t_mini *mini))(t_mini *);
 void							ft_postex_clean(t_mini *mini);
+void							ex_exit(t_mini *mini, int status);
 
 /*============ BUILT-INS ==============*/
 int								my_echo(t_mini *mini);

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/27 19:33:58 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/07 21:30:18 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	my_execve(t_mini *mini)
 	if (!path)
 	{
 		perror(mini->ex->cur_cmd->args[0]);
-		return (0);
+		return (-1);
 	}
 	return (execve(path, mini->ex->cur_cmd->args, env_compile(mini->env_head)));
 }

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/04 08:34:43 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/07 22:04:21 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_executor(t_mini *mini)
 		if (mini->ex->childs && *(mini->ex->childs))
 			wait_childs(mini->ex->childs);
 		free(mini->ex->childs);
+		mini->ex->childs = NULL;
 	}
 	else
 	{
@@ -47,10 +48,7 @@ void	ft_executor(t_mini *mini)
 			//NO ESTIC SEGUR QUE AIXÒ TINGUI SENTIT AQUÍ
 			//Gestionar l'error de dup2 (clean i exit) (no feia close)
 		}
-		if (my_execve(mini) == -1)
-		{
-			// Fer clean i exit
-		}
+		my_execve(mini);
 	}
 	ft_postex_clean(mini);
 	// un free especial per l'struct de executor.
@@ -101,7 +99,7 @@ static pid_t	my_fork(t_mini *mini)
 		return (my_id);
 	else if (my_id == 0)
 	{
-		printf("procés %i = fill ex\n", getpid()); 
+		//printf("procés %i = fill ex\n", getpid());
 		my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			&(mini->ex->fds[NEW_FDS][P_READ]), "close in child pre execve");
 		set_cmd_redirs(mini);
@@ -111,13 +109,7 @@ static pid_t	my_fork(t_mini *mini)
 		}
 		dump_heredoc(mini);
 		//printf("pare ha tornat post dump_heredoc\n");
-		if (my_execve(mini) == -1)
-		{
-			// Fer clean i exit
-		}
-		my_close(&(mini->ex->fds[OLD_FDS][P_READ]), &(mini->ex->fds[NEW_FDS][P_WRITE]),
-			 "close in child afer execve");
-		exit(EXIT_SUCCESS);
+		ex_exit(mini, my_execve(mini));
 	}
 	return (my_id);
 }
