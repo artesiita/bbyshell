@@ -4,3 +4,4 @@
 minishell
 .swp
 .DS_Store
+valgrind_output

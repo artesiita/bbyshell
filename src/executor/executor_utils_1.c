@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/04 08:41:50 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/07 21:06:54 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	ft_del_t_hedoc(void *void_node)
 	node->next = NULL;
 	free(node);
 }
+
 
 void	ft_postex_clean(t_mini *mini)
 {
