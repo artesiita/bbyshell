@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/07 22:02:27 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/08 21:46:44 by bizcru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	dump_heredoc(t_mini *mini)
 		//printf("procés %i = heredoc dumper\n", getpid());
 		data = heredoc->data;
 		fd = mini->ex->fds[OLD_FDS][P_WRITE];
-		close(mini->ex->fds[OLD_FDS][P_READ]);
 		while (data)
 		{
 			write(fd, data->line, ft_strlen(data->line));
