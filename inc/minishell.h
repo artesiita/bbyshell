@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/11 13:31:12 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 13:35:46 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	ft_redir_append(t_mini *mini, t_redir *redir);
 void	set_heredoc(t_mini *mini, char *end);
 void	dump_heredoc(t_mini *mini);
 void	open_files(char *file_in, char *file_out, int *filefds);
-void	my_close(int fd1, int fd2, char *msg);
+void	my_close(int *fd1, int *fd2, char *msg);
 int		redirect(t_mini *mini);
 void	wait_childs(pid_t *childs);
 int		my_execve(t_mini *mini);
