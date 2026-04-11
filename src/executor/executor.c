@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/11 13:29:54 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 17:17:02 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void		my_pipe(t_mini *mini);
 
 void	ft_executor(t_mini *mini)
 {
-	/*printf("procés %i = pare\n", getpid());*/
 	signals_nonintmode();
 	mini->ex->cur_cmd = mini->cmds;
 	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
@@ -50,7 +49,8 @@ void	ft_executor(t_mini *mini)
 		}
 		if (my_execve(mini) == -1)
 		{
-			// Fer clean i exit
+			free_everything(mini);
+			exit(127);
 		}
 	}
 	ft_postex_clean(mini);
@@ -114,7 +114,8 @@ static pid_t	my_fork(t_mini *mini)
 		//printf("pare ha tornat post dump_heredoc\n");
 		if (my_execve(mini) == -1)
 		{
-			// Fer clean i exit
+			free_everything(mini);
+			exit(127);
 		}
 		my_close(&(mini->ex->fds[OLD_FDS][P_READ]), &(mini->ex->fds[NEW_FDS][P_WRITE]),
 			 "close in child afer execve");
