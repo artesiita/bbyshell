@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:28:29 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/11 14:20:39 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 16:28:36 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,23 @@
 
 void	free_everything(t_mini *mini)
 {
+	if (!mini)
+		return ;
 	if (mini->env_head)
-	{
 		free_env(mini->env_head);
-		mini->env_head = NULL;
-	}
+	mini->env_head = NULL; // Crucial
 	if (mini->tokens)
 		free_tokens(mini->tokens);
+	mini->tokens = NULL;
 	if (mini->cmds)
 		free_commands(mini->cmds);
-	if (mini->ex && mini->ex->childs)
+	mini->cmds = NULL;
+	if (mini->ex)
 	{
-		free(mini->ex->childs);
+		if (mini->ex->childs)
+			free(mini->ex->childs);
 		mini->ex->childs = NULL;
 	}
-	mini->tokens = NULL;
-	mini->cmds = NULL;
 }
 
 void	free_parsing(t_mini *mini)

@@ -6,7 +6,7 @@
 #    By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/28 15:47:58 by bizcru            #+#    #+#              #
-#    Updated: 2026/03/27 18:05:41 by becanals         ###   ########.fr        #
+#    Updated: 2026/04/11 16:19:45 by lartes-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS = ft_islower.c \
 		ft_isupper.c \
 		ft_isalpha.c \
 		ft_isdigit.c \
+		ft_isdigit_str.c \
 		ft_isalnum.c \
 		ft_isascii.c \
 		ft_isprint.c \
@@ -25,6 +26,7 @@ SRCS = ft_islower.c \
 		ft_toupper.c \
 		ft_tolower.c \
 		ft_atoi.c \
+		ft_atol.c \
 		ft_strlcpy.c \
 		ft_strlcat.c \
 		ft_strncmp.c \
@@ -71,7 +73,8 @@ SRCS = ft_islower.c \
 		ft_lstclear.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
-		ft_free_split.c
+		ft_free_split.c \
+		is_valid_long.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/03 18:42:46 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 16:39:25 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@ int	main(int ac, char **av, char **env)
 
 static int	load_mini(t_mini *mini, t_executor *ex, char **env)
 {
+	ft_memset(ex, 0, sizeof(t_executor));
 	if (!env_setup(mini, env))
 		return (0);
 	mini->ex = ex;
 	mini->ex->hedocs = NULL;
+	mini->ex->childs = NULL;
+	mini->ex->cur_cmd = NULL;
 	mini->tokens = NULL;
 	mini->cmds = NULL;
 	mini->exit_status = 0;
