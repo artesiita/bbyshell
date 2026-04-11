@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/11 17:17:02 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 17:40:49 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_executor(t_mini *mini)
 		if (mini->ex->childs && *(mini->ex->childs))
 			wait_childs(mini->ex->childs);
 		free(mini->ex->childs);
+		mini->ex->childs = NULL;
 	}
 	else
 	{
