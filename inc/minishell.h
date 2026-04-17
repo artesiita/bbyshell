@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/11 13:35:46 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/13 19:48:00 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,5 +214,6 @@ void	print_tokens(t_token *tokens);
 void	print_env(t_env *env);
 void	signals_nonintmode(void);
 void	signals_intmode(void);
+void rl_replace_line(const char *text, int clear_undo);
 
 #endif

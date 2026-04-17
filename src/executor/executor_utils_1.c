@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/07 21:06:54 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/13 21:01:14 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,49 @@ void	ft_del_t_hd_data(void *void_node)
 {
 	t_hd_data	*node;
 
+	if (!void_node)
+		return ;
 	node = (t_hd_data *)void_node;
-	free(node->line);
-	node->next = NULL;
+	if (node->line)
+		free(node->line);
 	free(node);
 }
 
 void	ft_del_t_hedoc(void *void_node)
 {
-	t_hedoc	*node;
+	t_hedoc		*node;
+	t_hd_data	*data;
+	t_hd_data	*tmp;
 
 	node = (t_hedoc *)void_node;
-	ft_lstclear((void **)&(node->data), &ft_del_t_hd_data);
-	node->data = NULL;
-	node->next = NULL;
+	data = node->data;
+	while (data)
+	{
+		tmp = data->next;
+		free(data->line);
+		free(data);
+		data = tmp;
+	}
 	free(node);
 }
 
 
 void	ft_postex_clean(t_mini *mini)
 {
+	t_hedoc *curr;
+	t_hedoc *next;
+
 	free_parsing(mini);
 	mini->ex->cur_cmd = NULL;
-	ft_lstclear((void **)&(mini->ex->hedocs), &ft_del_t_hedoc);
+	curr = mini->ex->hedocs;
+	while (curr)
+	{
+		next = curr->next;
+		ft_del_t_hedoc(curr);
+		curr = next;
+	}
+	mini->ex->hedocs = NULL;
+
 	my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			&(mini->ex->fds[OLD_FDS][P_READ]), "close in cleanup");
 	my_close(&(mini->ex->fds[NEW_FDS][P_WRITE]),

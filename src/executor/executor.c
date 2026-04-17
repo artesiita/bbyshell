@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/11 17:40:49 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/13 21:04:21 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_executor(t_mini *mini)
 		mini->ex->fds[OLD_FDS][P_READ] = STDIN_FILENO;
 		mini->ex->fds[NEW_FDS][P_WRITE] = STDOUT_FILENO;
 		set_cmd_redirs(mini);
+		dump_heredoc(mini);
 		if(!redirect(mini))
 		{
 			//NO ESTIC SEGUR QUE AIXÒ TINGUI SENTIT AQUÍ

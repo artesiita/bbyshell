@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 16:11:14 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/29 12:51:00 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/13 19:53:03 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,18 @@ void ft_redir_out(t_mini *mini, t_redir *redir)
 
 void ft_redir_heredoc(t_mini *mini, t_redir *redir)
 {
+	int	hd_pipe[2];
 	if (mini->ex->fds[OLD_FDS][P_READ] > 2)
 		close(mini->ex->fds[OLD_FDS][P_READ]);
-	mini->ex->fds[OLD_FDS][P_READ] = 1;
-	if (pipe(mini->ex->fds[OLD_FDS]) == -1)
-		return ; // Falta gestionar aquest error
+	
+	if (pipe(hd_pipe) == -1)
+	{
+		perror("minishell: pipe");
+		return ;
+	}
+	mini->ex->fds[OLD_FDS][P_READ] = hd_pipe[0];
+	mini->ex->fds[OLD_FDS][P_WRITE] = hd_pipe[1];
+	
 	set_heredoc(mini, redir->target);
 }
 

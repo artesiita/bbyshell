@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/03/29 14:12:01 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/13 22:11:38 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,62 @@
 // Aquesta l'únic que ha de fer és agafar un heredoc que ja haurà estat creat a set_heredoc
 // i gestionar el filling de les línies que introdueixi l'usuari cap a la linked list
 
+void add_hedoc_back(t_hedoc **list, t_hedoc *new)
+{
+    t_hedoc *curr;
+
+    if (!list || !new)
+        return;
+    if (!*list)
+    {
+        *list = new;
+        return;
+    }
+    curr = *list;
+    while (curr->next)
+        curr = curr->next;
+    curr->next = new;
+}
+
+void add_hd_data_back(t_hd_data **list, t_hd_data *new)
+{
+    t_hd_data *curr;
+
+    if (!list || !new)
+        return;
+    if (!*list)
+    {
+        *list = new;
+        return;
+    }
+    curr = *list;
+    while (curr->next)
+        curr = curr->next;
+    curr->next = new;
+}
+
 static void	fill_heredoc(t_hedoc *heredoc, char *end)
 {
-	char	*line;
-	void	*new;
+	char		*line;
+	t_hd_data	*new_node;
 
-	line = readline("> ");
-	while (!ft_streq(line, end))
+	while (1)
 	{
-		new = ft_lstnew(sizeof(t_hd_data), line);
-		//printf("linia: %p\n", line);
-		//printf("guardada a: %p\n", ((t_hd_data *)new)->line);
-		if (!new)
-			return ; // Aquí faltarà fer el clear i tot això		
-		ft_lstadd_back((void **)&(heredoc->data), new);
 		line = readline("> ");
+		if (!line || ft_streq(line, end))
+		{
+			free(line);
+			break;
+		}
+		new_node = ft_calloc(1, sizeof(t_hd_data));
+		if (!new_node)
+		{
+			free(line);
+			return ; 
+		}
+		new_node->line = line;
+		new_node->next = NULL;
+		add_hd_data_back(&(heredoc->data), new_node);
 	}
 }
 
@@ -43,11 +84,9 @@ void	set_heredoc(t_mini *mini, char *end)
 	
 	current = ft_calloc(1, sizeof(t_hedoc));
 	if (!current)
-		return ; //falta gestionar l'error de malloc
+		return ;
 	fill_heredoc(current, end);
-	if (current->data->line)
-		write(1, current->data->line, 1);
-	ft_lstadd_back((void **)&(mini->ex->hedocs), current);
+	add_hedoc_back(&(mini->ex->hedocs), current);
 }
 
 // dump_heredoc s'encarrega d'escriure el contingut de l'últim heredoc a l'extrem
@@ -64,27 +103,29 @@ void	dump_heredoc(t_mini *mini)
 	heredoc = ft_lstlast(mini->ex->hedocs);
 	if (!heredoc)
 		return ;
+	fd = mini->ex->fds[OLD_FDS][P_WRITE];
 	my_id = fork();
 	if (my_id == -1)
-		return ; //gestionar error??
+		return ; 
 	else if (my_id == 0)
 	{
-		printf("procés %i = heredoc dumper\n", getpid());
 		data = heredoc->data;
-		fd = mini->ex->fds[OLD_FDS][P_WRITE];
 		close(mini->ex->fds[OLD_FDS][P_READ]);
 		while (data)
 		{
-			write(fd, data->line, ft_strlen(data->line));
-			write(fd, "\n", 1);
+			if (data->line)
+			{
+				write(fd, data->line, ft_strlen(data->line));
+				write(fd, "\n", 1);
+			}
 			data = data->next;
 		}
 		close(fd);
-		ft_postex_clean(mini);
 		exit(EXIT_SUCCESS);
 	}
-	close(mini->ex->fds[OLD_FDS][P_WRITE]);
-	return ;
+	close(fd);
+	mini->ex->fds[OLD_FDS][P_WRITE] = -1;
+	waitpid(my_id, NULL, 0);
 }
 
 //static void	clean_heredoc()
