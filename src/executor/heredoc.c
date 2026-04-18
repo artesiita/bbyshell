@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/18 19:51:09 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/18 20:24:40 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	set_heredoc(t_mini *mini, char *end)
 	if (!current)
 		return ; //falta gestionar l'error de malloc
 	fill_heredoc(current, end);
-	if (current->data->line)
-		write(1, current->data->line, 1);
+	//if (current->data->line)
+	//	write(1, current->data->line, 1);
 	ft_lstadd_back((void **)&(mini->ex->hedocs), current);
 }
 
