@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/18 16:35:09 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:57:52 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ int	redirect(t_mini *mini)
 	 (dup2(mini->ex->fds[NEW_FDS][P_WRITE], STDOUT_FILENO) == -1))
 		return (0);
 	return (1);
+}
+
+// Util function to set the fds for parent process managing a builtin
+
+void	set_std_fds(t_mini *mini)
+{
+	mini->ex->fds[OLD_FDS][P_READ] = STDIN_FILENO;
+	mini->ex->fds[NEW_FDS][P_WRITE] = STDOUT_FILENO;
+}
+
+// Util function to restore stdin and stdout for parent process w builtin
+void	repair_std_fds(t_mini *mini)
+{
+	dup2(mini->saved_stdin, STDIN_FILENO);
+	dup2(mini->saved_stdout, STDOUT_FILENO);
 }
 
 // Waits for all the child pid_t processes

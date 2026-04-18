@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/18 16:16:39 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:56:57 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ typedef struct s_mini
 	t_token						*tokens;
 	t_cmds						*cmds;
 	t_executor					*ex;
+	int							saved_stdin;
+	int							saved_stdout;
 }	t_mini;
 
 /*-----------------------------------------------------------------*/
@@ -180,6 +182,8 @@ void	open_files(char *file_in, char *file_out,
 			int *filefds);
 void	my_close(int *fd1, int *fd2, char *msg);
 int		redirect(t_mini *mini);
+void	set_std_fds(t_mini *mini);
+void	repair_std_fds(t_mini *mini);
 void	wait_childs(pid_t *childs);
 int		my_execve(t_mini *mini);
 int		(*get_builtin_ft(t_mini *mini))(t_mini *);

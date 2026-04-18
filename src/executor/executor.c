@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/18 16:29:54 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:58:20 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void		set_cmd_redirs(t_mini *mini);
 static int		my_pipe(t_mini *mini);
 
 /* 
-	main functin of the executor section of the Minishell.
+	main function of the executor section of the Minishell.
 	Receives a full mini with a parsed input, executes the correct commands,
 	handles errors and its input, sets the errno and returns the control.
- */
+*/
 
 void	ft_executor(t_mini *mini)
 {
@@ -42,11 +42,11 @@ void	ft_executor(t_mini *mini)
 	}
 	else
 	{
-		mini->ex->fds[OLD_FDS][P_READ] = STDIN_FILENO;
-		mini->ex->fds[NEW_FDS][P_WRITE] = STDOUT_FILENO;
+		set_std_fds(mini);
 		set_cmd_redirs(mini);
 		if(redirect(mini))
 			mini->exit_status = my_execve(mini);
+		repair_std_fds(mini);
 	}
 	ft_postex_clean(mini);
 }

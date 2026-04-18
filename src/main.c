@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/11 16:39:25 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:00:08 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static int	load_mini(t_mini *mini, t_executor *ex, char **env)
 	mini->tokens = NULL;
 	mini->cmds = NULL;
 	mini->exit_status = 0;
+	mini->saved_stdin = dup(STDIN_FILENO);
+	mini->saved_stdout = dup(STDOUT_FILENO);
 	return (1);
 }
 
