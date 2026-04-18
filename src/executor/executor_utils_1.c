@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/07 22:48:11 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/18 16:35:09 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 
 void	my_close(int *fd1, int *fd2, char *msg)
 {
-	if (*fd1 > 2 )
+	if (fd1 && *fd1 > 2 )
 	{
 		if (close(*fd1) == -1)
 			perror(msg);
 		*fd1 = -1;
 	}
-	if (*fd2 > 2)
+	if (fd2 && *fd2 > 2)
 	{
 		if (close(*fd2) == -1)
 			perror(msg);

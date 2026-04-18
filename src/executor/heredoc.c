@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/08 21:46:44 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/18 16:35:35 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	dump_heredoc(t_mini *mini)
 		close(fd);
 		ex_exit(mini, EXIT_SUCCESS);
 	}
-	close(mini->ex->fds[OLD_FDS][P_WRITE]);
+	my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]), NULL, "");
 	return ;
 }
 
