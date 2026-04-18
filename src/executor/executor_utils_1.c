@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/18 18:57:52 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:26:01 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,51 +62,4 @@ void	wait_childs(pid_t *childs)
 	while (childs && *childs)
 		if (waitpid(*childs++, NULL, 0) == -1)
 			perror("waitpid");
-}
-
-void	ft_del_t_hd_data(void *void_node)
-{
-	t_hd_data	*node;
-
-	node = (t_hd_data *)void_node;
-	free(node->line);
-	node->next = NULL;
-	free(node);
-}
-
-void	ft_del_t_hedoc(void *void_node)
-{
-	t_hedoc	*node;
-
-	node = (t_hedoc *)void_node;
-	ft_lstclear((void **)&(node->data), &ft_del_t_hd_data);
-	node->data = NULL;
-	node->next = NULL;
-	free(node);
-}
-
-
-void	ft_postex_clean(t_mini *mini)
-{
-	free_parsing(mini);
-	mini->ex->cur_cmd = NULL;
-	ft_lstclear((void **)&(mini->ex->hedocs), &ft_del_t_hedoc);
-	my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
-			&(mini->ex->fds[OLD_FDS][P_READ]), "close in cleanup");
-	my_close(&(mini->ex->fds[NEW_FDS][P_WRITE]),
-			&(mini->ex->fds[NEW_FDS][P_READ]), "close in cleanup");
-	if (mini->ex->childs)
-	{
-		free(mini->ex->childs);
-		mini->ex->childs = NULL;
-	}
-}
-
-void	ex_exit(t_mini *mini, int status)
-{
-	ft_postex_clean(mini);
-	free_env(mini->env_head);
-	mini->env_head = NULL;
-	mini->exit_status = status;
-	exit(status);
 }
