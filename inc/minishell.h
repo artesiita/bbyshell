@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/11 13:35:46 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/18 16:16:39 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,13 +176,15 @@ void	ft_redir_heredoc(t_mini *mini, t_redir *redir);
 void	ft_redir_append(t_mini *mini, t_redir *redir);
 void	set_heredoc(t_mini *mini, char *end);
 void	dump_heredoc(t_mini *mini);
-void	open_files(char *file_in, char *file_out, int *filefds);
+void	open_files(char *file_in, char *file_out,
+			int *filefds);
 void	my_close(int *fd1, int *fd2, char *msg);
 int		redirect(t_mini *mini);
 void	wait_childs(pid_t *childs);
 int		my_execve(t_mini *mini);
 int		(*get_builtin_ft(t_mini *mini))(t_mini *);
 void	ft_postex_clean(t_mini *mini);
+void	ex_exit(t_mini *mini, int status);
 
 /*============ BUILT-INS ==============*/
 int		my_echo(t_mini *mini);

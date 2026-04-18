@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/11 17:40:49 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/18 16:18:07 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void		do_childs(t_mini *mini);
 static pid_t	my_fork(t_mini *mini);
 static void		set_cmd_redirs(t_mini *mini);
-static void		my_pipe(t_mini *mini);
+static int		my_pipe(t_mini *mini);
 
 /* 
 	main functin of the executor section of the Minishell.
@@ -31,31 +31,24 @@ void	ft_executor(t_mini *mini)
 	{
 		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds) + 1, sizeof(pid_t));
 		if (!mini->ex->childs)
-			exit(EXIT_FAILURE); // faltarà gestionar l'error del malloc
-		do_childs(mini);
-		if (mini->ex->childs && *(mini->ex->childs))
+			perror("malloc");
+		else
+		{
+			do_childs(mini);
 			wait_childs(mini->ex->childs);
-		free(mini->ex->childs);
-		mini->ex->childs = NULL;
+			free(mini->ex->childs);
+			mini->ex->childs = NULL;
+		}
 	}
 	else
 	{
 		mini->ex->fds[OLD_FDS][P_READ] = STDIN_FILENO;
 		mini->ex->fds[NEW_FDS][P_WRITE] = STDOUT_FILENO;
 		set_cmd_redirs(mini);
-		if(!redirect(mini))
-		{
-			//NO ESTIC SEGUR QUE AIXÒ TINGUI SENTIT AQUÍ
-			//Gestionar l'error de dup2 (clean i exit) (no feia close)
-		}
-		if (my_execve(mini) == -1)
-		{
-			free_everything(mini);
-			exit(127);
-		}
+		if(redirect(mini))
+			mini->exit_status = my_execve(mini);
 	}
 	ft_postex_clean(mini);
-	// un free especial per l'struct de executor.
 }
 
 /*
@@ -71,14 +64,16 @@ static void	do_childs(t_mini *mini)
 	mini->ex->fds[OLD_FDS][P_WRITE] = -1;
 	while (mini->ex->cur_cmd)
 	{
-		//printf("flag 1, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
-		my_pipe(mini);
-		//printf("flag 2, fd == %i\n", mini->ex->fds[OLD_FDS][P_READ]);
+		if (!my_pipe(mini))
+		{
+			// aquí un printerror;
+			return (ft_postex_clean(mini));
+		}
 		mini->ex->childs[i] = my_fork(mini);
 		if (mini->ex->childs[i++] == -1)
 		{
-			// funció de neteja que inclou close
-			// gestió de l'error
+			// aquí un printerror;
+			return (ft_postex_clean(mini));
 		}
 		my_close(&(mini->ex->fds[OLD_FDS][P_READ]),
 			&(mini->ex->fds[OLD_FDS][P_WRITE]),
@@ -103,24 +98,13 @@ static pid_t	my_fork(t_mini *mini)
 		return (my_id);
 	else if (my_id == 0)
 	{
-		printf("procés %i = fill ex\n", getpid()); 
 		my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			&(mini->ex->fds[NEW_FDS][P_READ]), "close in child pre execve");
 		set_cmd_redirs(mini);
 		if(!redirect(mini))
-		{
-			// Gestionar l'error de dup2 (clean i exit) (no feia close)
-		}
+			ex_exit(mini, errno);
 		dump_heredoc(mini);
-		//printf("pare ha tornat post dump_heredoc\n");
-		if (my_execve(mini) == -1)
-		{
-			free_everything(mini);
-			exit(127);
-		}
-		my_close(&(mini->ex->fds[OLD_FDS][P_READ]), &(mini->ex->fds[NEW_FDS][P_WRITE]),
-			 "close in child afer execve");
-		exit(EXIT_SUCCESS);
+		ex_exit(mini, my_execve(mini));
 	}
 	return (my_id);
 }
@@ -133,7 +117,7 @@ static void	set_cmd_redirs(t_mini *mini)
 {
 	t_redir	*redir;
 
-	redir = mini->cmds->redirs;
+	redir = mini->ex->cur_cmd->redirs;
 	while (redir)
 	{
 		if (redir->type == R_IN)
@@ -152,21 +136,17 @@ static void	set_cmd_redirs(t_mini *mini)
    Updates fds depending on if we are in the last cmd (stdout & null) or else (pipe)
 */
 
-static void	my_pipe(t_mini *mini)
+static int	my_pipe(t_mini *mini)
 {
 	if (mini->ex->cur_cmd->next)
 	{
 		if (pipe(mini->ex->fds[NEW_FDS]) == -1)
-		{
-			mini->ex->fds[NEW_FDS][P_READ] = -1;
-			mini->ex->fds[NEW_FDS][P_WRITE] = -1;
-			// funció clean (que inclogui close!)
-			// gestió de l'errnum
-		}
+			return (0);
 	}
 	else
 	{
 		(mini->ex->fds)[NEW_FDS][P_READ] = -1;
 		(mini->ex->fds)[NEW_FDS][P_WRITE] = 1;
 	}
+	return (1);
 }
