@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 19:44:27 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 20:03:56 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	fill_heredoc(t_heredoc **hd, char *end)
 	}
 }
 
-void	heredoc_input(t_mini *mini)
+int	heredoc_input(t_mini *mini)
 {
 	int	quoted;
 	t_token	*cur;
@@ -79,6 +79,12 @@ void	heredoc_input(t_mini *mini)
 	{
 		if (cur->type == T_REDIR_HEREDOC)
 		{
+			if (!cur->next || cur->next->type != T_WORD)
+			{
+				printf("Bbyshell: syntax error near unexpected token `newline'\n");
+				mini->exit_status = 2;
+				return (ERROR);
+			}
 			quoted = is_quoted(cur->next->content);
 			if (quoted == 1)
 				cur->next->content = remove_quotes(cur->next->content);
@@ -88,4 +94,5 @@ void	heredoc_input(t_mini *mini)
 		}
 		cur = cur->next;
 	}
+	return (SUCCESS);
 }
