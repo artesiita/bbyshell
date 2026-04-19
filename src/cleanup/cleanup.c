@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:28:29 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 16:58:33 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/19 17:19:05 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_everything(t_mini *mini)
 		return ;
 	if (mini->env_head)
 		free_env(mini->env_head);
-	mini->env_head = NULL; // Crucial
+	mini->env_head = NULL;
 	if (mini->tokens)
 		free_tokens(mini->tokens);
 	mini->tokens = NULL;

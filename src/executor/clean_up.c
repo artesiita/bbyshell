@@ -6,29 +6,12 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 19:26:28 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/19 16:49:31 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/19 17:21:20 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*
-	OBSOLETE: cleaner of t_hd_data node;
-
-
-ft_lstclear((void **)&(mini->ex->hedocs), &ft_del_t_hedoc);
-
-void	ft_del_t_hd_data(void *void_node)
-{
-	t_hd_data	*node;
-
-	node = (t_hd_data *)void_node;
-	if (node->line)
-		free(node->line);
-	node->line = NULL;
-	node->next = NULL;
-}
-*/
 /*
 	Cleaner to be called just before ending executor
 */
@@ -55,8 +38,6 @@ void	ft_postex_clean(t_mini *mini)
 void	ex_exit(t_mini *mini, int status)
 {
 	ft_postex_clean(mini);
-	free_env(mini->env_head);
-	mini->env_head = NULL;
-	mini->exit_status = status;
+	free_everything(mini);
 	exit(status);
 }
