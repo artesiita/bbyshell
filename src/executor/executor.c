@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/19 15:59:16 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 16:22:55 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static void	set_cmd_redirs(t_mini *mini)
 		else if (redir->type == R_APPEND)
 			ft_redir_append(mini, redir);
 		else if (redir->type == R_HEREDOC)
-			ft_redir_heredoc(mini, redir);
+			ft_redir_heredoc(mini);
 		redir = redir->next;
 	}
 }

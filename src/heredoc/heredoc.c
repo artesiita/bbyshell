@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/19 15:59:18 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 17:00:53 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static  t_heredoc	*get_last_hd(t_mini *mini)
 			hd = redir->hd;
 		redir = redir->next;
 	}
+	return (hd);
 }
 
 // dump_heredoc s'encarrega d'escriure el contingut de l'últim heredoc a l'extrem
