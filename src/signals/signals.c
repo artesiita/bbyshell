@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:16:47 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/03 18:31:23 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 20:24:03 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,10 @@ void	signals_nonintmode(void)
 {
 	signal(SIGINT, sig_nonint_c);
 	signal(SIGQUIT, sig_nonint_c);
+}
+
+void	signals_heredoc(void)
+{
+	signal(SIGINT, sig_int_c);
+	signal(SIGQUIT, sig_close_stdin);
 }

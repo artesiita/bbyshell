@@ -6,11 +6,17 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 19:44:27 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 20:38:17 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	sig_close_stdin(int sign)
+{
+	write(1, "hola\n", 5);
+	g_signal_value = sign;
+}
 
 int		is_quoted(char *str)
 {
@@ -58,6 +64,7 @@ void	fill_heredoc(t_heredoc **hd, char *end)
 	char	*line;
 	void	*new;
 
+	signals_heredoc();
 	line = readline("> ");
 	while (!ft_streq(line, end))
 	{

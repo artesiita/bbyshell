@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 19:36:34 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 20:34:26 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 
 #define P_READ 0
 #define P_WRITE 1
+
+extern int g_signal_value;
 
 /*-----------------------------------------------------------------*/
 /*                             STRUCTS                             */
@@ -190,6 +192,7 @@ void	ft_del_t_heredoc(void *void_node);
 void	set_heredoc(t_mini *mini, char *end);
 void	dump_heredoc(t_mini *mini);
 void	heredoc_input(t_mini *mini);
+void	sig_close_stdin(int sign);
 
 /*============ BUILT-INS ==============*/
 int my_echo(t_mini *mini);
@@ -221,5 +224,6 @@ void print_tokens(t_token *tokens);
 void print_env(t_env *env);
 void signals_nonintmode(void);
 void signals_intmode(void);
+void	signals_heredoc(void);
 
 #endif
