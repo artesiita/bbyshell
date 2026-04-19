@@ -6,22 +6,11 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:30:05 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 19:54:24 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:56:09 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	t_syntax_error(t_mini *mini, t_token *tok)
-{
-	t_token *cur;
-
-	cur = tok;
-	while (tok)
-	{
-		if (tok->type != T_WORD )
-	}
-}
 
 int	handle_word(t_mini *mini, t_token **head, char *input, int *i)
 {
