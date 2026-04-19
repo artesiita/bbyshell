@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/19 17:00:53 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/19 18:42:56 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,7 @@
 // Aquesta l'únic que ha de fer és agafar un heredoc que ja haurà estat creat a set_heredoc
 // i gestionar el filling de les línies que introdueixi l'usuari cap a la linked list
 
-void	fill_heredoc(t_heredoc **hd, char *end)
-{
-	char	*line;
-	void	*new;
 
-	line = readline("> ");
-	while (!ft_streq(line, end))
-	{
-		new = ft_lstnew(sizeof(t_heredoc), line);
-		//printf("linia: %p\n", line);
-		//printf("guardada a: %p\n", ((t_hd_data *)new)->line);
-		if (!new)
-			return ; // Aquí faltarà fer el clear i tot això		
-		ft_lstadd_back((void **)hd, new);
-		line = readline("> ");
-	}
-}
 
 static  t_heredoc	*get_last_hd(t_mini *mini)
 {
