@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/04/18 16:18:30 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:31:26 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int (*get_builtin_ft(t_mini *mini))(t_mini *mini)
 	if (ft_streq(cmd, "echo"))
 		return (&my_echo);
 	else if (ft_streq(cmd, "cd"))
-		return (my_cd);
+		return (&my_cd);
 	else if (ft_streq(cmd, "pwd"))
 		return (&my_pwd);
 	else if (ft_streq(cmd, "export"))

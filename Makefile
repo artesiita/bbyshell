@@ -18,12 +18,23 @@ EX_SRC_DIR = src/executor/
 
 EX_SRC_NAMES = executor.c \
 				executor_utils_1.c\
-				heredoc.c \
-				redirs.c
+				redirs.c \
+				clean_up.c
 
 EX_SRC = $(addprefix $(EX_SRC_DIR), $(EX_SRC_NAMES))
 
 SRC += $(EX_SRC)
+
+######  HEREDOC FILES:
+
+HD_SRC_DIR = src/heredoc/
+
+HD_SRC_NAMES = heredoc.c
+
+
+HD_SRC = $(addprefix $(HD_SRC_DIR), $(HD_SRC_NAMES))
+
+SRC += $(HD_SRC)
 
 ######  BUILT-IN FILES:
 

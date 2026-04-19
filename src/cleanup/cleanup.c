@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:28:29 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/11 16:28:36 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:01:06 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	free_everything(t_mini *mini)
 	if (mini->cmds)
 		free_commands(mini->cmds);
 	mini->cmds = NULL;
+	close(mini->saved_stdin);
+	close(mini->saved_stdout);
 	if (mini->ex)
 	{
 		if (mini->ex->childs)

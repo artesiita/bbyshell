@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/18 17:25:55 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 15:59:18 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Aquesta l'únic que ha de fer és agafar un heredoc que ja haurà estat creat a set_heredoc
 // i gestionar el filling de les línies que introdueixi l'usuari cap a la linked list
 
-static void	fill_heredoc(t_hedoc *heredoc, char *end)
+void	fill_heredoc(t_heredoc **hd, char *end)
 {
 	char	*line;
 	void	*new;
@@ -23,31 +23,29 @@ static void	fill_heredoc(t_hedoc *heredoc, char *end)
 	line = readline("> ");
 	while (!ft_streq(line, end))
 	{
-		new = ft_lstnew(sizeof(t_hd_data), line);
+		new = ft_lstnew(sizeof(t_heredoc), line);
 		//printf("linia: %p\n", line);
 		//printf("guardada a: %p\n", ((t_hd_data *)new)->line);
 		if (!new)
 			return ; // Aquí faltarà fer el clear i tot això		
-		ft_lstadd_back((void **)&(heredoc->data), new);
+		ft_lstadd_back((void **)hd, new);
 		line = readline("> ");
 	}
 }
 
-// set_heredoc reb un end i ha de preparar la configuració del heredoc, la creació dels
-// structs que calgui a executor i tot això
-// Ha de cridar fill_heredoc perquè faci el filling per part de l'usuari
-
-void	set_heredoc(t_mini *mini, char *end)
+static  t_heredoc	*get_last_hd(t_mini *mini)
 {
-	t_hedoc *current;
-	
-	current = ft_calloc(1, sizeof(t_hedoc));
-	if (!current)
-		return ; //falta gestionar l'error de malloc
-	fill_heredoc(current, end);
-	if (current->data->line)
-		write(1, current->data->line, 1);
-	ft_lstadd_back((void **)&(mini->ex->hedocs), current);
+	t_heredoc	*hd;
+	t_redir		*redir;
+
+	hd = NULL;
+	redir =  mini->ex->cur_cmd->redirs;
+	while (redir)
+	{
+		if (redir->type == R_HEREDOC)
+			hd = redir->hd;
+		redir = redir->next;
+	}
 }
 
 // dump_heredoc s'encarrega d'escriure el contingut de l'últim heredoc a l'extrem
@@ -56,13 +54,12 @@ void	set_heredoc(t_mini *mini, char *end)
 
 void	dump_heredoc(t_mini *mini)
 {
-	pid_t		my_id;
-	t_hedoc		*heredoc;
-	t_hd_data	*data;
-	int			fd;
+	pid_t			my_id;
+	int				fd;
+	t_heredoc	*hd;
 
-	heredoc = ft_lstlast(mini->ex->hedocs);
-	if (!heredoc)
+	hd = get_last_hd(mini);
+	if (!hd)
 		return ;
 	my_id = fork();
 	if (my_id == -1)
@@ -70,15 +67,13 @@ void	dump_heredoc(t_mini *mini)
 	else if (my_id == 0)
 	{
 		//printf("procés %i = heredoc dumper\n", getpid());
-		data = heredoc->data;
 		fd = mini->ex->fds[OLD_FDS][P_WRITE];
-		while (data)
+		while (hd)
 		{
-			write(fd, data->line, ft_strlen(data->line));
+			write(fd, hd->line, ft_strlen(hd->line));
 			write(fd, "\n", 1);
-			data = data->next;
+			hd = hd->next;
 		}
-		close(fd);
 		ex_exit(mini, EXIT_SUCCESS);
 	}
 	my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]), NULL, "");

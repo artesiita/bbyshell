@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 16:11:14 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/08 21:45:35 by bizcru           ###   ########.fr       */
+/*   Updated: 2026/04/19 15:16:50 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void ft_redir_heredoc(t_mini *mini, t_redir *redir)
 	mini->ex->fds[OLD_FDS][P_READ] = 1;
 	if (pipe(mini->ex->fds[OLD_FDS]) == -1)
 		return ; // Falta gestionar aquest error
-	set_heredoc(mini, redir->target);
 }
 
 void ft_redir_append(t_mini *mini, t_redir *redir)
