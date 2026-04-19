@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/19 18:42:56 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:35:50 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	dump_heredoc(t_mini *mini)
 		return ; //gestionar error??
 	else if (my_id == 0)
 	{
-		//printf("procés %i = heredoc dumper\n", getpid());
 		fd = mini->ex->fds[OLD_FDS][P_WRITE];
 		while (hd)
 		{
@@ -65,7 +64,4 @@ void	dump_heredoc(t_mini *mini)
 	return ;
 }
 
-//static void	clean_heredoc()
-//{}
 
-//static void 
