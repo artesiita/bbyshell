@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:31:23 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/29 18:19:34 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/18 17:33:52 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@ int	is_redirection(char c)
 	return (0);
 }
 
-void	add_token(t_token **head, char *content, t_token_type type)
+void	add_token(t_mini *mini, t_token **head, char *content, t_token_type type)
 {
 	t_token	*new;
 	t_token	*last;
 
 	new = malloc(sizeof(t_token));
 	if (!new)
-		return ;
+		fatal_error(mini, "minishell: malloc: cannot allocate memory", 1);
 	new->content = content;
 	new->type = type;
 	new->next = NULL;
+	new->hd = NULL;
 	if (*head == NULL)
 		*head = new;
 	else

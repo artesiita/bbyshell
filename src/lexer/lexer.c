@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:30:05 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/29 18:47:59 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/18 17:36:51 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	handle_word(t_mini *mini, t_token **head, char *input, int *i)
 		mini->exit_status = 2;
 		return (ERROR);
 	}
-	add_token(head, ft_substr(input, start, *i - start), T_WORD);
+	add_token(mini, head, ft_substr(input, start, *i - start), T_WORD);
 	return (SUCCESS);
 }
 
-void	handle_redirections(t_token **head, char *input, int *i)
+void	handle_redirections(t_mini *mini, t_token **head, char *input, int *i)
 {
 	t_token_type	type;
 	int				offset;
@@ -64,7 +64,7 @@ void	handle_redirections(t_token **head, char *input, int *i)
 			offset = 2;
 		}
 	}
-	add_token(head, ft_substr(input, *i, offset), type);
+	add_token(mini, head, ft_substr(input, *i, offset), type);
 	*i += offset;
 }
 
@@ -83,11 +83,11 @@ t_token	*lexer(t_mini *mini, char *input)
 			break ;
 		if (input[i] == '|')
 		{
-			add_token(&tokens, ft_strdup("|"), T_PIPE);
+			add_token(mini, &tokens, ft_strdup("|"), T_PIPE);
 			i++;
 		}
 		else if (input[i] == '<' || input[i] == '>')
-			handle_redirections(&tokens, input, &i);
+			handle_redirections(mini, &tokens, input, &i);
 		else
 			if (handle_word(mini, &tokens, input, &i) == ERROR)
 				return (free_tokens(mini->tokens), NULL);

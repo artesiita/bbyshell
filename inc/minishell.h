@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/18 16:16:39 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/18 18:00:01 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@
 
 /*============= LEXER ================*/
 
+typedef struct s_heredoc
+{
+	struct s_hd_data			*next;
+	char						*line;
+}								t_heredoc;
+
 typedef enum e_token_type
 {
 	T_WORD,
@@ -60,6 +66,8 @@ typedef struct s_token
 {
 	struct s_token	*next;
 	char			*content;
+	t_heredoc		*hd;
+	int				hd_quoted;
 	t_token_type	type;
 }					t_token;
 
@@ -99,25 +107,12 @@ typedef struct s_cmds
 
 /*============= EXECUTOR ===============*/
 
-typedef struct s_hd_data
-{
-	struct s_hd_data			*next;
-	char						*line;
-}								t_hd_data;
-
-typedef struct s_hedoc
-{
-	struct s_hedoc				*next;
-	int							fd;
-	t_hd_data					*data;
-}								t_hedoc;
-
 typedef struct s_executor
 {
 	pid_t						*childs;
 	int							fds[2][2];
 	t_cmds						*cur_cmd;
-	t_hedoc						*hedocs;
+	t_hedoc						*hedocs; //eliminat
 }								t_executor;
 
 /*============= GLOBAL ================*/
@@ -153,7 +148,7 @@ char	*get_env_dup(char *key, t_env *env);
 /*============= LEXER ================*/
 int		is_redirection(char c);
 int		is_space(char c);
-void	add_token(t_token **head, char *content, t_token_type type);
+void	add_token(t_mini *mini, t_token **head, char *content, t_token_type type);
 t_token	*lexer(t_mini *mini, char *input);
 
 /*============= EXPANSIONS ================*/
