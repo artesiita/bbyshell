@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 17:09:19 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 18:44:30 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	ex_exit(t_mini *mini, int status);
 void	ft_del_t_heredoc(void *void_node);
 void	set_heredoc(t_mini *mini, char *end);
 void	dump_heredoc(t_mini *mini);
+void	heredoc_input(t_mini *mini);
 
 /*============ BUILT-INS ==============*/
 int my_echo(t_mini *mini);

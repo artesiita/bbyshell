@@ -29,7 +29,8 @@ SRC += $(EX_SRC)
 
 HD_SRC_DIR = src/heredoc/
 
-HD_SRC_NAMES = heredoc.c
+HD_SRC_NAMES = heredoc.c \
+				heredoc_input.c
 
 
 HD_SRC = $(addprefix $(HD_SRC_DIR), $(HD_SRC_NAMES))
