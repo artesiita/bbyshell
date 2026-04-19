@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 18:44:30 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:36:34 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void filter_expansion(t_mini *mini, t_token *tok, int i);
 void expand_double_quoted(t_mini *mini, t_token *token);
 char *expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i);
 void expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i);
+char	*remove_quotes(char *str);
 
 /*============= PARSER ================*/
 t_cmds *parsing(t_mini *mini);

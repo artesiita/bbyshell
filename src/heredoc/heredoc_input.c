@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 18:49:27 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:44:27 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ void	expand_lines(t_mini *mini, t_heredoc *hd)
 	char	*old;
 	int			i;
 
-	i = 0;
-	while (hd->line)
+	while (hd)
 	{
+		i = 0;
 		while (hd->line[i])
 		{
-			if (hd->line[i] == '$' && hd->line[i + 1]
+			if ((hd->line[i] == '$' && hd->line[i + 1])
 				&& (ft_isalnum(hd->line[i + 1]) || hd->line[i + 1] == '_'
 					|| hd->line[i + 1] == '?'))
 			{
@@ -72,16 +72,20 @@ void	fill_heredoc(t_heredoc **hd, char *end)
 void	heredoc_input(t_mini *mini)
 {
 	int	quoted;
+	t_token	*cur;
 
-	while (mini->tokens)
+	cur = mini->tokens;
+	while (cur)
 	{
-		if (mini->tokens->type == T_REDIR_HEREDOC)
+		if (cur->type == T_REDIR_HEREDOC)
 		{
-			quoted = is_quoted(mini->tokens->next->content);
-			fill_heredoc(&mini->tokens->hd, mini->tokens->next->content);
+			quoted = is_quoted(cur->next->content);
+			if (quoted == 1)
+				cur->next->content = remove_quotes(cur->next->content);
+			fill_heredoc(&cur->hd, cur->next->content);
 			if (quoted == 0)
-				expand_lines(mini, mini->tokens->hd);
+				expand_lines(mini, cur->hd);
 		}
-		mini->tokens = mini->tokens->next;
+		cur = cur->next;
 	}
 }

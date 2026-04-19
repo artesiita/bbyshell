@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:10:40 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 16:51:39 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:18:05 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	parse_redirection(t_cmds *node, t_token *cur, t_mini *mini)
 	redir->type = (t_redir_type)cur->type;
 	redir->target = ft_strdup(cur->next->content);
 	redir->next = NULL;
-	redir->hd = NULL;
+	redir->hd = cur->hd;
 	if (node->redirs == NULL)
 		node->redirs = redir;
 	else
