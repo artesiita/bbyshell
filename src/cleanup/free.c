@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/08 15:13:21 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/19 16:59:59 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	free_redirs(t_redir *redirs)
 	{
 		tmp = redirs->next;
 		free(redirs->target);
+		if (redirs->hd)
+			ft_lstclear((void **)&(redirs->hd), &ft_del_t_heredoc);
+		redirs->hd = NULL;
 		free(redirs);
 		redirs = tmp;
 	}

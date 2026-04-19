@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 15:14:33 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/19 17:03:20 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@
 
 typedef struct s_heredoc
 {
-	struct s_hd_data			*next;
-	char						*line;
-}								t_heredoc;
+	struct s_heredoc	*next;
+	char				*line;
+}						t_heredoc;
 
 typedef enum e_token_type
 {
@@ -96,6 +96,7 @@ typedef struct s_redir
 	struct s_redir	*next;
 	t_redir_type	type;
 	char			*target;
+	t_heredoc		*hd;
 }					t_redir;
 
 typedef struct s_cmds
@@ -168,10 +169,8 @@ void	add_command_node(t_cmds **head, t_cmds *new_node);
 void	ft_executor(t_mini *mini);
 void	ft_redir_in(t_mini *mini, t_redir *redir);
 void	ft_redir_out(t_mini *mini, t_redir *redir);
-void	ft_redir_heredoc(t_mini *mini, t_redir *redir);
+void	ft_redir_heredoc(t_mini *mini);
 void	ft_redir_append(t_mini *mini, t_redir *redir);
-void	set_heredoc(t_mini *mini, char *end);
-void	dump_heredoc(t_mini *mini);
 void	open_files(char *file_in, char *file_out,
 			int *filefds);
 void	my_close(int *fd1, int *fd2, char *msg);
@@ -183,6 +182,11 @@ int		my_execve(t_mini *mini);
 int		(*get_builtin_ft(t_mini *mini))(t_mini *);
 void	ft_postex_clean(t_mini *mini);
 void	ex_exit(t_mini *mini, int status);
+
+/*============ HERE DOCS ==============*/
+void	ft_del_t_heredoc(void *void_node);
+void	set_heredoc(t_mini *mini, char *end);
+void	dump_heredoc(t_mini *mini);
 
 /*============ BUILT-INS ==============*/
 int		my_echo(t_mini *mini);

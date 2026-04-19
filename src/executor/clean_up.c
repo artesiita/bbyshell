@@ -6,7 +6,7 @@
 /*   By: becanals <becanals@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/18 19:26:28 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/18 20:04:10 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/19 16:49:31 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 /*
 	OBSOLETE: cleaner of t_hd_data node;
-*/
+
+
+ft_lstclear((void **)&(mini->ex->hedocs), &ft_del_t_hedoc);
 
 void	ft_del_t_hd_data(void *void_node)
 {
@@ -26,21 +28,7 @@ void	ft_del_t_hd_data(void *void_node)
 	node->line = NULL;
 	node->next = NULL;
 }
-
-/*
-	OBSOLETE: cleaner of t_hedoc node;
 */
-
-void	ft_del_t_hedoc(void *void_node)
-{
-	t_hedoc	*node;
-
-	node = (t_hedoc *)void_node;
-	ft_lstclear((void **)&(node->data), &ft_del_t_hd_data);
-	node->data = NULL;
-	node->next = NULL;
-}
-
 /*
 	Cleaner to be called just before ending executor
 */
@@ -49,7 +37,6 @@ void	ft_postex_clean(t_mini *mini)
 {
 	free_parsing(mini);
 	mini->ex->cur_cmd = NULL;
-	ft_lstclear((void **)&(mini->ex->hedocs), &ft_del_t_hedoc);
 	my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			&(mini->ex->fds[OLD_FDS][P_READ]), "close in cleanup");
 	my_close(&(mini->ex->fds[NEW_FDS][P_WRITE]),
