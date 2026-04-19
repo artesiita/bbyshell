@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/04/18 18:31:26 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/19 19:54:30 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,13 @@ int	my_execve(t_mini *mini)
 	path = get_path(mini->ex->cur_cmd->args[0], mini->env_head);
 	if (!path)
 	{
-		perror(mini->ex->cur_cmd->args[0]);
+		write(2, mini->ex->cur_cmd->args[0],
+			ft_strlen(mini->ex->cur_cmd->args[0]));
+		write(2, ": No such file or directory\n", 28); 
 		return (-1);
 	}
 	env_array = env_compile(mini->env_head);
 	execve(path, mini->ex->cur_cmd->args, env_array);
 	free_split(env_array);
-	//free(path); comprovar si s'ha de fer free
 	return (-1);
 }
