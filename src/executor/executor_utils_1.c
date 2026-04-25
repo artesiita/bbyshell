@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/18 19:26:01 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:26:48 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	my_close(int *fd1, int *fd2, char *msg)
 {
-	if (fd1 && *fd1 > 2 )
+	if (fd1 && *fd1 > 2)
 	{
 		if (close(*fd1) == -1)
 			perror(msg);
@@ -35,7 +35,7 @@ void	my_close(int *fd1, int *fd2, char *msg)
 int	redirect(t_mini *mini)
 {
 	if ((dup2(mini->ex->fds[OLD_FDS][P_READ], STDIN_FILENO) == -1) ||
-	 (dup2(mini->ex->fds[NEW_FDS][P_WRITE], STDOUT_FILENO) == -1))
+		(dup2(mini->ex->fds[NEW_FDS][P_WRITE], STDOUT_FILENO) == -1))
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/19 16:22:55 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:26:15 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	ft_executor(t_mini *mini)
 	mini->ex->cur_cmd = mini->cmds;
 	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
 	{
-		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds) + 1, sizeof(pid_t));
+		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds) + 1,
+				sizeof(pid_t));
 		if (!mini->ex->childs)
 			perror("malloc");
 		else
@@ -44,7 +45,7 @@ void	ft_executor(t_mini *mini)
 	{
 		set_std_fds(mini);
 		set_cmd_redirs(mini);
-		if(redirect(mini))
+		if (redirect(mini))
 			mini->exit_status = my_execve(mini);
 		repair_std_fds(mini);
 	}
@@ -65,16 +66,10 @@ static void	do_childs(t_mini *mini)
 	while (mini->ex->cur_cmd)
 	{
 		if (!my_pipe(mini))
-		{
-			// aquí un printerror;
 			return (ft_postex_clean(mini));
-		}
 		mini->ex->childs[i] = my_fork(mini);
 		if (mini->ex->childs[i++] == -1)
-		{
-			// aquí un printerror;
 			return (ft_postex_clean(mini));
-		}
 		my_close(&(mini->ex->fds[OLD_FDS][P_READ]),
 			&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			"close in main proc after forking");
@@ -101,7 +96,7 @@ static pid_t	my_fork(t_mini *mini)
 		my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			&(mini->ex->fds[NEW_FDS][P_READ]), "close in child pre execve");
 		set_cmd_redirs(mini);
-		if(!redirect(mini))
+		if (!redirect(mini))
 			ex_exit(mini, errno);
 		dump_heredoc(mini);
 		ex_exit(mini, my_execve(mini));
@@ -133,7 +128,8 @@ static void	set_cmd_redirs(t_mini *mini)
 }
 
 /*
-   Updates fds depending on if we are in the last cmd (stdout & null) or else (pipe)
+   Updates fds depending on if we are in the last cmd (stdout & null)
+   or else (pipe)
 */
 
 static int	my_pipe(t_mini *mini)

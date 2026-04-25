@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/04/18 18:31:26 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:21:27 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*get_path(char *cmd, t_env *env)
 	return (NULL);
 }
 
-int (*get_builtin_ft(t_mini *mini))(t_mini *mini)
+int	(*get_builtin_ft(t_mini *mini))(t_mini *mini)
 {
 	char	*cmd;
 
@@ -110,6 +110,5 @@ int	my_execve(t_mini *mini)
 	env_array = env_compile(mini->env_head);
 	execve(path, mini->ex->cur_cmd->args, env_array);
 	free_split(env_array);
-	//free(path); comprovar si s'ha de fer free
 	return (-1);
 }
