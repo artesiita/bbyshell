@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 19:26:03 by laiaartes        ###   ########.fr       */
+/*   Updated: 2026/04/25 19:42:27 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ int	heredoc_input(t_mini *mini)
 			setup_heresignals(&exit_from_signal);
 			if (quoted == 1)
 				cur->next->content = remove_quotes(cur->next->content);
-			fill_heredoc(&cur->hd, cur->next->content);
+			if (fill_heredoc(&cur->hd, cur->next->content) == EXIT_FROM_SIGNAL)
+				return (EXIT_FROM_SIGNAL);
 			if (cur->hd && quoted == 0)
 				expand_lines(mini, cur->hd);
 		}

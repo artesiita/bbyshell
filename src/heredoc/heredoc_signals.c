@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_signals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 18:08:13 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 19:25:13 by laiaartes        ###   ########.fr       */
+/*   Updated: 2026/04/25 19:36:03 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_signal_interrupt(char *line, int *exit_from_signal)
 void	set_heresign_int(int sign)
 {
 	g_signal_value = sign;
-	write(1, "\n", 1);
+	//write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");

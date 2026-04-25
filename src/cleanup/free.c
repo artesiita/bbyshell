@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 16:59:59 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:35:17 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ void	free_tokens(t_token *head)
 		temp = head->next;
 		if (head->content)
 			free(head->content);
+		if (head->hd)
+			ft_lstclear((void **)&(head->hd), &ft_del_t_heredoc);
+		head->hd = NULL;
 		free(head);
 		head = temp;
 	}
