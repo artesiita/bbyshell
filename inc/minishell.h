@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 20:34:26 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/25 18:49:30 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
 #define ERROR 1
 #define SUCCESS 0
+#define EXIT_FROM_SIGNAL 128
 
 #define NEW_FDS 0
 #define OLD_FDS 1
@@ -191,8 +192,15 @@ void	ex_exit(t_mini *mini, int status);
 void	ft_del_t_heredoc(void *void_node);
 void	set_heredoc(t_mini *mini, char *end);
 void	dump_heredoc(t_mini *mini);
-void	heredoc_input(t_mini *mini);
+int		heredoc_input(t_mini *mini);
 void	sig_close_stdin(int sign);
+void	setup_heresignals(int *exit_from_signal);
+void	signals_heremode(void);
+void	set_heresign_int(int sign);
+int		check_signal_interrupt(char *line, int *exit_from_signal);
+
+void	sig_nonint_c(int sign);
+void	sig_int_c(int sign);
 
 /*============ BUILT-INS ==============*/
 int my_echo(t_mini *mini);
