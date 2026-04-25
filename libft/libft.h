@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 23:37:11 by bizcru            #+#    #+#             */
-/*   Updated: 2026/04/11 16:20:52 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 20:12:36 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void		*ft_lstmap(void *lst, void (*f)(void *), void (*del)(void *),
 void		ft_free_array(char **s);
 void		ft_print_array(char **array);
 void		free_split(char **split);
+int			is_quoted(char *str);
 
 #endif

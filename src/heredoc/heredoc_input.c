@@ -6,31 +6,16 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 19:48:48 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 20:13:27 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int		is_quoted(char *str)
-{
-	int	i;
-	
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"' || str[i] == '\'')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-
 void	expand_lines(t_mini *mini, t_heredoc *hd)
 {
 	char	*old;
-	int			i;
+	int		i;
 
 	while (hd)
 	{
@@ -41,7 +26,6 @@ void	expand_lines(t_mini *mini, t_heredoc *hd)
 				&& (ft_isalnum(hd->line[i + 1]) || hd->line[i + 1] == '_'
 					|| hd->line[i + 1] == '?'))
 			{
-
 				old = hd->line;
 				hd->line = expand_to_str(mini, hd->line, &i, i + 1);
 				free(old);
@@ -52,9 +36,10 @@ void	expand_lines(t_mini *mini, t_heredoc *hd)
 		hd = hd->next;
 	}
 }
+
 void	print_closed_hd_msg(t_heredoc **hd, char *end)
 {
-	char *lines;
+	char	*lines;
 
 	lines = ft_itoa(ft_lstcount(*hd) + 1);
 	write(2, "minishell: warning: here-document at line ", 42);
@@ -63,7 +48,6 @@ void	print_closed_hd_msg(t_heredoc **hd, char *end)
 	write(2, end, ft_strlen(end));
 	write(2, "')\n", 3);
 }
-
 
 int	fill_heredoc(t_heredoc **hd, char *end)
 {
@@ -82,7 +66,7 @@ int	fill_heredoc(t_heredoc **hd, char *end)
 		if (ft_streq(line, end))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		new = ft_lstnew(sizeof(t_heredoc), line);
 		if (!new)
@@ -90,6 +74,13 @@ int	fill_heredoc(t_heredoc **hd, char *end)
 		ft_lstadd_back((void **)hd, new);
 	}
 	return (exit_from_signal);
+}
+
+int	hd_syntax_error(t_mini *mini)
+{
+	printf("Bbyshell: syntax error near unexpected token `newline'\n");
+	mini->exit_status = 2;
+	return (ERROR);
 }
 
 int	heredoc_input(t_mini *mini)
@@ -104,11 +95,7 @@ int	heredoc_input(t_mini *mini)
 		if (cur->type == T_REDIR_HEREDOC)
 		{
 			if (!cur->next || cur->next->type != T_WORD)
-			{
-				printf("Bbyshell: syntax error near unexpected token `newline'\n");
-				mini->exit_status = 2;
-				return (ERROR);
-			}
+				return (hd_syntax_error(mini));
 			quoted = is_quoted(cur->next->content);
 			setup_heresignals(&exit_from_signal);
 			if (quoted == 1)

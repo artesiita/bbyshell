@@ -6,7 +6,7 @@
 #    By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/28 15:47:58 by bizcru            #+#    #+#              #
-#    Updated: 2026/04/11 16:19:45 by lartes-s         ###   ########.fr        #
+#    Updated: 2026/04/25 20:12:59 by lartes-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,6 +74,7 @@ SRCS = ft_islower.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
 		ft_free_split.c \
+		is_quoted.c \
 		is_valid_long.c
 
 OBJS = $(SRCS:.c=.o)

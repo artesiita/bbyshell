@@ -6,24 +6,25 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/25 17:24:05 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 20:01:33 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-// Aquesta l'únic que ha de fer és agafar un heredoc que ja haurà estat creat a set_heredoc
-// i gestionar el filling de les línies que introdueixi l'usuari cap a la linked list
+/*
+Aquesta l'únic que ha de fer és agafar un heredoc que ja haurà estat creat 
+a set_heredoc i gestionar el filling de les línies que introdueixi l'usuari 
+cap a la linked list
+*/
 
-
-
-static  t_heredoc	*get_last_hd(t_mini *mini)
+static t_heredoc	*get_last_hd(t_mini *mini)
 {
 	t_heredoc	*hd;
 	t_redir		*redir;
 
 	hd = NULL;
-	redir =  mini->ex->cur_cmd->redirs;
+	redir = mini->ex->cur_cmd->redirs;
 	while (redir)
 	{
 		if (redir->type == R_HEREDOC)
@@ -32,21 +33,22 @@ static  t_heredoc	*get_last_hd(t_mini *mini)
 	}
 	return (hd);
 }
-
-// dump_heredoc s'encarrega d'escriure el contingut de l'últim heredoc a l'extrem
-// de la pipe que el comando llegirà. Ho fa en un subprocés per evitar que la pipe
-// es quedi saturada.
+/*
+dump_heredoc s'encarrega d'escriure el contingut de l'últim heredoc a 
+l'extrem de la pipe que el comando llegirà. Ho fa en un subprocés per evitar 
+que la pipe es quedi saturada.
+*/
 
 void	dump_heredoc(t_mini *mini)
 {
-	pid_t			my_id;
-	int				fd;
+	pid_t		my_id;
+	int			fd;
 	t_heredoc	*hd;
 
 	hd = get_last_hd(mini);
 	my_id = fork();
 	if (my_id == -1)
-		return ; //gestionar error??
+		return ;
 	else if (my_id == 0)
 	{
 		fd = mini->ex->fds[OLD_FDS][P_WRITE];
@@ -61,5 +63,3 @@ void	dump_heredoc(t_mini *mini)
 	my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]), NULL, "");
 	return ;
 }
-
-
