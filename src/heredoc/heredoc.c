@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 17:50:47 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/19 19:35:50 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 17:24:05 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	dump_heredoc(t_mini *mini)
 	t_heredoc	*hd;
 
 	hd = get_last_hd(mini);
-	if (!hd)
-		return ;
 	my_id = fork();
 	if (my_id == -1)
 		return ; //gestionar error??

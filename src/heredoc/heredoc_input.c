@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 20:03:56 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:48:48 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,51 @@ void	expand_lines(t_mini *mini, t_heredoc *hd)
 		hd = hd->next;
 	}
 }
+void	print_closed_hd_msg(t_heredoc **hd, char *end)
+{
+	char *lines;
 
-void	fill_heredoc(t_heredoc **hd, char *end)
+	lines = ft_itoa(ft_lstcount(*hd) + 1);
+	write(2, "minishell: warning: here-document at line ", 42);
+	write(2, lines, ft_strlen(lines));
+	write(2, " delimited by end-of-file (wanted '", 35);
+	write(2, end, ft_strlen(end));
+	write(2, "')\n", 3);
+}
+
+
+int	fill_heredoc(t_heredoc **hd, char *end)
 {
 	char	*line;
 	void	*new;
+	int		exit_from_signal;
 
-	line = readline("> ");
-	while (!ft_streq(line, end))
+	exit_from_signal = 0;
+	while (1)
 	{
+		line = readline("> ");
+		if (check_signal_interrupt(line, &exit_from_signal))
+			return (exit_from_signal);
+		if (!line)
+			return (print_closed_hd_msg(hd, end), exit_from_signal);
+		if (ft_streq(line, end))
+		{
+			free(line);
+			break;
+		}
 		new = ft_lstnew(sizeof(t_heredoc), line);
 		if (!new)
-			return ;
+			return (free(line), exit_from_signal);
 		ft_lstadd_back((void **)hd, new);
-		line = readline("> ");
 	}
+	return (exit_from_signal);
 }
 
 int	heredoc_input(t_mini *mini)
 {
-	int	quoted;
+	int		quoted;
 	t_token	*cur;
+	int		exit_from_signal;
 
 	cur = mini->tokens;
 	while (cur)
@@ -86,13 +110,15 @@ int	heredoc_input(t_mini *mini)
 				return (ERROR);
 			}
 			quoted = is_quoted(cur->next->content);
+			setup_heresignals(&exit_from_signal);
 			if (quoted == 1)
 				cur->next->content = remove_quotes(cur->next->content);
-			fill_heredoc(&cur->hd, cur->next->content);
-			if (quoted == 0)
+			if (fill_heredoc(&cur->hd, cur->next->content) == EXIT_FROM_SIGNAL)
+				return (EXIT_FROM_SIGNAL);
+			if (cur->hd && quoted == 0)
 				expand_lines(mini, cur->hd);
 		}
 		cur = cur->next;
 	}
-	return (SUCCESS);
+	return (exit_from_signal);
 }

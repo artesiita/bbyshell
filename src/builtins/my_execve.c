@@ -6,7 +6,11 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/04/25 19:21:27 by lartes-s         ###   ########.fr       */
+=======
+/*   Updated: 2026/04/19 19:57:19 by becanals         ###   ########.fr       */
+>>>>>>> heredoc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +108,9 @@ int	my_execve(t_mini *mini)
 	path = get_path(mini->ex->cur_cmd->args[0], mini->env_head);
 	if (!path)
 	{
-		perror(mini->ex->cur_cmd->args[0]);
+		write(2, mini->ex->cur_cmd->args[0],
+			ft_strlen(mini->ex->cur_cmd->args[0]));
+		write(2, ": command not found\n", 20); 
 		return (-1);
 	}
 	env_array = env_compile(mini->env_head);

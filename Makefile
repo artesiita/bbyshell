@@ -30,6 +30,7 @@ SRC += $(EX_SRC)
 HD_SRC_DIR = src/heredoc/
 
 HD_SRC_NAMES = heredoc.c \
+				heredoc_signals.c \
 				heredoc_input.c
 
 

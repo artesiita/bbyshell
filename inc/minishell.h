@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 20:02:30 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:49:19 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,20 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 #define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
 #define ERROR 1
 #define SUCCESS 0
+#define EXIT_FROM_SIGNAL 128
 
 #define NEW_FDS 0
 #define OLD_FDS 1
 
 #define P_READ 0
 #define P_WRITE 1
+
+extern int g_signal_value;
 
 /*-----------------------------------------------------------------*/
 /*                             STRUCTS                             */
@@ -189,7 +193,17 @@ void	ex_exit(t_mini *mini, int status);
 void	ft_del_t_heredoc(void *void_node);
 void	set_heredoc(t_mini *mini, char *end);
 void	dump_heredoc(t_mini *mini);
-int	heredoc_input(t_mini *mini);
+
+int		heredoc_input(t_mini *mini);
+void	sig_close_stdin(int sign);
+void	setup_heresignals(int *exit_from_signal);
+void	signals_heremode(void);
+void	set_heresign_int(int sign);
+int		check_signal_interrupt(char *line, int *exit_from_signal);
+
+void	sig_nonint_c(int sign);
+void	sig_int_c(int sign);
+
 
 /*============ BUILT-INS ==============*/
 int my_echo(t_mini *mini);
@@ -221,5 +235,6 @@ void print_tokens(t_token *tokens);
 void print_env(t_env *env);
 void signals_nonintmode(void);
 void signals_intmode(void);
+void	signals_heredoc(void);
 
 #endif
