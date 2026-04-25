@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 18:49:01 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:27:02 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ static void	mini_loop(t_mini *mini)
 		{
 			add_history(line);
 			mini->tokens = lexer(mini, line);
-			if (heredoc_input(mini) == EXIT_FROM_SIGNAL)
-			{
-				free_tokens(mini->tokens);
-				mini->tokens = NULL;
-				sig_int_c(0);
-				continue ;
-			}
+		if (heredoc_input(mini) == EXIT_FROM_SIGNAL)
+		{
+    		free_tokens(mini->tokens);
+   			mini->tokens = NULL;
+    		mini->exit_status = 130; 
+   			continue ;
+		}
 			expansions(mini);
 			if (mini->tokens)
 			{

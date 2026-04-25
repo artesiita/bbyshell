@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 18:49:30 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:24:46 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 
 #define PROMPT "\033[1;35mbbyshell\033[35m> \033[0m"
 #define ERROR 1

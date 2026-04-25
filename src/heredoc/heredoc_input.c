@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laiaartes <laiaartes@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 19:12:10 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 19:26:03 by laiaartes        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,22 @@ int	fill_heredoc(t_heredoc **hd, char *end)
 	int		exit_from_signal;
 
 	exit_from_signal = 0;
-	line = readline("> ");
-	while (!ft_streq(line, end))
+	while (1)
 	{
+		line = readline("> ");
 		if (check_signal_interrupt(line, &exit_from_signal))
-			break ;
+			return (exit_from_signal);
 		if (!line)
 			return (print_closed_hd_msg(hd, end), exit_from_signal);
+		if (ft_streq(line, end))
+		{
+			free(line);
+			break;
+		}
 		new = ft_lstnew(sizeof(t_heredoc), line);
 		if (!new)
-			return exit_from_signal;
+			return (free(line), exit_from_signal);
 		ft_lstadd_back((void **)hd, new);
-		line = readline("> ");
 	}
 	return (exit_from_signal);
 }
