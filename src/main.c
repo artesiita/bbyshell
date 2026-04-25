@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 20:15:47 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/25 16:21:22 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int ac, char **av, char **env)
 	{
 		// gestió d'errors (potser directament dins de load_mini? i aquí sortim i ja
 	}
-	// Aquí hi faltarà la configuració de senyals
 	mini_loop(&mini);
 	clear_history();
 	free_env(mini.env_head);
@@ -58,10 +57,7 @@ static void	mini_loop(t_mini *mini)
 		signals_intmode();
 		line = readline(PROMPT);
 		if (!line)
-		{
-			printf("exit\n"); // això no hauria de tirar error?
 			break ;
-		}
 		if (line[0] != '\0')
 		{
 			add_history(line);
@@ -81,7 +77,7 @@ static void	mini_loop(t_mini *mini)
 				else
 					ft_executor(mini);
 			}
+			free(line);
 		}
-		free(line);
 	}
 }
