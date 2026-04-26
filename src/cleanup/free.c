@@ -6,11 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/04/26 12:37:24 by lartes-s         ###   ########.fr       */
-=======
-/*   Updated: 2026/04/26 12:29:52 by becanals         ###   ########.fr       */
->>>>>>> origin/heredoc
+/*   Updated: 2026/04/26 15:18:03 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +35,13 @@ void	free_redirs(t_redir *redirs)
 	{
 		tmp = redirs->next;
 		free(redirs->target);
+		redirs->target = NULL;
 		if (redirs->hd)
-			ft_lstclear((void **)&(redirs->hd), &ft_del_t_heredoc);
-		redirs->hd = NULL;
-		free(redirs);
+		{
+			free_hd(redirs->hd);
+			redirs->hd = NULL;
+		}
+		redirs = NULL;
 		redirs = tmp;
 	}
 }
@@ -55,8 +54,10 @@ void	free_commands(t_cmds *cmds)
 	{
 		tmp = cmds->next;
 		free_str_array(cmds->args);
+		cmds->args = NULL;
 		if (cmds->redirs)
 			free_redirs(cmds->redirs);
+		cmds->redirs = NULL;
 		free(cmds);
 		cmds = tmp;
 	}
@@ -70,7 +71,9 @@ void	free_env(t_env *env)
 	{
 		tmp = env->next;
 		free(env->key);
+		env->key = NULL;
 		free(env->value);
+		env->value = NULL;
 		free(env);
 		env = tmp;
 	}
@@ -87,11 +90,9 @@ void	free_tokens(t_token *head)
 			free(head->content);
 		if (head->hd)
 		{
-			ft_lstclear((void **)&(head->hd), &ft_del_t_heredoc);
+			free_hd(head->hd);
 			head->hd = NULL;
 		}
-		free(head);
 		head = temp;
 	}
-	head = NULL;
 }

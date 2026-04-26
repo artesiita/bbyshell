@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 12:48:21 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 13:38:59 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ void	free_commands(t_cmds *cmds);
 void	free_redirs(t_redir *redirs);
 void	free_str_array(char **array);
 void	free_parsing(t_mini *mini);
+void	free_hd(t_heredoc *hd);
 
 /*============= DEBUG ================*/
 void	print_cmds(t_cmds *cmds);

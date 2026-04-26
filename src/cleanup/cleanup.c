@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:28:29 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 12:48:01 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 13:46:56 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	free_everything(t_mini *mini)
 	mini->env_head = NULL;
 	if (mini->tokens)
 		free_tokens(mini->tokens);
+	mini->tokens = NULL;
 	if (mini->cmds)
 		free_commands(mini->cmds);
 	mini->cmds = NULL;
@@ -62,5 +63,22 @@ void	ft_del_t_heredoc(void *void_node)
 		free(node->line);
 		node->line = NULL;
 	}
+	node->next = NULL;
 	free(node);
+}
+
+void	free_hd(t_heredoc *hd)
+{
+	t_heredoc	*next_node;
+
+	while (hd)
+	{
+		next_node = hd->next;
+		{
+			free(hd->line);
+			hd->line = NULL;
+		}
+		free(hd);
+		hd = next_node;
+	}
 }

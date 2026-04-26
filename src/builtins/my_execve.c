@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/04/26 11:56:11 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/26 15:12:59 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	my_execve(t_mini *mini)
 	char	*path;
 	char	**env_array;
 
+	printf("dins de execve\n");
 	builtin_ft = get_builtin_ft(mini);
 	if (builtin_ft)
 		return (builtin_ft(mini));
