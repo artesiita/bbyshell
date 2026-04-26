@@ -6,7 +6,11 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/04/26 12:37:24 by lartes-s         ###   ########.fr       */
+=======
+/*   Updated: 2026/04/26 12:29:52 by becanals         ###   ########.fr       */
+>>>>>>> origin/heredoc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +93,5 @@ void	free_tokens(t_token *head)
 		free(head);
 		head = temp;
 	}
+	head = NULL;
 }

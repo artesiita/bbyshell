@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:28:29 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 12:32:44 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 12:48:01 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	free_everything(t_mini *mini)
 	mini->env_head = NULL;
 	if (mini->tokens)
 		free_tokens(mini->tokens);
-	mini->tokens = NULL;
 	if (mini->cmds)
 		free_commands(mini->cmds);
 	mini->cmds = NULL;

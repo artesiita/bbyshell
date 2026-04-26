@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 11:30:31 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/26 12:26:39 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	load_mini(t_mini *mini, t_executor *ex, char **env);
 static void	mini_loop(t_mini *mini);
+static void	manage_tokens(t_mini *mini);
+static int	manage_heredocs(t_mini *mini);
 
 int	main(int ac, char **av, char **env)
 {
@@ -28,6 +30,28 @@ int	main(int ac, char **av, char **env)
 	clear_history();
 	free_env(mini.env_head);
 	return (0);
+}
+
+static void	mini_loop(t_mini *mini)
+{
+	char		*line;
+
+	while (1)
+	{
+		signals_intmode();
+		line = readline(PROMPT);
+		if (!line)
+			break ;
+		if (line[0] != '\0')
+		{
+			add_history(line);
+			mini->tokens = lexer(mini, line);
+			manage_heredocs(mini);
+			expansions(mini);
+			manage_tokens(mini);
+			free(line);
+		}
+	}
 }
 
 static int	load_mini(t_mini *mini, t_executor *ex, char **env)
@@ -48,37 +72,26 @@ static int	load_mini(t_mini *mini, t_executor *ex, char **env)
 	return (1);
 }
 
-static void	mini_loop(t_mini *mini)
+static void	manage_tokens(t_mini *mini)
 {
-	char		*line;
-
-	while (1)
+	if (mini->tokens)
 	{
-		signals_intmode();
-		line = readline(PROMPT);
-		if (!line)
-			break ;
-		if (line[0] != '\0')
-		{
-			add_history(line);
-			mini->tokens = lexer(mini, line);
-			if (heredoc_input(mini) == EXIT_FROM_SIGNAL)
-			{
-				free_tokens(mini->tokens);
-				mini->tokens = NULL;
-				mini->exit_status = 130;
-				continue ;
-			}
-			expansions(mini);
-			if (mini->tokens)
-			{
-				mini->cmds = parsing(mini);
-				if (!mini->cmds)
-					free_parsing(mini);
-				else
-					ft_executor(mini);
-			}
-			free(line);
-		}
+		mini->cmds = parsing(mini);
+		if (!mini->cmds)
+			free_parsing(mini);
+		else
+			ft_executor(mini);
 	}
+}
+
+static int	manage_heredocs(t_mini *mini)
+{
+	if (heredoc_input(mini) == EXIT_FROM_SIGNAL)
+	{
+		free_tokens(mini->tokens);
+		mini->tokens = NULL;
+		mini->exit_status = 130;
+		return (0);
+	}
+	return (1);
 }
