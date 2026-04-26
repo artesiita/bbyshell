@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 19:47:54 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 11:30:31 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ static void	mini_loop(t_mini *mini);
 int	main(int ac, char **av, char **env)
 {
 	t_mini		mini;
-	t_executor 	ex;
+	t_executor	ex;
 
 	(void)ac;
 	(void)av;
-	if (load_mini(&mini, &ex, env))
-	{
-		// gestió d'errors (potser directament dins de load_mini? i aquí sortim i ja
-	}
+	if (!load_mini(&mini, &ex, env))
+		return (0);
 	mini_loop(&mini);
 	clear_history();
 	free_env(mini.env_head);
@@ -45,6 +43,8 @@ static int	load_mini(t_mini *mini, t_executor *ex, char **env)
 	mini->exit_status = 0;
 	mini->saved_stdin = dup(STDIN_FILENO);
 	mini->saved_stdout = dup(STDOUT_FILENO);
+	if (mini->saved_stdin == -1 || mini->saved_stdout == -1)
+		return (0);
 	return (1);
 }
 
@@ -62,13 +62,13 @@ static void	mini_loop(t_mini *mini)
 		{
 			add_history(line);
 			mini->tokens = lexer(mini, line);
-		if (heredoc_input(mini) == EXIT_FROM_SIGNAL)
-		{
-    		free_tokens(mini->tokens);
-   			mini->tokens = NULL;
-    		mini->exit_status = 130; 
-   			continue ;
-		}
+			if (heredoc_input(mini) == EXIT_FROM_SIGNAL)
+			{
+				free_tokens(mini->tokens);
+				mini->tokens = NULL;
+				mini->exit_status = 130;
+				continue ;
+			}
 			expansions(mini);
 			if (mini->tokens)
 			{

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/04/25 19:57:19 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 11:56:11 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ int	(*get_builtin_ft(t_mini *mini))(t_mini *mini)
 		return (&my_exit);
 	else
 		return (NULL);
+}
+
+int	is_a_builtin_ft(t_mini *mini)
+{
+	if (get_builtin_ft(mini))
+		return (1);
+	return (0);
 }
 
 static char	**env_compile(t_env *env_list)

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/25 19:26:15 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 11:50:42 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_executor(t_mini *mini)
 {
 	signals_nonintmode();
 	mini->ex->cur_cmd = mini->cmds;
-	if (ft_lstcount(mini->cmds) != 1 || !get_builtin_ft(mini))
+	if (ft_lstcount(mini->cmds) != 1 || !is_a_builtin_ft(mini))
 	{
 		mini->ex->childs = ft_calloc(ft_lstcount(mini->cmds) + 1,
 				sizeof(pid_t));
