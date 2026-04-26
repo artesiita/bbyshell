@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 16:11:14 by becanals          #+#    #+#             */
-/*   Updated: 2026/04/25 19:28:42 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:41:22 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	ft_redir_in(t_mini *mini, t_redir *redir)
 {
-	my_close(&(mini->ex->fds[OLD_FDS][P_READ]),
-		&(mini->ex->fds[OLD_FDS][P_READ]), "close in redir_in");
+	my_close(&(mini->ex->fds[OLD_FDS][P_READ]), NULL, "close in redir_in");
 	mini->ex->fds[OLD_FDS][P_READ] = open(redir->target, O_RDONLY);
 }
 
@@ -30,7 +29,7 @@ void	ft_redir_out(t_mini *mini, t_redir *redir)
 void	ft_redir_heredoc(t_mini *mini)
 {
 	my_close(&(mini->ex->fds[OLD_FDS][P_READ]),
-		&(mini->ex->fds[OLD_FDS][P_READ]), "close in redir_in");
+		&(mini->ex->fds[OLD_FDS][P_WRITE]), "close in redir_in");
 	mini->ex->fds[OLD_FDS][P_READ] = 1;
 	if (pipe(mini->ex->fds[OLD_FDS]) == -1)
 		return ;

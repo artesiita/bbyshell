@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:06:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/03/27 15:42:56 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 17:35:47 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ char	*remove_quotes(char *str)
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
 		return (NULL);
-	i = 0;
+	i = -1;
 	j = 0;
 	q = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		if ((str[i] == '\"' || str[i] == '\'') && q == 0)
 			q = str[i];
@@ -63,9 +63,9 @@ char	*remove_quotes(char *str)
 			q = 0;
 		else
 			new[j++] = str[i];
-		i++;
 	}
 	new[j] = '\0';
+	free(str);
 	return (new);
 }
 
@@ -119,7 +119,6 @@ int	expansions(t_mini *mini)
 		{
 			filter_expansion(mini, cur, 0);
 			clean_content = remove_quotes(cur->content);
-			free(cur->content);
 			cur->content = clean_content;
 		}
 		cur = cur->next;

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 16:03:19 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:27:47 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_redirs(t_redir *redirs)
 			free_hd(redirs->hd);
 			redirs->hd = NULL;
 		}
-		redirs = NULL;
+		free(redirs);
 		redirs = tmp;
 	}
 }
