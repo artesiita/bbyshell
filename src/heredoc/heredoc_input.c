@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 20:13:27 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 12:30:27 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	print_closed_hd_msg(t_heredoc **hd, char *end)
 	write(2, " delimited by end-of-file (wanted '", 35);
 	write(2, end, ft_strlen(end));
 	write(2, "')\n", 3);
+	free(lines);
 }
 
 int	fill_heredoc(t_heredoc **hd, char *end)

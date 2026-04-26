@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:28:29 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/19 17:19:05 by becanals         ###   ########.fr       */
+/*   Updated: 2026/04/26 12:32:44 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ void	ft_del_t_heredoc(void *void_node)
 {
 	t_heredoc	*node;
 
+	if (!void_node)
+		return ;
 	node = (t_heredoc *)void_node;
 	if (node->line)
+	{
 		free(node->line);
-	node->line = NULL;
-	node->next = NULL;
+		node->line = NULL;
+	}
+	free(node);
 }
