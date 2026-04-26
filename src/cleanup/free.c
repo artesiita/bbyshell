@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:29:08 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 15:18:03 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:03:19 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	free_tokens(t_token *head)
 			free_hd(head->hd);
 			head->hd = NULL;
 		}
+		free(head);
 		head = temp;
 	}
 }

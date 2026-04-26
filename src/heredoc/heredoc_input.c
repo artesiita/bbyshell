@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 17:01:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 12:30:27 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:14:32 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	heredoc_input(t_mini *mini)
 	t_token	*cur;
 	int		exit_from_signal;
 
+	exit_from_signal = 0;
 	cur = mini->tokens;
 	while (cur)
 	{
@@ -98,7 +99,8 @@ int	heredoc_input(t_mini *mini)
 			if (!cur->next || cur->next->type != T_WORD)
 				return (hd_syntax_error(mini));
 			quoted = is_quoted(cur->next->content);
-			setup_heresignals(&exit_from_signal);
+			g_signal_value = 0;
+			signals_heremode();
 			if (quoted == 1)
 				cur->next->content = remove_quotes(cur->next->content);
 			if (fill_heredoc(&cur->hd, cur->next->content) == EXIT_FROM_SIGNAL)

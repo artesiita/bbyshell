@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 13:38:59 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:14:47 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,6 @@ void	dump_heredoc(t_mini *mini);
 
 int		heredoc_input(t_mini *mini);
 void	sig_close_stdin(int sign);
-void	setup_heresignals(int *exit_from_signal);
 void	signals_heremode(void);
 void	set_heresign_int(int sign);
 int		check_signal_interrupt(char *line, int *exit_from_signal);

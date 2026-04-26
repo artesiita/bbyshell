@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 18:08:13 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/25 20:05:54 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:14:29 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,4 @@ void	signals_heremode(void)
 	sa_int.sa_handler = set_heresign_int;
 	sigaction(SIGINT, &sa_int, NULL);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	setup_heresignals(int *exit_from_signal)
-{
-	*exit_from_signal = 0;
-	g_signal_value = 0;
-	signals_heremode();
 }

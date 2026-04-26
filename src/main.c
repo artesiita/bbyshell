@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 15:51:32 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/04/26 16:11:10 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ static void	manage_tokens(t_mini *mini)
 
 static int	manage_heredocs(t_mini *mini)
 {
-	if (heredoc_input(mini) == EXIT_FROM_SIGNAL)
+	int	ret;
+
+	ret = heredoc_input(mini);
+	if (ret == EXIT_FROM_SIGNAL)
 	{
 		free_tokens(mini->tokens);
 		mini->tokens = NULL;
