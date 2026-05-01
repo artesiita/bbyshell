@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 16:14:47 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:27:39 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,15 @@ typedef enum e_redir_type
 
 typedef struct s_expan
 {
+	char	*str;
 	char	*pre;
-	char	*val;
+	char	*exp;
 	char	*suf;
-	char	*tmp;
-	char	*res;
-	char	*key;
+	int		offset;
+	int		pre_end;
+	int		exp_end;
+	int		suf_start;
+	char	exp_type;
 }				t_expan;
 
 typedef struct s_redir

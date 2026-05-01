@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansions.c                                       :+:      :+:    :+:   */
+/*   expansions_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:06:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/01 13:15:08 by becanals         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:27:36 by becanals         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,82 @@ void	filter_expansion(t_mini *mini, t_token *tok, int i)
 	}
 }
 
+void	set_inedexes(t_expan *e)
+{
+	int		i;
+
+	i = e->offset - 1;
+	while (e->str[++i])
+	{
+		if (e->str->r[i] == ''' || e->str[i] == '"' || e->str[i] == '$')
+		{
+			e->pre_end = i + 1 + e->offset;
+			e->type = e->str[i];
+			break ;
+		}
+	}
+	while (e->str[++i])
+	{
+		if (e->str[i] == ''' || e->str[i] == '"' || e->str[i] == '$')
+		{
+			if (e->type = '$' || e->str[i] == e->type)
+			{
+				e->exp_end = i - 1 + e->offset;
+				break;
+			}
+		}
+	}
+}
+
+
+char	*get_prev(t_expan *e)
+{
+	char	*prev;
+
+	prev = ft_strndup(e->str[e->offset], e->pre_end + 1);
+	if (!prev)
+		printf("MALLOC ERROR");
+	return (prev);
+}
+
+char	*get_exp(t_expan *e)
+{
+	char	*exp;
+	int		offset;
+	int		this_strlen;
+
+	offset = e->offset + e->pre_end + 2;
+	this_strlen = exp_end - offset;
+	exp = ft_strndup(e->str[e->offset], this_strlen);
+	if (!exp)
+		printf("MALLOC ERROR");
+	return (exp);
+}
+
+void	do_expansions(t_mini *mini, t_token *tok, int start)
+{
+	t_expan	expan;
+
+	expan.str = tok->content;
+	expan.offset = start;
+	set_indexes(&expan);
+	expan.pre = get_prev(&expan);
+	expan.exp = do_expand(get_exp(&expan), tok);
+	if (expan.)
+		// funcio que retorna array + gestio de tokens
+		// actualitzar l'offset per passarlo a la següent funció
+	else
+		if (/*dobles*/)
+			// Fer l'expansió corresponent
+		// Unir la prev amb la exp i amb la següent
+		// gestió i neteja de memòria
+		// recursivar amb la següent amb l'offset corresponent.
+	
+	expan.suf = do_expansions(mini, get_suf(&expan));
+	free(tok->content);
+	tok->content = ft_strjoins(expan.prev, expand.exp, expan.suf);
+}
+
 int	expansions(t_mini *mini)
 {
 	t_token	*cur;
@@ -117,8 +193,7 @@ int	expansions(t_mini *mini)
 	{
 		if (cur->type == T_WORD)
 		{
-			filter_expansion(mini, cur, 0);
-			clean_content = remove_quotes(cur->content);
+			do_expansions(mini, cur, 0);
 			cur->content = clean_content;
 		}
 		cur = cur->next;
