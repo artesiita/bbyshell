@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:07:09 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/03 17:55:46 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/01 11:43:25 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token	*tokenize(char *content)
 	new->content = ft_strdup(content);
 	new->type = T_WORD;
 	new->next = NULL;
+	new->hd = NULL;
 	return (new);
 }
 

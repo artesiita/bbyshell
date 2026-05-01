@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:06:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 17:35:47 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/01 12:26:57 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,22 @@ void	filter_expansion(t_mini *mini, t_token *tok, int i)
 			i++;
 	}
 }
+char *mask(t_mini *mini, char *content)
+{
+	char	*mask;
+	int		i;
 
-int	expansions(t_mini *mini)
+	mask = ft_calloc(sizeof(char), ft_strlen(content) + 1);
+	if (!mask)
+		(mini, "bbyshell: malloc: cannot allocate memory\n", 1);
+	i = 0;
+	while (content[i])
+	{
+		
+	}
+}
+
+\int	expansions(t_mini *mini)
 {
 	t_token	*cur;
 	char	*clean_content;

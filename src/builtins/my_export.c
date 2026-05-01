@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 22:54:35 by bizcru            #+#    #+#             */
-/*   Updated: 2026/03/29 17:12:21 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/01 10:47:38 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_export(t_env *env)
 	}
 }
 
-int	export_value(t_mini *mini, char **ag, char *limit, char *key)
+void	export_value(t_mini *mini, char **ag, char *limit, char *key)
 {
 	int		i;
 	char	*value;
@@ -40,7 +40,7 @@ int	export_value(t_mini *mini, char **ag, char *limit, char *key)
 		if (!ft_isalpha(ag[i][0]))
 		{
 			printf("bbyshell: export: %s : not a valid identifier\n", ag[i]);
-			return (ERROR);
+			continue ;
 		}
 		value = NULL;
 		limit = (char *)ft_strchr(ag[i], '=');
@@ -54,7 +54,6 @@ int	export_value(t_mini *mini, char **ag, char *limit, char *key)
 		free(key);
 		free(value);
 	}
-	return (0);
 }
 
 int	my_export(t_mini *mini)
