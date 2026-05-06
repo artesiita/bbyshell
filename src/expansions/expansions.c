@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:06:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/06 19:52:18 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/06 21:40:05 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +34,11 @@ char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i)
 			expan.val = ft_strdup("");
 		free(expan.tmp);
 	}
+	expan.val = mask_expanded_value(expan.val);
 	expan.suf = ft_strdup(&str[i]);
 	expan.res = ft_strjoins(expan.pre, expan.val, expan.suf);
 	*dollar_idx = ft_strlen(expan.pre) + ft_strlen(expan.val);
 	return (free(expan.pre), free(expan.val), free(expan.suf), expan.res);
-}
-
-char	*remove_quotes(char *str)
-{
-	char	*new;
-	int		i;
-	int		j;
-	int		q;
-
-	if (!str)
-		return (NULL);
-	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!new)
-		return (NULL);
-	i = -1;
-	j = 0;
-	q = 0;
-	while (str[++i])
-	{
-		if ((str[i] == '\"' || str[i] == '\'') && q == 0)
-			q = str[i];
-		else if (str[i] == q)
-			q = 0;
-		else
-			new[j++] = str[i];
-	}
-	new[j] = '\0';
-	free(str);
-	return (new);
 }
 
 void	quote_flag(char *content, int *q_ctx, int i)
@@ -106,20 +78,6 @@ void	filter_expansion(t_mini *mini, t_token *tok, int i)
 			i++;
 	}
 }
-/*char *mask(t_mini *mini, char *content)
-{
-	char	*mask;
-	int		i;
-
-	mask = ft_calloc(sizeof(char), ft_strlen(content) + 1);
-	if (!mask)
-		//(mini, "bbyshell: malloc: cannot allocate memory\n", 1);
-	i = 0;
-	while (content[i])
-	{
-		
-	}
-}*/
 
 int	expansions(t_mini *mini)
 {
@@ -131,8 +89,10 @@ int	expansions(t_mini *mini)
 	{
 		if (cur->type == T_WORD)
 		{
+			mask_quotes(cur->content);
 			filter_expansion(mini, cur, 0);
 			clean_content = remove_quotes(cur->content);
+			unmask_quotes(clean_content);
 			cur->content = clean_content;
 		}
 		cur = cur->next;

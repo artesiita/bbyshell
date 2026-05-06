@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 16:14:47 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/06 21:31:36 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@
 
 # define P_READ 0
 # define P_WRITE 1
+
+#define SQ_PLACEHOLDER '\x01'
+#define DQ_PLACEHOLDER '\x02'
 
 extern int	g_signal_value;
 
@@ -165,6 +168,9 @@ void	expand_double_quoted(t_mini *mini, t_token *token);
 char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i);
 void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i);
 char	*remove_quotes(char *str);
+void	mask_quotes(char *str);
+void	unmask_quotes(char *str);
+char	*mask_expanded_value(char *val);
 
 /*============= PARSER ================*/
 t_cmds	*parsing(t_mini *mini);

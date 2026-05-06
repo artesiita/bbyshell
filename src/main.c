@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/06 19:54:07 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/06 21:44:42 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,6 @@ static int	load_mini(t_mini *mini, t_executor *ex, char **env);
 static void	mini_loop(t_mini *mini);
 static void	parse_tokens(t_mini *mini);
 static int	manage_heredocs(t_mini *mini);
-
-void print_tokens(t_token *tokens)
-{
-    t_token *tmp = tokens;
-
-    printf("\n--- TOKEN LIST ---\n");
-    while (tmp)
-    {
-        printf("Content: [%s] | Type: ", tmp->content);
-        if (tmp->type == T_WORD) printf("WORD");
-        else if (tmp->type == T_PIPE) printf("PIPE");
-        else if (tmp->type == T_REDIR_IN) printf("REDIR_IN");
-        else if (tmp->type == T_REDIR_OUT) printf("REDIR_OUT");
-        else if (tmp->type == T_REDIR_HEREDOC) printf("HEREDOC");
-        else if (tmp->type == T_REDIR_APPEND) printf("APPEND");
-		printf("| next: %p", tmp->next);
-        printf("\n");
-        tmp = tmp->next;
-    }
-    printf("------------------\n\n");
-}
 
 int	main(int ac, char **av, char **env)
 {
@@ -67,11 +46,9 @@ static void	mini_loop(t_mini *mini)
 		{
 			add_history(line);
 			mini->tokens = lexer(mini, line);
-			//print_tokens(mini->tokens);
 			if (manage_heredocs(mini))
 			{
 				expansions(mini);
-				//print_tokens(mini->tokens);
 				parse_tokens(mini);
 			}
 			free_tokens(mini->tokens);

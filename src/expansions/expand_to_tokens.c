@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 13:07:09 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/01 11:43:25 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/06 21:34:05 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i)
 		if (!expan.val)
 			expan.val = ft_strdup("");
 	}
+	expan.val = mask_expanded_value(expan.val);
 	expan.suf = ft_strdup(&token->content[i]);
 	split_to_tokens(mini, token, &expan);
 	*dollar_idx = ft_strlen(token->content);
