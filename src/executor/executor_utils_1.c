@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/04/25 19:26:48 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:44:11 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,19 @@ void	repair_std_fds(t_mini *mini)
 
 // Waits for all the child pid_t processes
 
-void	wait_childs(pid_t *childs)
+/* ... existing code ... */
+
+void	wait_childs(t_mini *mini, pid_t *childs)
 {
+	int	status;
+
 	while (childs && *childs)
-		if (waitpid(*childs++, NULL, 0) == -1)
+	{
+		if (waitpid(*childs++, &status, 0) == -1)
 			perror("waitpid");
+		if (WIFEXITED(status))
+			mini->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			mini->exit_status = 128 + WTERMSIG(status);
+	}
 }

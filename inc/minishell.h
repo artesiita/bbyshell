@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/07 19:32:57 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:44:29 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	my_close(int *fd1, int *fd2, char *msg);
 int		redirect(t_mini *mini);
 void	set_std_fds(t_mini *mini);
 void	repair_std_fds(t_mini *mini);
-void	wait_childs(pid_t *childs);
+void	wait_childs(t_mini *mini, pid_t *childs);
 int		my_execve(t_mini *mini);
 void	ft_postex_clean(t_mini *mini);
 void	ex_exit(t_mini *mini, int status);

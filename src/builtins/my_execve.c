@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/05/07 19:14:55 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:55:13 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,12 @@ static char	**env_compile(t_env *env_list)
 	i = 0;
 	while (env_list)
 	{
-		temp = ft_strjoin(env_list->key, "=");
-		env[i++] = ft_strjoin(temp, env_list->value);
-		free(temp);
+		if (env_list->value)
+		{
+			temp = ft_strjoin(env_list->key, "=");
+			env[i++] = ft_strjoin(temp, env_list->value);
+			free(temp);
+		}
 		env_list = env_list->next;
 	}
 	return (env);
@@ -113,11 +116,10 @@ int	my_execve(t_mini *mini)
 		write(2, mini->ex->cur_cmd->args[0],
 			ft_strlen(mini->ex->cur_cmd->args[0]));
 		write(2, ": command not found\n", 20);
-		mini->exit_status = 127;
 		return (127);
 	}
 	env_array = env_compile(mini->env_head);
 	execve(path, mini->ex->cur_cmd->args, env_array);
 	free_split(env_array);
-	return (0);
+	return (126);
 }
