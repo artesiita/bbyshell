@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/06 21:31:36 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:32:57 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,11 @@ void	signals_heremode(void);
 void	set_heresign_int(int sign);
 int		check_signal_interrupt(char *line, int *exit_from_signal);
 
+/*============ SIGNALS ==============*/
 void	sig_nonint_c(int sign);
 void	sig_int_c(int sign);
+void	handle_c_signal(t_mini *mini);
+void	handle_bs_signal(t_mini *mini);
 
 /*============ BUILT-INS ==============*/
 int		is_a_builtin_ft(t_mini *mini);

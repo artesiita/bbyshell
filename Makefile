@@ -10,7 +10,8 @@ SRC = src/main.c \
 		src/expansions/expansions.c \
 		src/expansions/expand_to_tokens.c \
 		src/expansions/remove_quotes.c \
-		src/signals/signals.c
+		src/signals/signals.c \
+		src/signals/handle_signals.c
 
 ######  EXECUTOR FILES:
 
@@ -66,7 +67,7 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 DEP = $(SRC:%.c=$(OBJ_DIR)/%.d)
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CCFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LDFLAGS = -lreadline
 
 all: libft $(NAME)

@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:23:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/06 21:44:42 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:41:39 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	mini_loop(t_mini *mini)
 		if (line[0] != '\0')
 		{
 			add_history(line);
+			handle_c_signal(mini);
 			mini->tokens = lexer(mini, line);
 			if (manage_heredocs(mini))
 			{
@@ -85,6 +86,7 @@ static void	parse_tokens(t_mini *mini)
 			free_parsing(mini);
 		else
 			ft_executor(mini);
+		handle_bs_signal(mini);
 	}
 }
 

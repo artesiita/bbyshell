@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/04/26 15:28:57 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:14:55 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static char	*get_path(char *cmd, t_env *env)
 	char	**paths;
 	char	*this_path;
 
+	if (!cmd || !*cmd)
+		return (NULL);
 	if (ft_strchr(cmd, '/') && access(cmd, X_OK) == 0)
 		return (cmd);
 	if (ft_strchr(cmd, '/'))
@@ -33,10 +35,7 @@ static char	*get_path(char *cmd, t_env *env)
 	{
 		this_path = ft_strjoins(paths[i], "/", cmd);
 		if (access(this_path, X_OK) == 0)
-		{
-			ft_free_array(paths);
-			return (this_path);
-		}
+			return (ft_free_array(paths), this_path);
 		free(this_path);
 	}
 	ft_free_array(paths);
@@ -114,10 +113,11 @@ int	my_execve(t_mini *mini)
 		write(2, mini->ex->cur_cmd->args[0],
 			ft_strlen(mini->ex->cur_cmd->args[0]));
 		write(2, ": command not found\n", 20);
-		return (-1);
+		mini->exit_status = 127;
+		return (127);
 	}
 	env_array = env_compile(mini->env_head);
 	execve(path, mini->ex->cur_cmd->args, env_array);
 	free_split(env_array);
-	return (-1);
+	return (0);
 }
