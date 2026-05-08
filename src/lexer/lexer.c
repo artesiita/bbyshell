@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 17:30:05 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/04/26 12:30:22 by becanals         ###   ########.fr       */
+/*   Updated: 2026/05/08 15:50:15 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_token	*lexer(t_mini *mini, char *input)
 			handle_redirections(mini, &tokens, input, &i);
 		else
 			if (handle_word(mini, &tokens, input, &i) == ERROR)
-				return (free_tokens(mini->tokens), NULL);
+				return (free_tokens(tokens), free_tokens(mini->tokens), NULL);
 	}
 	return (tokens);
 }
