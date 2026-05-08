@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 12:10:57 by bizcru            #+#    #+#             */
-/*   Updated: 2026/05/07 19:55:13 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/08 13:52:29 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int	my_execve(t_mini *mini)
 	char	*path;
 	char	**env_array;
 
+	if (!mini->ex->cur_cmd->args || !mini->ex->cur_cmd->args[0])
+		return (0);
 	builtin_ft = get_builtin_ft(mini);
 	if (builtin_ft)
 		return (builtin_ft(mini));

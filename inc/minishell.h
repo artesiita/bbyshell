@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:38:57 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/07 19:44:29 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:04:11 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 # define P_READ 0
 # define P_WRITE 1
 
-#define SQ_PLACEHOLDER '\x01'
-#define DQ_PLACEHOLDER '\x02'
+# define SQ_PLACEHOLDER '\x01'
+# define DQ_PLACEHOLDER '\x02'
 
 extern int	g_signal_value;
 
@@ -165,11 +165,11 @@ t_token	*lexer(t_mini *mini, char *input);
 int		expansions(t_mini *mini);
 void	filter_expansion(t_mini *mini, t_token *tok, int i);
 void	expand_double_quoted(t_mini *mini, t_token *token);
-char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i);
 void	expand_to_tokens(t_mini *mini, t_token *token, int *dollar_idx, int i);
-char	*remove_quotes(char *str);
 void	mask_quotes(char *str);
 void	unmask_quotes(char *str);
+char	*expand_to_str(t_mini *mini, char *str, int *dollar_idx, int i);
+char	*remove_quotes(char *str);
 char	*mask_expanded_value(char *val);
 
 /*============= PARSER ================*/
@@ -178,20 +178,18 @@ int		commands_counter(t_token *head);
 void	add_command_node(t_cmds **head, t_cmds *new_node);
 
 /*============ EXECUTOR ==============*/
-
+int		redirect(t_mini *mini);
+int		my_execve(t_mini *mini);
 void	ft_executor(t_mini *mini);
 void	ft_redir_in(t_mini *mini, t_redir *redir);
 void	ft_redir_out(t_mini *mini, t_redir *redir);
 void	ft_redir_heredoc(t_mini *mini);
 void	ft_redir_append(t_mini *mini, t_redir *redir);
-void	open_files(char *file_in, char *file_out,
-			int *filefds);
+void	open_files(char *file_in, char *file_out, int *filefds);
 void	my_close(int *fd1, int *fd2, char *msg);
-int		redirect(t_mini *mini);
 void	set_std_fds(t_mini *mini);
 void	repair_std_fds(t_mini *mini);
 void	wait_childs(t_mini *mini, pid_t *childs);
-int		my_execve(t_mini *mini);
 void	ft_postex_clean(t_mini *mini);
 void	ex_exit(t_mini *mini, int status);
 
@@ -199,14 +197,13 @@ void	ex_exit(t_mini *mini, int status);
 void	ft_del_t_heredoc(void *void_node);
 void	set_heredoc(t_mini *mini, char *end);
 void	dump_heredoc(t_mini *mini);
-
 int		heredoc_input(t_mini *mini);
+
+/*============ SIGNALS ==============*/
+int		check_signal_interrupt(char *line, int *exit_from_signal);
 void	sig_close_stdin(int sign);
 void	signals_heremode(void);
 void	set_heresign_int(int sign);
-int		check_signal_interrupt(char *line, int *exit_from_signal);
-
-/*============ SIGNALS ==============*/
 void	sig_nonint_c(int sign);
 void	sig_int_c(int sign);
 void	handle_c_signal(t_mini *mini);
@@ -221,11 +218,11 @@ int		my_export(t_mini *mini);
 int		my_unset(t_mini *mini);
 int		my_env(t_mini *mini);
 int		my_exit(t_mini *mini);
-t_env	*create_node(t_mini *mini, char *key, char *value);
-void	sort_env(t_env *head);
-t_env	*env_cpy(t_mini *mini, t_env *head);
 int		append_env_node(t_mini *mini, t_env **head, t_env **cur, char *content);
 int		check_env_variable(t_env *head, char *key);
+void	sort_env(t_env *head);
+t_env	*create_node(t_mini *mini, char *key, char *value);
+t_env	*env_cpy(t_mini *mini, t_env *head);
 
 /*============= CLEANUP ================*/
 void	fatal_error(t_mini *mini, char *msg, int status);

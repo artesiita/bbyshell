@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:48:52 by bcanals-          #+#    #+#             */
-/*   Updated: 2026/05/07 19:44:11 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/08 13:45:08 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ void	wait_childs(t_mini *mini, pid_t *childs)
 		if (WIFEXITED(status))
 			mini->exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
+		{
 			mini->exit_status = 128 + WTERMSIG(status);
+			if (mini->exit_status == 130)
+				write(1, "\n", 1);
+			else if (mini->exit_status == 131)
+				write(1, "Quit (core dumped)\n", 19);
+		}
 	}
 }

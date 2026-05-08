@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:25:50 by becanals          #+#    #+#             */
-/*   Updated: 2026/05/07 19:45:01 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/08 13:44:35 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ static pid_t	my_fork(t_mini *mini)
 		return (my_id);
 	else if (my_id == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		my_close(&(mini->ex->fds[OLD_FDS][P_WRITE]),
 			&(mini->ex->fds[NEW_FDS][P_READ]), "close in child pre execve");
 		set_cmd_redirs(mini);
