@@ -1,6 +1,6 @@
 # Minishell
 
-[cite_start]*This project has been created as part of the 42 curriculum by lartes-s.* [cite: 147]
+[cite_start]*This project has been created as part of the 42 curriculum by lartes-s and becanals.* [cite: 147]
 
 ## Description
 [cite_start]Minishell is a minimalist implementation of a shell, designed to recreate a "little Bash" environment[cite: 5]. [cite_start]This project serves as an extensive introduction to process management, file descriptors, and the challenges developers faced before modern graphical interfaces[cite: 6, 16].
