@@ -9,7 +9,7 @@ Our implementation, bbyshell, features a functional command-line interface that 
 * __Command execution:__ Searching and launching executables using the PATH variable or absolute/relative paths.  
 * __Built-in commands:__ Internal implementations of echo, cd, pwd, export, unset, env, and exit.  Redirections: Supporting input `<` , output `>` , append `>>` , and heredoc `<<`.  
 * __Pipes:__ Connecting the output of one command to the input of the next.  
-* __Environment variables:__ Expansion of $VAR and the exit status $?.  
+* __Environment variables:__ Expansion of `$VAR` and the exit status `$?`.  
 * __Signal handling:__ Mimicking Bash behavior for `ctrl-C`, `ctrl-D`, and `ctrl-\`.
 
 ### Project Objectives
