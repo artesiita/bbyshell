@@ -50,7 +50,7 @@ The project includes a `Makefile` that compiles the source files using `cc` with
 make
 ```
 
-### Execturion
+### Execution
 Once compiled, you launch the shell by running:
 ```bash
 ./minishell
@@ -105,3 +105,4 @@ In this regard, we have made use AI tools for the following tasks:
 
 __Note:__ All AI-generated suggestions were critically reviewed and verified by the development team to ensure full understanding of the logic.
 
+![:)](assets/joguman.png)
