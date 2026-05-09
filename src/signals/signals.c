@@ -6,7 +6,7 @@
 /*   By: lartes-s <lartes-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 18:16:47 by lartes-s          #+#    #+#             */
-/*   Updated: 2026/05/08 13:40:28 by lartes-s         ###   ########.fr       */
+/*   Updated: 2026/05/09 14:25:25 by lartes-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,30 @@
 
 int	g_signal_value = 0;
 
+void	handle_bs_signal(t_mini *mini)
+{
+	if (g_signal_value == SIGQUIT)
+	{
+		mini->exit_status = 131;
+		g_signal_value = 0;
+	}
+}
+
+void	handle_c_signal(t_mini *mini)
+{
+	if (g_signal_value == SIGINT)
+	{
+		mini->exit_status = 130;
+		g_signal_value = 0;
+	}
+}
+
 void	sig_int_c(int sign)
 {
 	rl_on_new_line();
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_signal_value = sign;
-}
-
-void	sig_nonint_c(int sign)
-{
-	printf("\n");
-	rl_on_new_line();
 	g_signal_value = sign;
 }
 
