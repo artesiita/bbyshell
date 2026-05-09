@@ -1,4 +1,4 @@
-_This project has been created as part of the 42 curriculum by <becanals> and <lartes-s>_
+_This project has been created as part of the 42 curriculum by lartes-s and becanals_
 
 # MINISHELL
 
